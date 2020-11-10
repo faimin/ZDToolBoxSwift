@@ -1,0 +1,16 @@
+PODS:
+  - ZDSwiftToolKit (0.0.1)
+
+DEPENDENCIES:
+  - ZDSwiftToolKit (from `../ZDSwiftToolKit.podspec`)
+
+EXTERNAL SOURCES:
+  ZDSwiftToolKit:
+    :path: "../ZDSwiftToolKit.podspec"
+
+SPEC CHECKSUMS:
+  ZDSwiftToolKit: e331d94fc70ca85d6697c1974230f4386294a01a
+
+PODFILE CHECKSUM: 7eed4eb32f97b29fd270253dc8aaf305f5e15eb6
+
+COCOAPODS: 1.10.0
