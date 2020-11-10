@@ -1,8 +1,8 @@
 //
 //  UIAdapter.swift
-//  KLiaoMarrySwift
+//  ZDSwiftToolKit
 //
-//  Created by Zero.D.Saber on 2020/11/9.
+//  Created by Zero.D.Saber on 2020/11/10.
 //
 
 import UIKit
