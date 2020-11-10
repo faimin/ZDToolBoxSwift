@@ -22,14 +22,9 @@ Pod::Spec.new do |spec|
     Swift工具类以及一些代码技巧
                    DESC
   spec.homepage     = "https://github.com/faimin/ZDSwiftToolKit"
-  # spec.screenshots  = "www.example.com/screenshots_1.gif", "www.example.com/screenshots_2.gif"
   spec.license      = "MIT"
   # spec.license      = { :type => "MIT", :file => "FILE_LICENSE" }
   spec.author             = { "faimin" => "fuxianchao@gmail.com" }
-  # Or just: spec.author    = "faimin"
-  # spec.authors            = { "faimin" => "fuxianchao@gmail.com" }
-  # spec.social_media_url   = "https://twitter.com/faimin"
-  # spec.platform     = :ios
   spec.platform     = :ios, "9.0"
   #  When using multiple platforms
   # spec.ios.deployment_target = "5.0"
@@ -51,7 +46,11 @@ Pod::Spec.new do |spec|
   # spec.frameworks = "SomeFramework", "AnotherFramework"
   # spec.library   = "iconv"
   # spec.libraries = "iconv", "xml2"
+  
   spec.requires_arc = true
+  spec.prefix_header_file = false
+  spec.module_name = "#{spec.name}"
+  spec.swift_versions = ['4.2', '5.0', '5.2', '5.3']
 
   # spec.xcconfig = { "HEADER_SEARCH_PATHS" => "$(SDKROOT)/usr/include/libxml2" }
   # spec.dependency "JSONKit", "~> 1.4"
