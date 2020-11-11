@@ -1,16 +1,24 @@
 //
-//  UIViewFrameExtension.swift
+//  ViewFrameExtension.swift
 //  ZDSwiftToolKit
 //
 //  Created by Zero.D.Saber on 2020/11/10.
 //
 
+#if os(iOS) || os(tvOS)
 import UIKit
 
-extension UIView: ZDBase {
+public typealias ZDView = UIView
+#else
+import AppKit
+
+public typealias ZDView = NSView
+#endif
+
+extension ZDView: ZDBase {
     
-    /// UIView extensions.
-    public var zd: ZDExtension<UIView> {
+    /// View extensions.
+    public var zd: ZDExtension<ZDView> {
         get {
             return ZDExtension(self)
         }
@@ -20,7 +28,7 @@ extension UIView: ZDBase {
     }
 }
 
-extension ZDExtension where Base: UIView {
+extension ZDExtension where Base: ZDView {
     
     //MARK: - Frame
     
