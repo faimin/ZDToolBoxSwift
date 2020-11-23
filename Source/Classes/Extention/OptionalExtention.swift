@@ -15,3 +15,11 @@ extension Optional where Wrapped: Collection {
         return self?.isEmpty == true ? nil : self
     }
 }
+
+extension Collection {
+    var noEmpty: Self? {
+        get {
+            return isEmpty ? nil : self
+        }
+    }
+}
