@@ -159,5 +159,29 @@ extension ZDExtension where Base: ZDView {
         
         return self.base
     }
+    
+    @available(iOS 11.0, *)
+    @discardableResult
+    public func roundCorners(_ corners: CACornerMask = [.layerMinXMinYCorner, .layerMaxXMinYCorner, .layerMinXMaxYCorner, .layerMaxXMaxYCorner], radius: CGFloat) -> Base {
+        self.base.layer.cornerRadius = radius
+        self.base.layer.maskedCorners = corners
+        
+        return self.base
+    }
 }
 
+extension ZDExtension where Base: ZDView {
+    
+    public func viewController() -> UIViewController? {
+        var nextResponder: UIResponder? = self.base
+        while nextResponder != nil {
+            if let vc = nextResponder as? UIViewController {
+                return vc
+            }
+            nextResponder = nextResponder?.next
+        }
+        
+        return nil
+    }
+    
+}
