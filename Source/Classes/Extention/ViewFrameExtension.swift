@@ -9,10 +9,14 @@
 import UIKit
 
 public typealias ZDView = UIView
+public typealias ZDViewController = UIViewController
+public typealias ZDResponder = UIResponder
 #else
 import AppKit
 
 public typealias ZDView = NSView
+public typealias ZDViewController = NSViewController
+public typealias ZDResponder = NSResponder
 #endif
 
 extension ZDView: ZDBase {
@@ -148,6 +152,7 @@ extension ZDExtension where Base: ZDView {
         self.height * 0.5
     }
     
+    #if os(iOS) || os(tvOS)
     @discardableResult
     public func roundCorners(_ corners: UIRectCorner = UIRectCorner.allCorners, radius: CGFloat) -> Base {
         let path = UIBezierPath(roundedRect: self.base.bounds, byRoundingCorners: corners, cornerRadii: CGSize(width: radius, height: radius))
@@ -159,26 +164,36 @@ extension ZDExtension where Base: ZDView {
         
         return self.base
     }
+    #endif
     
-    @available(iOS 11.0, *)
+    @available(macOS 10.13, iOS 11.0, tvOS 11, *)
     @discardableResult
     public func roundCorners(_ corners: CACornerMask = [.layerMinXMinYCorner, .layerMaxXMinYCorner, .layerMinXMaxYCorner, .layerMaxXMaxYCorner], radius: CGFloat) -> Base {
+        
+        #if os(iOS) || os(tvOS)
         self.base.layer.cornerRadius = radius
         self.base.layer.maskedCorners = corners
-        
+        #else
+        self.base.layer?.cornerRadius = radius
+        self.base.layer?.maskedCorners = corners
+        #endif
         return self.base
     }
 }
 
 extension ZDExtension where Base: ZDView {
     
-    public func viewController() -> UIViewController? {
-        var nextResponder: UIResponder? = self.base
+    public func viewController() -> ZDViewController? {
+        var nextResponder: ZDResponder? = self.base
         while nextResponder != nil {
-            if let vc = nextResponder as? UIViewController {
+            if let vc = nextResponder as? ZDViewController {
                 return vc
             }
+            #if os(iOS) || os(tvOS)
             nextResponder = nextResponder?.next
+            #else
+            nextResponder = nextResponder?.nextResponder
+            #endif
         }
         
         return nil
