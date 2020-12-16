@@ -41,9 +41,7 @@ extension ZDExtension where Base: ZDView {
             self.base.frame.origin.x
         }
         set {
-            var tempFrame = self.base.frame
-            tempFrame.origin.x = newValue
-            self.base.frame = tempFrame
+            self.base.frame.origin.x = newValue
         }
     }
     
@@ -52,9 +50,7 @@ extension ZDExtension where Base: ZDView {
             self.base.frame.origin.x
         }
         set {
-            var tempFrame = self.base.frame
-            tempFrame.origin.y = newValue
-            self.base.frame = tempFrame
+            self.base.frame.origin.y = newValue
         }
     }
     
@@ -63,9 +59,7 @@ extension ZDExtension where Base: ZDView {
             self.base.frame.size.width
         }
         set {
-            var tempFrame = self.base.frame
-            tempFrame.size.width = newValue
-            self.base.frame = tempFrame
+            self.base.frame.size.width = newValue
         }
     }
     
@@ -74,9 +68,7 @@ extension ZDExtension where Base: ZDView {
             self.base.frame.size.height
         }
         set {
-            var tempFrame = self.base.frame
-            tempFrame.size.height = newValue
-            self.base.frame = tempFrame
+            self.base.frame.size.height = newValue
         }
     }
     
@@ -150,6 +142,10 @@ extension ZDExtension where Base: ZDView {
     
     public var boundsCenterY: CGFloat {
         self.height * 0.5
+    }
+    
+    public var boundsCenter: CGPoint {
+        CGPoint(x: self.width * 0.5, y: self.height * 0.5)
     }
     
     #if os(iOS) || os(tvOS)
