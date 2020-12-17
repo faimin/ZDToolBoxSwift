@@ -24,7 +24,7 @@ Pod::Spec.new do |spec|
   spec.homepage     = "https://github.com/faimin/ZDSwiftToolKit"
   spec.license      = "MIT"
   # spec.license      = { :type => "MIT", :file => "FILE_LICENSE" }
-  spec.author             = { "faimin" => "fuxianchao@gmail.com" }
+  spec.author       = { "faimin" => "fuxianchao@gmail.com" }
   spec.platform     = :ios, "9.0"
   #  When using multiple platforms
   # spec.ios.deployment_target = "5.0"
@@ -50,7 +50,7 @@ Pod::Spec.new do |spec|
   spec.requires_arc = true
   spec.prefix_header_file = false
   spec.module_name = "#{spec.name}"
-  spec.swift_versions = ['4.2', '5.0', '5.2', '5.3']
+  spec.swift_versions = ['4.2', '5.0', '5.1', '5.2', '5.3']
 
   # spec.xcconfig = { "HEADER_SEARCH_PATHS" => "$(SDKROOT)/usr/include/libxml2" }
   # spec.dependency "JSONKit", "~> 1.4"
