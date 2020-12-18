@@ -18,6 +18,3 @@ target 'ZDSwiftToolKitDemo' do
   end
 
 end
-
-spec.frameworks = "SomeFramework", "AnotherFramework"
-spec.frameworks = ["SomeFramework", "AnotherFramework"]
