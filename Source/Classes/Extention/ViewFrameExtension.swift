@@ -19,20 +19,8 @@ public typealias ZDViewController = NSViewController
 public typealias ZDResponder = NSResponder
 #endif
 
-extension ZDView: ZDBase {
-    
-    /// View extensions.
-    public var zd: ZDExtension<ZDView> {
-        get {
-            return ZDExtension(self)
-        }
-        set {
-            // this enables using ZDExtension to "mutate" base object
-        }
-    }
-}
 
-extension ZDExtension where Base: ZDView {
+extension ZDSWraper where Base: ZDView {
     
     //MARK: - Frame
     
@@ -177,7 +165,7 @@ extension ZDExtension where Base: ZDView {
     }
 }
 
-extension ZDExtension where Base: ZDView {
+extension ZDSWraper where Base: ZDView {
     
     public func viewController() -> ZDViewController? {
         var nextResponder: ZDResponder? = self.base

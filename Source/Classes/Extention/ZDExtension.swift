@@ -7,13 +7,7 @@
 
 import Foundation
 
-public protocol ZDBase {
-    associatedtype MMExtensionBase
-    
-    var zd: ZDExtension<MMExtensionBase> { get set }
-}
-
-public struct ZDExtension<Base> {
+public struct ZDSWraper<Base> {
     /// Base object to extend.
     public let base: Base
 
@@ -23,4 +17,18 @@ public struct ZDExtension<Base> {
     public init(_ base: Base) {
         self.base = base
     }
+}
+
+public protocol ZDObject: AnyObject { }
+
+extension ZDObject {
+    var zd: ZDSWraper<Self> {
+        get {
+            return ZDSWraper(self)
+        }
+        set {
+            
+        }
+    }
+    
 }
