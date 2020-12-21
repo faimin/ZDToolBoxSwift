@@ -8,19 +8,29 @@
 import UIKit
 import ObjectiveC
 
+private var ZD_UIAlertAction_Key: Void?
+
 public struct MMActionModel {
     let title: String
     let style: UIAlertAction.Style
     let tag: Int
 }
 
-extension UIAlertController {
-    private static var ZD_UIAlertAction_Key: Void?
+extension ZDSWraper where Base: UIAlertController {
     
     @discardableResult
-    public class func showAlert(in containerController: UIViewController, preferredStyle: Style, title: String?, message: String?, actionModels: MMActionModel..., extraConfig: ((UIAlertController) -> Void)?, completion: (() -> Void)?, clickHandler: ((UIAlertAction, Int) -> Void)?) -> UIAlertController {
+    public static func showAlert(
+        _ containerController: UIViewController,
+        preferredStyle: Base.Style,
+        title: String?,
+        message: String?,
+        actionModels: MMActionModel...,
+        extraConfig: ((Base) -> Void)?,
+        completion: (() -> Void)?,
+        clickHandler: ((UIAlertAction, Int) -> Void)?
+    ) -> Base {
         
-        let alertController = UIAlertController(title: title, message: message, preferredStyle: preferredStyle)
+        let alertController = Base(title: title, message: message, preferredStyle: preferredStyle)
         
         for model in actionModels {
             let action = UIAlertAction(title: model.title, style: model.style) { (a) in
