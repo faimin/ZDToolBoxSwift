@@ -11,6 +11,7 @@ import Foundation
 
 /// example: `let url: URL = "www.google.com"`
 extension URL: ExpressibleByStringLiteral {
+    
     public init(stringLiteral value: String) {
         self = URL(string: value)!
     }
