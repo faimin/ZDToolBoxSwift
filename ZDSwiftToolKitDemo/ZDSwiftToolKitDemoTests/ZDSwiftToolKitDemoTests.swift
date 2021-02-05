@@ -7,6 +7,7 @@
 
 import XCTest
 @testable import ZDSwiftToolKitDemo
+import ZDSwiftToolKit
 
 class ZDSwiftToolKitDemoTests: XCTestCase {
 

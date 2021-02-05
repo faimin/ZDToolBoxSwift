@@ -7,7 +7,7 @@
 
 import Foundation
 
-//MARK: - URL Extension
+// MARK: - URL Extension
 
 /// example: `let url: URL = "www.google.com"`
 extension URL: ExpressibleByStringLiteral {

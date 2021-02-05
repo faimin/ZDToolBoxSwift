@@ -8,6 +8,6 @@
 import Foundation
 
 // https://twitter.com/johnsundell/status/1055562781070684162
-func combine<A, B>(_ value: A, with closure: @escaping (A) -> B) -> () -> B {
+public func combine<A, B>(_ value: A, with closure: @escaping (A) -> B) -> () -> B {
     return { closure(value) }   // <==> { () in closure(value) }
 }

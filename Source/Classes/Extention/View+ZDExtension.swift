@@ -1,5 +1,5 @@
 //
-//  ViewFrameExtension.swift
+//  View+ZDExtension.swift
 //  ZDSwiftToolKit
 //
 //  Created by Zero.D.Saber on 2020/11/10.
@@ -22,7 +22,7 @@ public typealias ZDResponder = NSResponder
 
 extension ZDSWraper where Base: ZDView {
     
-    //MARK: - Frame
+    // MARK: - Frame
     
     public var x: CGFloat {
         get {

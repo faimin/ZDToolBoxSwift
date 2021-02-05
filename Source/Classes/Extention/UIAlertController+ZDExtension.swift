@@ -1,5 +1,5 @@
 //
-//  UIAlertControllerExtension.swift
+//  UIAlertController+ZDExtension.swift
 //  ZDSwiftToolKit
 //
 //  Created by Zero.D.Saber on 2020/12/2.
@@ -10,21 +10,41 @@ import ObjectiveC
 
 private var ZD_UIAlertAction_Key: Void?
 
-public struct MMActionModel {
+public struct ZDActionModel {
     let title: String
     let style: UIAlertAction.Style
     let tag: Int
+    
+    public init(
+        title: String,
+        style: UIAlertAction.Style,
+        tag: Int
+    ) {
+        self.title = title
+        self.style = style
+        self.tag = tag
+    }
 }
 
 extension ZDSWraper where Base: UIAlertController {
     
+    /// 便捷创建Alert弹窗
+    ///
+    /// - Parameters:
+    ///     - containerController: 在哪个控制器页面弹出
+    ///     - actionModels: 按钮model，可以传递多个
+    ///     - extraConfig: 设置额外参数的回调，比如可以在此添加输入框
+    ///     - completion: 弹出后的回调
+    ///     - clickHandler: 点击按钮时的回调，通过tag来判断点击的是哪个按钮
+    ///
+    /// - Returns: UIAlertController
     @discardableResult
     public static func showAlert(
         _ containerController: UIViewController,
         preferredStyle: Base.Style,
         title: String?,
         message: String?,
-        actionModels: MMActionModel...,
+        actionModels: ZDActionModel...,
         extraConfig: ((Base) -> Void)?,
         completion: (() -> Void)?,
         clickHandler: ((UIAlertAction, Int) -> Void)?

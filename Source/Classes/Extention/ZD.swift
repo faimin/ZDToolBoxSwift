@@ -1,5 +1,5 @@
 //
-//  ZDExtension.swift
+//  ZD.swift
 //  ZDSwiftToolKit
 //
 //  Created by Zero.D.Saber on 2020/11/10.
@@ -7,7 +7,7 @@
 
 import Foundation
 
-public struct ZDSWraper<Base> {
+public struct ZDSWraper<Base: AnyObject> {
     /// Base object to extend.
     public let base: Base
 
@@ -21,7 +21,7 @@ public struct ZDSWraper<Base> {
 
 public protocol ZDObject: AnyObject {
     
-    associatedtype ZDObjectType
+    associatedtype ZDObjectType: AnyObject
     
     /// 类变量
     static var zd: ZDSWraper<ZDObjectType>.Type { get set }
@@ -31,19 +31,20 @@ public protocol ZDObject: AnyObject {
 }
 
 extension ZDObject {
-    public var zd: ZDSWraper<Self> {
-        get {
-            return ZDSWraper(self)
-        }
-        set { }
-    }
-    
     public static var zd: ZDSWraper<Self>.Type {
         get {
             return ZDSWraper<Self>.self
         }
         set { }
     }
+    
+    public var zd: ZDSWraper<Self> {
+        get {
+            return ZDSWraper(self)
+        }
+        set { }
+    }
 }
 
+/// Extend NSObject with `zd` proxy.
 extension NSObject: ZDObject {}
