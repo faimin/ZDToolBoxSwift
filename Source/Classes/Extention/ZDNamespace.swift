@@ -7,30 +7,30 @@
 
 import Foundation
 
-public struct ZDSWraper<Base: AnyObject> {
+public struct ZDSWraper<T> {
     /// Base object to extend.
-    public let base: Base
+    public let base: T
 
     /// Creates extensions with base object.
     ///
     /// - parameter base: Base object.
-    public init(_ base: Base) {
+    public init(_ base: T) {
         self.base = base
     }
 }
 
-public protocol ZDObject: AnyObject {
+public protocol ZDSAny {
     
-    associatedtype ZDObjectType: AnyObject
+    associatedtype ZDSType
     
     /// 类变量
-    static var zd: ZDSWraper<ZDObjectType>.Type { get set }
+    static var zd: ZDSWraper<ZDSType>.Type { get set }
     
     /// 实例变量
-    var zd: ZDSWraper<ZDObjectType> { get set }
+    var zd: ZDSWraper<ZDSType> { get set }
 }
 
-extension ZDObject {
+extension ZDSAny {
     public static var zd: ZDSWraper<Self>.Type {
         get {
             return ZDSWraper<Self>.self
@@ -47,4 +47,4 @@ extension ZDObject {
 }
 
 /// Extend NSObject with `zd` proxy.
-extension NSObject: ZDObject {}
+extension NSObject: ZDSAny {}

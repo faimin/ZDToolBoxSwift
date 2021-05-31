@@ -20,7 +20,7 @@ public typealias ZDResponder = NSResponder
 #endif
 
 
-extension ZDSWraper where Base: ZDView {
+extension ZDSWraper where T: ZDView {
     
     // MARK: - Frame
     
@@ -138,7 +138,7 @@ extension ZDSWraper where Base: ZDView {
     
     #if os(iOS) || os(tvOS)
     @discardableResult
-    public func roundCorners(_ corners: UIRectCorner = UIRectCorner.allCorners, radius: CGFloat) -> Base {
+    public func roundCorners(_ corners: UIRectCorner = UIRectCorner.allCorners, radius: CGFloat) -> T {
         let path = UIBezierPath(roundedRect: self.base.bounds, byRoundingCorners: corners, cornerRadii: CGSize(width: radius, height: radius))
         
         let mask = CAShapeLayer()
@@ -152,7 +152,7 @@ extension ZDSWraper where Base: ZDView {
     
     @available(macOS 10.13, iOS 11.0, tvOS 11, *)
     @discardableResult
-    public func roundCorners(_ corners: CACornerMask = [.layerMinXMinYCorner, .layerMaxXMinYCorner, .layerMinXMaxYCorner, .layerMaxXMaxYCorner], radius: CGFloat) -> Base {
+    public func roundCorners(_ corners: CACornerMask = [.layerMinXMinYCorner, .layerMaxXMinYCorner, .layerMinXMaxYCorner, .layerMaxXMaxYCorner], radius: CGFloat) -> T {
         
         #if os(iOS) || os(tvOS)
         self.base.layer.cornerRadius = radius
@@ -165,7 +165,7 @@ extension ZDSWraper where Base: ZDView {
     }
 }
 
-extension ZDSWraper where Base: ZDView {
+extension ZDSWraper where T: ZDView {
     
     public func viewController() -> ZDViewController? {
         var nextResponder: ZDResponder? = self.base

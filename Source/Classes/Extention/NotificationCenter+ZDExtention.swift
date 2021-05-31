@@ -28,7 +28,7 @@ public final class ZDSNotificationToken {
     }
 }
 
-public extension ZDSWraper where Base == NotificationCenter {
+public extension ZDSWraper where T == NotificationCenter {
     
     /// 打破引用环的通知监听；
     /// 需要外界持有`token`，否则出当前作用域后通知就会被移除掉，导致收不到通知

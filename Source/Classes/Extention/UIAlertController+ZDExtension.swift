@@ -26,7 +26,7 @@ public struct ZDActionModel {
     }
 }
 
-extension ZDSWraper where Base: UIAlertController {
+extension ZDSWraper where T: UIAlertController {
     
     /// 便捷创建Alert弹窗
     ///
@@ -41,16 +41,16 @@ extension ZDSWraper where Base: UIAlertController {
     @discardableResult
     public static func showAlert(
         _ containerController: UIViewController,
-        preferredStyle: Base.Style,
+        preferredStyle: T.Style,
         title: String?,
         message: String?,
         actionModels: ZDActionModel...,
-        extraConfig: ((Base) -> Void)?,
+        extraConfig: ((T) -> Void)?,
         completion: (() -> Void)?,
         clickHandler: ((UIAlertAction, Int) -> Void)?
-    ) -> Base {
+    ) -> T {
         
-        let alertController = Base(title: title, message: message, preferredStyle: preferredStyle)
+        let alertController = T(title: title, message: message, preferredStyle: preferredStyle)
         
         for model in actionModels {
             let action = UIAlertAction(title: model.title, style: model.style) { (a) in
