@@ -25,7 +25,7 @@ Pod::Spec.new do |spec|
   spec.license      = "MIT"
   # spec.license      = { :type => "MIT", :file => "FILE_LICENSE" }
   spec.author       = { "faimin" => "fuxianchao@gmail.com" }
-  spec.platform     = :ios, "9.0"
+  spec.platform     = :ios, "10.0"
   #  When using multiple platforms
   # spec.ios.deployment_target = "5.0"
   # spec.osx.deployment_target = "10.7"
