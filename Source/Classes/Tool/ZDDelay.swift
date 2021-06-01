@@ -53,16 +53,16 @@ public struct ZDDelay {
     @discardableResult
     public mutating func cancel(_ key: String) -> Bool {
         
-        if let item = getItemFromDict(key) {
-            if !item.isCancelled {
-                item.cancel()
-            }
-            setItemToDict(key, nil)
-            return true
-        }
-        else {
+        guard let item = getItemFromDict(key) else {
             return false
         }
+        
+        if !item.isCancelled {
+            item.cancel()
+        }
+        setItemToDict(key, nil)
+        
+        return true
     }
 
     // MARK: - Private
