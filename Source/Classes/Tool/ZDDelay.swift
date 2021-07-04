@@ -14,6 +14,10 @@ public struct ZDDelay {
     
     // MARK: - Public
     
+    public init() {
+        
+    }
+    
     /// 防抖，只执行最后一次
     @discardableResult
     public mutating func debounce(_ key: String = "\(#file)-\(#function)-\(#line)", _ delay: TimeInterval, _ callback: @escaping os_block_t) -> DispatchWorkItem {
@@ -45,7 +49,7 @@ public struct ZDDelay {
             callback()
             mutatingSelf.setItemToDict(key, nil)
         }
-        DispatchQueue.main.asyncAfter(deadline: .now() + delay, execute: workItem)
+        DispatchQueue.global(qos: .utility).asyncAfter(deadline: .now() + delay, execute: workItem)
         setItemToDict(key, workItem)
     }
     
