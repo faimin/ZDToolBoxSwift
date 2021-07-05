@@ -18,7 +18,8 @@ public struct ZDDelay {
         
     }
     
-    /// 防抖，只执行最后一次
+    /// 防抖：只执行最后一次
+    /// 最终任务是在子线程执行
     @discardableResult
     public mutating func debounce(_ key: String = "\(#file)-\(#function)-\(#line)", _ delay: TimeInterval, _ callback: @escaping os_block_t) -> DispatchWorkItem {
         
@@ -30,14 +31,15 @@ public struct ZDDelay {
         }
         
         let workItem = DispatchWorkItem(block: callback)
-        DispatchQueue.main.asyncAfter(deadline: .now() + delay, execute: workItem)
+        DispatchQueue.global(qos: .utility).asyncAfter(deadline: .now() + delay, execute: workItem)
         
         setItemToDict(key, workItem)
         
         return workItem
     }
     
-    /// 节流，只执行第一次
+    /// 节流：只执行第一次
+    /// 最终任务是在子线程执行
     public mutating func throttle(_ key: String = "\(#file)-\(#function)-\(#line)", _ delay: TimeInterval, _ callback: @escaping os_block_t) {
         
         guard getItemFromDict(key) == nil else {
