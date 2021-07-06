@@ -21,7 +21,7 @@ public struct ZDDelay {
     /// 防抖：只执行最后一次
     /// 最终任务是在子线程执行
     @discardableResult
-    public mutating func debounce(_ key: String = "\(#file)-\(#function)-\(#line)", _ delay: TimeInterval, _ callback: @escaping os_block_t) -> DispatchWorkItem {
+    public mutating func debounce(key: String = "\(#file)-\(#function)-\(#line)", _ delay: TimeInterval, _ callback: @escaping os_block_t) -> DispatchWorkItem {
         
         if let item = _zdFuncCache[key] {
             if !item.isCancelled {
@@ -40,7 +40,7 @@ public struct ZDDelay {
     
     /// 节流：只执行第一次
     /// 最终任务是在子线程执行
-    public mutating func throttle(_ key: String = "\(#file)-\(#function)-\(#line)", _ delay: TimeInterval, _ callback: @escaping os_block_t) {
+    public mutating func throttle(key: String = "\(#file)-\(#function)-\(#line)", _ delay: TimeInterval, _ callback: @escaping os_block_t) {
         
         guard getItemFromDict(key) == nil else {
             return
