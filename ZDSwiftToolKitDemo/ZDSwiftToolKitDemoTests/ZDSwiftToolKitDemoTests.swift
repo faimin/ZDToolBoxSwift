@@ -30,5 +30,23 @@ class ZDSwiftToolKitDemoTests: XCTestCase {
             // Put the code you want to measure the time of here.
         }
     }
+    
+    func testDebouds() {
+        var x = ZDDelay()
+        for i in (0...100000) {
+            x.debounce(0.05) {
+                print("debounce = ", Thread.current, i)
+            }
+        }
+    }
+
+    func testThrottle() {
+        var x = ZDDelay()
+        for i in (0...100000) {
+            x.throttle(0.05) {
+                print("throttle = ", Thread.current, i)
+            }
+        }
+    }
 
 }
