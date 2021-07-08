@@ -6,7 +6,11 @@
 //
 //  链式调用
 
+#if canImport(Foundation)
 import Foundation
+
+extension NSObject: ZDSChainProtocol {}
+#endif
 
 
 @dynamicMemberLookup
@@ -46,6 +50,4 @@ extension ZDSChainProtocol {
         set {}
     }
 }
-
-extension NSObject: ZDSChainProtocol {}
 

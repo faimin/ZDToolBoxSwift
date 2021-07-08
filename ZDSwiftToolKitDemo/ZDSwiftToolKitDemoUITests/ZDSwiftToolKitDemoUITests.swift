@@ -6,6 +6,7 @@
 //
 
 import XCTest
+import ZDSwiftToolKit
 
 class ZDSwiftToolKitDemoUITests: XCTestCase {
 
@@ -38,5 +39,18 @@ class ZDSwiftToolKitDemoUITests: XCTestCase {
                 XCUIApplication().launch()
             }
         }
+    }
+    
+    func testChainCaller() {
+        let label: UILabel = UILabel()
+            .zd
+            .font(.systemFont(ofSize: 10))
+            .text("你好")
+            .backgroundColor(.red)
+            .textColor(.yellow)
+            .textAlignment(.center)
+        
+        
+        label[keyPath: \.font] = .systemFont(ofSize: 18)
     }
 }
