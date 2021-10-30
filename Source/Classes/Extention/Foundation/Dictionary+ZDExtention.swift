@@ -20,7 +20,7 @@ public extension ZDSWraper where T == [AnyHashable: Any] {
 public extension Dictionary {
     
     /// 从字典取值并设置非空的默认值
-    subscript(mms key: Key, defaultValue: Value) -> Value {
+    subscript(zd key: Key, defaultValue: Value) -> Value {
         return self[key] ?? defaultValue
     }
 }
