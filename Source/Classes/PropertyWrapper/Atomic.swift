@@ -5,26 +5,26 @@
 //  Created by Zero.D.Saber on 2021/9/9.
 //
 
-import Foundation
+import Darwin.os.lock
 
 @propertyWrapper
 public struct Atomic<Value> {
     private var value: Value
-    private let lock = os_unfair_lock()
+    private var lock = os_unfair_lock()
 
     public init(wrappedValue value: Value) {
-        self.value = wrappedValue
+        self.value = value
     }
 
     public var wrappedValue: Value {
-        get {
-            lock.lock()
-            defer { lock.unlock() }
+        mutating get {
+            os_unfair_lock_lock(&lock)
+            defer { os_unfair_lock_unlock(&lock) }
             return value
         }
-        set {
-            lock.lock()
-            defer { lock.unlock() }
+        mutating set {
+            os_unfair_lock_lock(&lock)
+            defer { os_unfair_lock_unlock(&lock) }
             value = newValue
         }
     }
