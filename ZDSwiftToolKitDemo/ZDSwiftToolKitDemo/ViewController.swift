@@ -6,6 +6,8 @@
 //
 
 import UIKit
+import ZDSwiftToolKit
+import os
 
 class ViewController: UIViewController {
 
@@ -14,6 +16,11 @@ class ViewController: UIViewController {
         // Do any additional setup after loading the view.
     }
 
-
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        
+//        os_log("error", dso: rw.dso, log: rw.log, type: .fault)
+//        os_log(.fault, dso: rw.dso, log: rw.log, "aaaaa", "vvv")
+    }
 }
 
