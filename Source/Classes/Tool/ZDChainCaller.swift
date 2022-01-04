@@ -30,7 +30,7 @@ public struct ZDChainCaller<T> {
         }
     }
     
-    public subscript<Value>(dynamicMember keyPath: WritableKeyPath<T, Value>) -> (Value) -> Self<T> {
+    public subscript<Value>(dynamicMember keyPath: WritableKeyPath<T, Value>) -> (Value) -> ZDChainCaller<T> {
         { value in
             var object = base
             object[keyPath: keyPath] = value
