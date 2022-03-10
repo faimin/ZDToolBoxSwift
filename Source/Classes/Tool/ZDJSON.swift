@@ -21,7 +21,7 @@ public enum ZDJSON {
     case bool(Bool)
     case null
     
-    // MARK: - 初始化
+    // MARK: - Initialize
     
     /// 根据不同的类型创建ZDJSON
     public init(_ object: Any?) {
@@ -253,6 +253,112 @@ public enum ZDJSON {
         default:
             return nil
         }
+    }
+}
+
+// MARK: - Codable
+// Reference SwiftyJSON
+
+// MARK: Encodable
+
+extension ZDJSON: Encodable {
+    public func encode(to encoder: Encoder) throws {
+        var container = encoder.singleValueContainer()
+        switch self {
+        case .dictionary(let wrapedDictionary, _):
+            try container.encode(wrapedDictionary)
+        case .array(let wrapedArray, _):
+            try container.encode(wrapedArray)
+        case .string(let stringValue):
+            try container.encode(stringValue)
+        case .int(let intValue):
+            try container.encode(intValue)
+        case .double(let doubleValue):
+            try container.encode(doubleValue)
+        case .float(let floatValue):
+            try container.encode(floatValue)
+        case .bool(let boolValue):
+            try container.encode(boolValue)
+        case .null:
+            try container.encodeNil()
+        }
+    }
+}
+
+// MARK: Decodable
+
+extension ZDJSON: Decodable {
+    
+    private static var codableTypes: [Codable.Type] {
+        return [
+            Bool.self,
+            Int.self,
+            Int8.self,
+            Int16.self,
+            Int32.self,
+            Int64.self,
+            UInt.self,
+            UInt8.self,
+            UInt16.self,
+            UInt32.self,
+            UInt64.self,
+            Double.self,
+            String.self,
+            [ZDJSON].self,
+            [String: ZDJSON].self
+        ]
+    }
+    
+    public init(from decoder: Decoder) throws {
+        guard let container = try? decoder.singleValueContainer(), !container.decodeNil() else {
+            self = .null
+            return
+        }
+        
+        var object: Any?
+        
+        for type in Self.codableTypes {
+            if object != nil {
+                break
+            }
+            
+            switch type {
+            case let boolType as Bool.Type:
+                object = try? container.decode(boolType)
+            case let intType as Int.Type:
+                object = try? container.decode(intType)
+            case let int8Type as Int8.Type:
+                object = try? container.decode(int8Type)
+            case let int16Type as Int16.Type:
+                object = try? container.decode(int16Type)
+            case let int32Type as Int32.Type:
+                object = try? container.decode(int32Type)
+            case let int64Type as Int64.Type:
+                object = try? container.decode(int64Type)
+            case let uintType as UInt.Type:
+                object = try? container.decode(uintType)
+            case let uint8Type as UInt8.Type:
+                object = try? container.decode(uint8Type)
+            case let uint16Type as UInt16.Type:
+                object = try? container.decode(uint16Type)
+            case let uint32Type as UInt32.Type:
+                object = try? container.decode(uint32Type)
+            case let uint64Type as UInt64.Type:
+                object = try? container.decode(uint64Type)
+            case let doubleType as Double.Type:
+                object = try? container.decode(doubleType)
+            case let stringType as String.Type:
+                object = try? container.decode(stringType)
+            case let jsonValueArrayType as [ZDJSON].Type:
+                object = try? container.decode(jsonValueArrayType)
+            case let jsonValueDictType as [String: ZDJSON].Type:
+                object = try? container.decode(jsonValueDictType)
+            default:
+                break
+            }
+        }
+        
+        self.init(object)
     }
 }
 
