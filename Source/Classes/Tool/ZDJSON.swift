@@ -16,6 +16,15 @@ public enum ZDJSON {
     case array([Self], [Any])
     case string(String)
     case int(Int)
+    case int8(Int8)
+    case int16(Int16)
+    case int32(Int32)
+    case int64(Int64)
+    case uint(UInt)
+    case uint8(UInt8)
+    case uint16(UInt16)
+    case uint32(UInt32)
+    case uint64(UInt64)
     case double(Double)
     case float(CGFloat)
     case bool(Bool)
@@ -42,6 +51,24 @@ public enum ZDJSON {
             self = .string(value)
         case let value as Int:
             self = .int(value)
+        case let value as Int8:
+            self = .int8(value)
+        case let value as Int16:
+            self = .int16(value)
+        case let value as Int32:
+            self = .int32(value)
+        case let value as Int64:
+            self = .int64(value)
+        case let value as UInt:
+            self = .uint(value)
+        case let value as UInt8:
+            self = .uint8(value)
+        case let value as UInt16:
+            self = .uint16(value)
+        case let value as UInt32:
+            self = .uint32(value)
+        case let value as UInt64:
+            self = .uint64(value)
         case let value as Double:
             self = .double(value)
         case let value as CGFloat:
@@ -273,6 +300,24 @@ extension ZDJSON: Encodable {
             try container.encode(stringValue)
         case .int(let intValue):
             try container.encode(intValue)
+        case .int8(let value):
+            try container.encode(value)
+        case .int16(let value):
+            try container.encode(value)
+        case .int32(let value):
+            try container.encode(value)
+        case .int64(let value):
+            try container.encode(value)
+        case .uint(let value):
+            try container.encode(value)
+        case .uint8(let value):
+            try container.encode(value)
+        case .uint16(let value):
+            try container.encode(value)
+        case .uint32(let value):
+            try container.encode(value)
+        case .uint64(let value):
+            try container.encode(value)
         case .double(let doubleValue):
             try container.encode(doubleValue)
         case .float(let floatValue):
