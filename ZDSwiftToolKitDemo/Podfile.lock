@@ -9,8 +9,8 @@ EXTERNAL SOURCES:
     :path: "../ZDSwiftToolKit.podspec"
 
 SPEC CHECKSUMS:
-  ZDSwiftToolKit: 81bbbe554e756edb222de647ac16aa30cb100389
+  ZDSwiftToolKit: f0dfba3c1570b13fe502aef65c4853a604f2ebfc
 
 PODFILE CHECKSUM: d1ccf3c5dc69f14b1a212eae2f79e69e0aafefbc
 
-COCOAPODS: 1.11.2
+COCOAPODS: 1.11.3
