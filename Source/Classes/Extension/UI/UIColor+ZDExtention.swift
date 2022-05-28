@@ -1,5 +1,5 @@
 //
-//  UIColor+ZDExtention.swift
+//  UIColor+ZDExtension.swift
 //  ZDSwiftToolKit
 //
 //  Created by Zero.D.Saber on 2021/3/16.

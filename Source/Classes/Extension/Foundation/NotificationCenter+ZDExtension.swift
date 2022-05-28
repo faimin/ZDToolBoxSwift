@@ -1,5 +1,5 @@
 //
-//  NotificationCenter+ZDExtention.swift
+//  NotificationCenter+ZDExtension.swift
 //  ZDSwiftToolKit
 //
 //  Created by Zero.D.Saber on 2021/2/5.
