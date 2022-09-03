@@ -29,8 +29,6 @@ public func HEX(_ value: Int) -> UIColor {
     g = (rgb & 0x0000FF00) >> 8
     b = rgb & 0x000000FF
     
-    //print("r:%X g:%X b:%X a:%X", r, g, b, a)
-    
     return UIColor(red: CGFloat(r) / 255.0,
                    green: CGFloat(g) / 255.0,
                    blue: CGFloat(b) / 255.0,
