@@ -138,7 +138,10 @@ extension ZDSWraper where T: ZDView {
     
     #if os(iOS) || os(tvOS)
     @discardableResult
-    public func roundCorners(_ corners: UIRectCorner = UIRectCorner.allCorners, radius: CGFloat) -> T {
+    public func roundCorners(
+        _ corners: UIRectCorner = UIRectCorner.allCorners,
+        radius: CGFloat
+    ) -> T {
         let path = UIBezierPath(roundedRect: self.base.bounds, byRoundingCorners: corners, cornerRadii: CGSize(width: radius, height: radius))
         
         let mask = CAShapeLayer()
@@ -152,7 +155,10 @@ extension ZDSWraper where T: ZDView {
     
     @available(macOS 10.13, iOS 11.0, tvOS 11, *)
     @discardableResult
-    public func roundCorners(_ corners: CACornerMask = [.layerMinXMinYCorner, .layerMaxXMinYCorner, .layerMinXMaxYCorner, .layerMaxXMaxYCorner], radius: CGFloat) -> T {
+    public func roundCorners(
+        _ corners: CACornerMask = [.layerMinXMinYCorner, .layerMaxXMinYCorner, .layerMinXMaxYCorner, .layerMaxXMaxYCorner],
+        radius: CGFloat
+    ) -> T {
         
         #if os(iOS) || os(tvOS)
         self.base.layer.cornerRadius = radius
