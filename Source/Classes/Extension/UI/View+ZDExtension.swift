@@ -173,6 +173,7 @@ extension ZDSWraper where T: ZDView {
 
 public extension ZDSWraper where T: ZDView {
     
+    @discardableResult
     func addSubviews(_ subviews: T ...) -> Self {
         subviews.forEach { self.base.addSubview($0) }
         return self
