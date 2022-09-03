@@ -165,9 +165,14 @@ extension ZDSWraper where T: ZDView {
     }
 }
 
-extension ZDSWraper where T: ZDView {
+public extension ZDSWraper where T: ZDView {
     
-    public func viewController() -> ZDViewController? {
+    func addSubviews(_ subviews: T ...) -> Self {
+        subviews.forEach { self.base.addSubview($0) }
+        return self
+    }
+    
+    func viewController() -> ZDViewController? {
         var nextResponder: ZDResponder? = self.base
         while nextResponder != nil {
             if let vc = nextResponder as? ZDViewController {
