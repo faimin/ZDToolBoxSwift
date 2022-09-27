@@ -28,7 +28,7 @@ class ViewController: UIViewController {
         */
         let symbol = FindSymbolAddress("ZD://login")
         let f = unsafeBitCast(symbol, to: F.self)
-        let _ = f(["navi": "符现超"])
+        let _ = f(["navi": "Zero.D.Saber"])
         print(symbol ?? "-------")
     }
 }
