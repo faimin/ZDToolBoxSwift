@@ -11,14 +11,17 @@
 import Foundation
 import MachO
 
-public class ZDSymbolIMP: NSObject {
-    private override init() {}
+public struct ZDSymbolIMP {
+    // MARK: Singleton
     
-    private var ZDSymbolMap = [String: UnsafeRawPointer]()
-    
+    private init() {}
     public static let shareInstance = ZDSymbolIMP()
     
-    public final func FindSymbolAddress(_ symbol: String) -> UnsafeRawPointer? {
+    private static var ZDSymbolMap = [String: UnsafeRawPointer]()
+    
+    // MARK: Public
+    
+    public static func FindSymbolAddress(_ symbol: String) -> UnsafeRawPointer? {
         
         guard !symbol.isEmpty else {
             return nil
@@ -58,12 +61,13 @@ public class ZDSymbolIMP: NSObject {
         
         return ZDSymbolMap[symbol]
     }
-
 }
+
+// MARK: Collect Symbol
 
 extension ZDSymbolIMP {
     
-    private final func ZDCollectSymbolInImage(_ imageHeader: UnsafePointer<mach_header>, imageSlide slide: Int, _ symbolCache: inout [String: UnsafeRawPointer]) {
+    private static func ZDCollectSymbolInImage(_ imageHeader: UnsafePointer<mach_header>, imageSlide slide: Int, _ symbolCache: inout [String: UnsafeRawPointer]) {
         
         let linkEditName = SEG_LINKEDIT.cString(using: .utf8)!
         var linkEditCMD: UnsafeMutablePointer<segment_command_64>?
@@ -138,7 +142,7 @@ extension ZDSymbolIMP {
 
 extension ZDSymbolIMP {
     
-    private final func swift_demangle(_ mangledName: String) -> String? {
+    private static func swift_demangle(_ mangledName: String) -> String? {
         let cname = mangledName.withCString({ $0 })
         if let demangledName = get_swift_demangle(mangledName: cname, mangledNameLength: UInt(mangledName.utf8.count), outputBuffer: nil, outputBufferSize: nil, flags: 0) {
             return String(cString: demangledName)
@@ -148,7 +152,7 @@ extension ZDSymbolIMP {
     
     // swift_demangle: Swift/Swift libraries/SwiftDemangling/Header Files/Demangle.h
     @_silgen_name("swift_demangle")
-    private final func get_swift_demangle(
+    private static func get_swift_demangle(
         mangledName: UnsafePointer<CChar>?,
         mangledNameLength: UInt,
         outputBuffer: UnsafeMutablePointer<UInt8>?,
@@ -254,7 +258,7 @@ extension ZDSymbolIMP {
             return nil
         }
         
-        let returnSymbolAddress = { [unowned self] () -> UnsafeRawPointer in
+        let returnSymbolAddress = { () -> UnsafeRawPointer in
             let macho = imageHeader.withMemoryRebound(to: Int8.self, capacity: 1, { $0 })
             let advance = self.readUleb128(p: &symbolLocation, end: end)
             let symbolAddr = macho.advanced(by: Int(advance))
@@ -304,7 +308,7 @@ extension ZDSymbolIMP {
             }
             if terminalSize != 0 {
                 // debug SwiftSymbol, print all exported Symbol and you can find symbolName
-                let sym = swift_demangle(currentSymbol)
+                let sym = ZDSymbolIMP.swift_demangle(currentSymbol)
                 print("demangle symbol = \(sym ?? "xxxx")")
                 return sym == symbol ? p : nil
             }

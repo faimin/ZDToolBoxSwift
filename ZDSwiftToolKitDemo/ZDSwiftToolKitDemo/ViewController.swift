@@ -26,7 +26,7 @@ class ViewController: UIViewController {
         os_log("error", dso: rw.dso, log: rw.log, type: .fault)
         os_log(.fault, dso: rw.dso, log: rw.log, "aaaaa", "vvv")
         */
-        let symbol = FindSymbolAddress("ZD://login")
+        let symbol = ZDSymbolIMP.FindSymbolAddress("ZD://login")
         let f = unsafeBitCast(symbol, to: F.self)
         let _ = f(["navi": "Zero.D.Saber"])
         print(symbol ?? "-------")
