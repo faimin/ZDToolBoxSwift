@@ -10,6 +10,7 @@
 		07A599721AFF0D41DE9911EA /* libPods-ZDSwiftToolKitDemo.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 746E0A9B3D74E0CD6AB5695F /* libPods-ZDSwiftToolKitDemo.a */; };
 		16763A55D8D6DE0B0D2E67BE /* libPods-ZDSwiftToolKitDemo-ZDSwiftToolKitDemoUITests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 72DA6282C2D0751D39FC5005 /* libPods-ZDSwiftToolKitDemo-ZDSwiftToolKitDemoUITests.a */; };
 		E45420E4AE14799F2A028AC1 /* libPods-ZDSwiftToolKitDemoTests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 3831015AA670F70F4703F520 /* libPods-ZDSwiftToolKitDemoTests.a */; };
+		FA46777628F3CA4E005E0A99 /* ZDExcuteSymbol.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA46777528F3CA4E005E0A99 /* ZDExcuteSymbol.swift */; };
 		FA70838C255A32DF00B523C9 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA70838B255A32DF00B523C9 /* AppDelegate.swift */; };
 		FA70838E255A32DF00B523C9 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA70838D255A32DF00B523C9 /* SceneDelegate.swift */; };
 		FA708390255A32DF00B523C9 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA70838F255A32DF00B523C9 /* ViewController.swift */; };
@@ -47,6 +48,8 @@
 		95ADEB99A5AD1E09328BF114 /* Pods-ZDSwiftToolKitDemo-ZDSwiftToolKitDemoUITests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ZDSwiftToolKitDemo-ZDSwiftToolKitDemoUITests.release.xcconfig"; path = "Target Support Files/Pods-ZDSwiftToolKitDemo-ZDSwiftToolKitDemoUITests/Pods-ZDSwiftToolKitDemo-ZDSwiftToolKitDemoUITests.release.xcconfig"; sourceTree = "<group>"; };
 		E7CD1C41BE3824B9085F859D /* Pods-ZDSwiftToolKitDemo-ZDSwiftToolKitDemoUITests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ZDSwiftToolKitDemo-ZDSwiftToolKitDemoUITests.debug.xcconfig"; path = "Target Support Files/Pods-ZDSwiftToolKitDemo-ZDSwiftToolKitDemoUITests/Pods-ZDSwiftToolKitDemo-ZDSwiftToolKitDemoUITests.debug.xcconfig"; sourceTree = "<group>"; };
 		F355F35C1CAA2E1E186AA926 /* Pods-ZDSwiftToolKitDemoTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ZDSwiftToolKitDemoTests.debug.xcconfig"; path = "Target Support Files/Pods-ZDSwiftToolKitDemoTests/Pods-ZDSwiftToolKitDemoTests.debug.xcconfig"; sourceTree = "<group>"; };
+		FA46776228F26C8E005E0A99 /* ZDSwiftToolKitDemo-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "ZDSwiftToolKitDemo-Bridging-Header.h"; sourceTree = "<group>"; };
+		FA46777528F3CA4E005E0A99 /* ZDExcuteSymbol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ZDExcuteSymbol.swift; sourceTree = "<group>"; };
 		FA708388255A32DF00B523C9 /* ZDSwiftToolKitDemo.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ZDSwiftToolKitDemo.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		FA70838B255A32DF00B523C9 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		FA70838D255A32DF00B523C9 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -142,10 +145,12 @@
 				FA70838B255A32DF00B523C9 /* AppDelegate.swift */,
 				FA70838D255A32DF00B523C9 /* SceneDelegate.swift */,
 				FA70838F255A32DF00B523C9 /* ViewController.swift */,
+				FA46777528F3CA4E005E0A99 /* ZDExcuteSymbol.swift */,
 				FA708391255A32DF00B523C9 /* Main.storyboard */,
 				FA708394255A32E100B523C9 /* Assets.xcassets */,
 				FA708396255A32E100B523C9 /* LaunchScreen.storyboard */,
 				FA708399255A32E100B523C9 /* Info.plist */,
+				FA46776228F26C8E005E0A99 /* ZDSwiftToolKitDemo-Bridging-Header.h */,
 			);
 			path = ZDSwiftToolKitDemo;
 			sourceTree = "<group>";
@@ -238,6 +243,7 @@
 				TargetAttributes = {
 					FA708387255A32DF00B523C9 = {
 						CreatedOnToolsVersion = 12.1;
+						LastSwiftMigration = 1400;
 					};
 					FA70839D255A32E200B523C9 = {
 						CreatedOnToolsVersion = 12.1;
@@ -373,6 +379,7 @@
 				FA708390255A32DF00B523C9 /* ViewController.swift in Sources */,
 				FA70838C255A32DF00B523C9 /* AppDelegate.swift in Sources */,
 				FA70838E255A32DF00B523C9 /* SceneDelegate.swift in Sources */,
+				FA46777628F3CA4E005E0A99 /* ZDExcuteSymbol.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -549,6 +556,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = "";
@@ -561,6 +569,8 @@
 				PRODUCT_BUNDLE_IDENTIFIER = com.zero.ZDSwiftToolKitDemo;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
+				SWIFT_OBJC_BRIDGING_HEADER = "ZDSwiftToolKitDemo/ZDSwiftToolKitDemo-Bridging-Header.h";
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
@@ -572,6 +582,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = "";
@@ -584,6 +595,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = com.zero.ZDSwiftToolKitDemo;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
+				SWIFT_OBJC_BRIDGING_HEADER = "ZDSwiftToolKitDemo/ZDSwiftToolKitDemo-Bridging-Header.h";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};

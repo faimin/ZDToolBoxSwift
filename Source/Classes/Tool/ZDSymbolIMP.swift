@@ -11,29 +11,36 @@
 import Foundation
 import MachO
 
-public struct ZDSymbolIMP {
+@objc
+public class ZDSymbolIMP: NSObject {
+    
     // MARK: Singleton
     
-    private init() {}
+    private override init() {}
     public static let shareInstance = ZDSymbolIMP()
     
     private static var ZDSymbolMap = [String: UnsafeRawPointer]()
     
     // MARK: Public
     
+    @objc
     public static func FindSymbolAddress(_ symbol: String) -> UnsafeRawPointer? {
         
         guard !symbol.isEmpty else {
             return nil
         }
         
-        guard ZDSymbolMap.isEmpty else {
-            return ZDSymbolMap[symbol]
+        if let addr = ZDSymbolMap[symbol] {
+            return addr
         }
         
         for i in 0..<_dyld_image_count() {
             let pathArr = String(cString: _dyld_get_image_name(i)).split(separator: "/")
-            guard pathArr.first != "Applications", pathArr.first != "usr" else {
+            guard pathArr.first != "System",
+                    pathArr.first != "usr",
+                    pathArr.first != "Applications",
+                    pathArr.first != "Developer"
+            else {
                 continue
             }
 
@@ -44,19 +51,18 @@ public struct ZDSymbolIMP {
                 continue
             }
 
-            if let targetFunc = FindExportedSwiftSymbol(
+            if let targetFunc = ZDSymbolIMP.FindExportedSwiftSymbol(
                 symbol,
                 _dyld_get_image_header(i),
                 _dyld_get_image_vmaddr_slide(i)
             ) {
-                symbolMap[symbol] = targetFunc
+                ZDSymbolMap[symbol] = targetFunc
                 continue
             }
             */
             
-            if ZDSymbolMap.isEmpty {
-                ZDCollectSymbolInImage(_dyld_get_image_header(i), imageSlide: _dyld_get_image_vmaddr_slide(i), &ZDSymbolMap)
-            }
+            ZDCollectSymbolInImage(_dyld_get_image_header(i), imageSlide: _dyld_get_image_vmaddr_slide(i), &ZDSymbolMap)
+            
         }
         
         return ZDSymbolMap[symbol]
@@ -166,14 +172,14 @@ extension ZDSymbolIMP {
 extension ZDSymbolIMP {
     
     // Swift Type Metadata https://github.com/apple/swift/blob/master/docs/ABI/TypeMetadata.rst#nominal-type-descriptor
-    func isFunction(_ type: Any.Type) -> Bool {
+    static func isFunction(_ type: Any.Type) -> Bool {
         assert(MemoryLayout.size(ofValue: type) == MemoryLayout<UnsafeMutablePointer<Int>>.size)
         
         let typePointer = unsafeBitCast(type, to: UnsafeMutablePointer<Int>.self)
         return typePointer.pointee == (2 | 0x100 | 0x200)
     }
     
-    private func readUleb128(
+    private static func readUleb128(
         p: inout UnsafeMutablePointer<UInt8>,
         end: UnsafeMutablePointer<UInt8>
     ) -> UInt64 {
@@ -208,7 +214,8 @@ extension ZDSymbolIMP {
 
 extension ZDSymbolIMP {
     
-    private func FindExportedSwiftSymbol(_ symbol: String, _ imageHeader: UnsafePointer<mach_header>, _ slide: Int) -> UnsafeRawPointer? {
+    // https://github.com/apple-oss-distributions/dyld/blob/419f8cbca6fb3420a248f158714a9d322af2aa5a/common/MachOLoaded.cpp#L282
+    private static func FindExportedSwiftSymbol(_ symbol: String, _ imageHeader: UnsafePointer<mach_header>, _ slide: Int) -> UnsafeRawPointer? {
         
         let linkEditName = SEG_LINKEDIT.cString(using: .utf8)!
         var linkEditCMD: UnsafeMutablePointer<segment_command_64>?
@@ -260,7 +267,7 @@ extension ZDSymbolIMP {
         
         let returnSymbolAddress = { () -> UnsafeRawPointer in
             let macho = imageHeader.withMemoryRebound(to: Int8.self, capacity: 1, { $0 })
-            let advance = self.readUleb128(p: &symbolLocation, end: end)
+            let advance = readUleb128(p: &symbolLocation, end: end)
             let symbolAddr = macho.advanced(by: Int(advance))
             return UnsafeRawPointer(symbolAddr)
         }
@@ -289,7 +296,7 @@ extension ZDSymbolIMP {
     }
 
     // trieWalk ExportedSymbol Trie (深度先序遍历)
-    func trieWalk(
+    private static func trieWalk(
         symbol: String,
         start: UnsafeMutablePointer<UInt8>,
         end: UnsafeMutablePointer<UInt8>,
