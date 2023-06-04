@@ -1,12 +1,12 @@
 //
-//  ZDSwiftToolKitDemoUITests.swift
+//  ZDToolBoxSwiftDemoUITests.swift
 //  ZDSwiftToolKitDemoUITests
 //
 //  Created by Zero.D.Saber on 2020/11/10.
 //
 
 import XCTest
-import ZDSwiftToolKit
+import ZDToolBoxSwift
 
 class ZDSwiftToolKitDemoUITests: XCTestCase {
 

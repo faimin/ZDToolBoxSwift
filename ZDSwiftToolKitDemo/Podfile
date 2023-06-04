@@ -6,7 +6,7 @@ target 'ZDSwiftToolKitDemo' do
   # use_frameworks!
 
   # Pods for ZDSwiftToolKitDemo
-  pod 'ZDSwiftToolKit', :path => '../ZDSwiftToolKit.podspec'
+  pod 'ZDToolBoxSwift', :path => '../ZDToolBoxSwift.podspec'
 
   target 'ZDSwiftToolKitDemoTests' do
     inherit! :search_paths

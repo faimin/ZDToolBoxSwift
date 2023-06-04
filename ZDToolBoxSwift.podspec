@@ -1,5 +1,5 @@
 #
-#  Be sure to run `pod spec lint ZDSwiftToolKit.podspec' to ensure this is a
+#  Be sure to run `pod spec lint ZDToolBoxSwift.podspec' to ensure this is a
 #  valid spec and to remove all comments including this before submitting the spec.
 #
 #  To learn more about Podspec attributes see https://guides.cocoapods.org/syntax/podspec.html
@@ -15,13 +15,13 @@ Pod::Spec.new do |spec|
   #  summary should be tweet-length, and the description more in depth.
   #
 
-  spec.name         = "ZDSwiftToolKit"
+  spec.name         = "ZDToolBoxSwift"
   spec.version      = "0.0.1"
   spec.summary      = "Swift工具"
   spec.description  = <<-DESC
     Swift工具类以及一些代码技巧
                    DESC
-  spec.homepage     = "https://github.com/faimin/ZDSwiftToolKit"
+  spec.homepage     = "https://github.com/faimin/ZDToolBoxSwift"
   spec.license      = "MIT"
   # spec.license      = { :type => "MIT", :file => "FILE_LICENSE" }
   spec.author       = { "faimin" => "fuxianchao@gmail.com" }
@@ -32,7 +32,7 @@ Pod::Spec.new do |spec|
   # spec.watchos.deployment_target = "2.0"
   # spec.tvos.deployment_target = "9.0"
   spec.source       = { 
-    :git => "https://github.com/faimin/ZDSwiftToolKit.git", 
+    :git => "https://github.com/faimin/ZDToolBoxSwift.git", 
     :tag => "#{spec.version}" 
   }
 
