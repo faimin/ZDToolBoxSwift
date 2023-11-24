@@ -173,6 +173,24 @@ extension ZDSWraper where T: ZDView {
 
 public extension ZDSWraper where T: ZDView {
     
+    /// Convenience function to ease creating new views.
+    ///
+    /// - Parameter builder: A function that takes the newly created view.
+    ///
+    /// Usage:
+    /// ```
+    ///    private let button: UIButton = .zd.build { button in
+    ///        button.setTitle("Tap me!", for state: .normal)
+    ///        button.backgroundColor = .systemPink
+    ///    }
+    /// ```
+    static func build(_ builder: ((T) -> Void)? = nil) -> T {
+        let view = T()
+        builder?(view)
+
+        return view
+    }
+    
     @discardableResult
     func addSubviews(_ subviews: T ...) -> Self {
         subviews.forEach { self.base.addSubview($0) }
