@@ -1,15 +1,15 @@
 //
-//  ZDSwiftToolKitDemoTests.swift
-//  ZDSwiftToolKitDemoTests
+//  ZDToolBoxSwiftDemoTests.swift
+//  ZDToolBoxSwiftDemoTests
 //
 //  Created by Zero.D.Saber on 2020/11/10.
 //
 
 import XCTest
-@testable import ZDSwiftToolKitDemo
+@testable import ZDToolBoxSwiftDemo
 import ZDToolBoxSwift
 
-class ZDSwiftToolKitDemoTests: XCTestCase {
+class ZDToolBoxSwiftDemoTests: XCTestCase {
 
     override func setUpWithError() throws {
         // Put setup code here. This method is called before the invocation of each test method in the class.

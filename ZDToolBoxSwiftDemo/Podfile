@@ -1,19 +1,19 @@
 # Uncomment the next line to define a global platform for your project
 platform :ios, '10.0'
 
-target 'ZDSwiftToolKitDemo' do
+target 'ZDToolBoxSwiftDemo' do
   # Comment the next line if you don't want to use dynamic frameworks
   # use_frameworks!
 
-  # Pods for ZDSwiftToolKitDemo
+  # Pods for ZDToolBoxSwiftDemo
   pod 'ZDToolBoxSwift', :path => '../ZDToolBoxSwift.podspec'
 
-  target 'ZDSwiftToolKitDemoTests' do
+  target 'ZDToolBoxSwiftDemoTests' do
     inherit! :search_paths
     # Pods for testing
   end
 
-  target 'ZDSwiftToolKitDemoUITests' do
+  target 'ZDToolBoxSwiftDemoUITests' do
     # Pods for testing
   end
 
