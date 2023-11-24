@@ -112,7 +112,7 @@ public extension CGFloat {
 
 /// 默认为空数组
 public extension Array {
-    enum Empty<Element>: ZDDefaultValue where Element: Codable, Element: Equatable {
+    enum Empty: ZDDefaultValue where Element: Codable, Element: Equatable {
         public static var defaultValue: [Element] {
             [Element]()
         }
