@@ -212,5 +212,24 @@ public extension ZDSWraper where T: ZDView {
         
         return nil
     }
+
+    /// Checkes if the view is (mostly) visible to user or not.
+    /// Internaly it checks following things
+    ///  - Should NOT be hidden
+    ///  - Should NOT be completely transparent
+    ///  - Bound should NOT be empty
+    ///  - Should be in some window i.e. in view heirarchy
+    ///  - Center should be directly visible to user i.e. NOT overlapped with other views
+    var isMostlyVisible: Bool {
+        guard !isHidden,
+              alpha > 0,
+              !bounds.isEmpty,
+              let window,
+              window.hitTest(window.convert(center, from: self.superview), with: nil) == self else {
+            return false
+        }
+
+        return true
+    }
     
 }
