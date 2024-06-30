@@ -11,8 +11,8 @@ public enum UIAdapter {
     
     public static var window: UIWindow = {
         let application = UIApplication.shared
-        if let deleteWindow = application.delegate?.window {
-            return deleteWindow
+        if let delegeWindow = application.delegate?.window, let delegeWindow = delegeWindow {
+            return delegeWindow
         }
         
         guard #available(iOS 13.0, *) else {
