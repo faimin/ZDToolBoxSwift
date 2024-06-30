@@ -9,13 +9,35 @@ import UIKit
 
 public enum UIAdapter {
     
+    public static var window: UIWindow = {
+        let application = UIApplication.shared
+        if let deleteWindow = application.delegate?.window {
+            return deleteWindow
+        }
+        
+        guard #available(iOS 13.0, *) else {
+            let keyWindow = application.keyWindow ?? UIWindow()
+            return keyWindow
+        }
+        
+        for scene in application.connectedScenes where scene is UIWindowScene {
+            guard let windowSceneDelete = scene.delegate as? UIWindowSceneDelegate, let window = windowSceneDelete.window, let window = window else {
+                continue
+            }
+            return window
+        }
+        
+        let mainWindow = application.windows.first ?? UIWindow()
+        return mainWindow
+    }()
+    
     // MARK: - 安全区域
-    private static var safeAreaInsets: UIEdgeInsets = {
+    public static var safeAreaInsets: UIEdgeInsets = {
         guard #available(iOS 11.0, *) else {
             return UIEdgeInsets.zero
         }
         
-        return UIApplication.shared.keyWindow?.safeAreaInsets ?? UIEdgeInsets.zero
+        return Self.window.safeAreaInsets
     }()
     
     // MARK: - 计算属性
