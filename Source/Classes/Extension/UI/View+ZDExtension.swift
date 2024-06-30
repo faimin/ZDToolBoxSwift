@@ -221,11 +221,11 @@ public extension ZDSWraper where T: ZDView {
     ///  - Should be in some window i.e. in view heirarchy
     ///  - Center should be directly visible to user i.e. NOT overlapped with other views
     var isMostlyVisible: Bool {
-        guard !isHidden,
-              alpha > 0,
-              !bounds.isEmpty,
-              let window,
-              window.hitTest(window.convert(center, from: self.superview), with: nil) == self else {
+        guard !base.isHidden,
+              base.alpha > 0,
+              !base.bounds.isEmpty,
+              let window = base.window,
+              window.hitTest(window.convert(base.center, from: base.superview), with: nil) == base else {
             return false
         }
 
