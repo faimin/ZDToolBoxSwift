@@ -8,23 +8,21 @@
 import UIKit
 
 public protocol ZDSCellProtocol: AnyObject {
-    
     associatedtype T
-    
+
     /// cell重用id
     static func cellIdentifier() -> String
-    
+
     /// 绑定数据
     func bindModel(_ model: T)
 }
 
 public extension ZDSCellProtocol {
-    
     static func cellIdentifier() -> String {
         return "\(Self.self)"
     }
-    
-    func bindModel(_ model: T) {
+
+    func bindModel(_: T) {
         print("ZDSCellProtocol -> \(#function) 默认实现")
     }
 }

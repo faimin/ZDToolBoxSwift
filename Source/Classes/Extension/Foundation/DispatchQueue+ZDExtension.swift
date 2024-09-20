@@ -8,9 +8,8 @@
 import Foundation
 
 public extension ZDSWraper where T == DispatchQueue {
-    
     private static var _onceTracker = Set<String>()
-    
+
     static func once(
         token: String,
         block: os_block_t
@@ -19,14 +18,14 @@ public extension ZDSWraper where T == DispatchQueue {
         defer {
             objc_sync_exit(self)
         }
-        
+
         guard !_onceTracker.contains(token) else {
             return
         }
         _onceTracker.insert(token)
         block()
     }
-    
+
     static func once(
         file: String = #file,
         function: String = #function,
@@ -36,5 +35,4 @@ public extension ZDSWraper where T == DispatchQueue {
         let token = "\(file):\(function):\(line)"
         once(token: token, block: block)
     }
-    
 }

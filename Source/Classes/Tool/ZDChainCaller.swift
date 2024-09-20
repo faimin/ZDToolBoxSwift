@@ -7,21 +7,19 @@
 //  链式调用
 
 #if canImport(Foundation)
-import Foundation
+    import Foundation
 
-extension NSObject: ZDSChainProtocol {}
+    extension NSObject: ZDSChainProtocol {}
 #endif
-
 
 @dynamicMemberLookup
 public struct ZDChainCaller<T> {
-    
     private let base: T
-    
+
     public init(_ base: T) {
         self.base = base
     }
-    
+
     public subscript<Value>(dynamicMember keyPath: WritableKeyPath<T, Value>) -> (Value) -> T {
         { value in
             var object = base
@@ -29,7 +27,7 @@ public struct ZDChainCaller<T> {
             return object
         }
     }
-    
+
     public subscript<Value>(dynamicMember keyPath: WritableKeyPath<T, Value>) -> (Value) -> ZDChainCaller<T> {
         { value in
             var object = base
@@ -44,10 +42,9 @@ public protocol ZDSChainProtocol {
     var zd: ZDChainCaller<T> { get set }
 }
 
-extension ZDSChainProtocol {
-    public var zd: ZDChainCaller<Self> {
+public extension ZDSChainProtocol {
+    var zd: ZDChainCaller<Self> {
         get { ZDChainCaller(self) }
         set {}
     }
 }
-

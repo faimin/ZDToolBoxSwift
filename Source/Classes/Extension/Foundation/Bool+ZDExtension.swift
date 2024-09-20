@@ -11,4 +11,3 @@ extension Bool: ExpressibleByIntegerLiteral {
         self.init(value != 0)
     }
 }
-

@@ -11,7 +11,7 @@ import Foundation
 
 // http://ios.jobbole.com/92852/
 @discardableResult
-public postfix func ++(x: inout Int) -> Int {
+public postfix func ++ (x: inout Int) -> Int {
     defer {
         x += 1
     }
@@ -19,7 +19,7 @@ public postfix func ++(x: inout Int) -> Int {
 }
 
 @discardableResult
-public prefix func ++(x: inout Int) -> Int {
+public prefix func ++ (x: inout Int) -> Int {
     x += 1
     return x
 }

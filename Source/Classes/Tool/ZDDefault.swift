@@ -8,67 +8,66 @@
 import Foundation
 
 public protocol ZDDefaultValue {
-    
     associatedtype DFValue: Codable
-    
+
     static var defaultValue: DFValue { get }
 }
 
 #if swift(>=5.1)
-/// 为属性提供默认值
-///
-/// [属性包装器介绍](https://swiftgg.gitbook.io/swift/swift-jiao-cheng/10_properties#property-wrappers)
-///
-/// ## example:
-///
-///     class Example {
-///         @Default<Int.Empty> var a: Int
-///         @Default<String.Empty>("hello world") var text: String
-///         @Default<Empty> var emptyString: String
-///         @Default<Empty> var emptyArray: [String]
-///     }
-///
-@propertyWrapper
-public struct ZDDefault<T: ZDDefaultValue> {
-    public var wrappedValue: T.DFValue
-    
-    public init() {
-        self.wrappedValue = T.defaultValue
-    }
-    
-    public init(wrappedValue: T.DFValue) {
-        self.wrappedValue = wrappedValue
-    }
-}
+    /// 为属性提供默认值
+    ///
+    /// [属性包装器介绍](https://swiftgg.gitbook.io/swift/swift-jiao-cheng/10_properties#property-wrappers)
+    ///
+    /// ## example:
+    ///
+    ///     class Example {
+    ///         @Default<Int.Empty> var a: Int
+    ///         @Default<String.Empty>("hello world") var text: String
+    ///         @Default<Empty> var emptyString: String
+    ///         @Default<Empty> var emptyArray: [String]
+    ///     }
+    ///
+    @propertyWrapper
+    public struct ZDDefault<T: ZDDefaultValue> {
+        public var wrappedValue: T.DFValue
 
-extension ZDDefault: Codable {
-    public init(from decoder: Decoder) throws {
-        let container = try decoder.singleValueContainer()
-        if container.decodeNil() {
+        public init() {
             wrappedValue = T.defaultValue
-        } else {
-            self.wrappedValue = (try? container.decode(T.DFValue.self)) ?? T.defaultValue
+        }
+
+        public init(wrappedValue: T.DFValue) {
+            self.wrappedValue = wrappedValue
         }
     }
-}
 
-extension ZDDefault: Equatable where T.DFValue: Equatable {}
-
-public extension KeyedDecodingContainer {
-    func decode<T>(
-        _ type: ZDDefault<T>.Type,
-        forKey key: Key
-    ) throws -> ZDDefault<T> where T: ZDDefaultValue {
-        (try? decodeIfPresent(type, forKey: key)) ?? ZDDefault(wrappedValue: T.defaultValue)
+    extension ZDDefault: Codable {
+        public init(from decoder: Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            if container.decodeNil() {
+                wrappedValue = T.defaultValue
+            } else {
+                wrappedValue = (try? container.decode(T.DFValue.self)) ?? T.defaultValue
+            }
+        }
     }
-}
+
+    extension ZDDefault: Equatable where T.DFValue: Equatable {}
+
+    public extension KeyedDecodingContainer {
+        func decode<T>(
+            _ type: ZDDefault<T>.Type,
+            forKey key: Key
+        ) throws -> ZDDefault<T> where T: ZDDefaultValue {
+            (try? decodeIfPresent(type, forKey: key)) ?? ZDDefault(wrappedValue: T.defaultValue)
+        }
+    }
 #endif
 
 public extension Bool {
     enum False: ZDDefaultValue {
         public static let defaultValue = false
     }
-    
+
     enum True: ZDDefaultValue {
         public static let defaultValue = true
     }

@@ -7,11 +7,12 @@
 
 import Foundation
 
-@objc public final class ZDUtils : NSObject {
-    
+@objc
+public final class ZDUtils: NSObject {
     /// See http://developer.apple.com/library/mac/#qa/qa1361/_index.html
     /// 是否处于调试状态
-    @objc public class func isDebuggerAttached() -> Bool {
+    @objc
+    public static func isDebuggerAttached() -> Bool {
         var info = kinfo_proc()
         var mib = [CTL_KERN, KERN_PROC, KERN_PROC_PID, getpid()]
         var size = MemoryLayout<kinfo_proc>.stride
@@ -20,5 +21,4 @@ import Foundation
         let isDebuggerAttaced = info.kp_proc.p_flag & P_TRACED != 0
         return isDebuggerAttaced
     }
-    
 }

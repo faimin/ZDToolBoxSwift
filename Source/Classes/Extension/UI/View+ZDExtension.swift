@@ -6,173 +6,169 @@
 //
 
 #if os(iOS) || os(tvOS)
-import UIKit
+    import UIKit
 
-public typealias ZDView = UIView
-public typealias ZDViewController = UIViewController
-public typealias ZDResponder = UIResponder
+    public typealias ZDView = UIView
+    public typealias ZDViewController = UIViewController
+    public typealias ZDResponder = UIResponder
 #else
-import AppKit
+    import AppKit
 
-public typealias ZDView = NSView
-public typealias ZDViewController = NSViewController
-public typealias ZDResponder = NSResponder
+    public typealias ZDView = NSView
+    public typealias ZDViewController = NSViewController
+    public typealias ZDResponder = NSResponder
 #endif
 
-
-extension ZDSWraper where T: ZDView {
-    
+public extension ZDSWraper where T: ZDView {
     // MARK: - Frame
-    
-    public var x: CGFloat {
+
+    var x: CGFloat {
         get {
-            self.base.frame.origin.x
+            base.frame.origin.x
         }
         set {
-            self.base.frame.origin.x = newValue
+            base.frame.origin.x = newValue
         }
     }
-    
-    public var y: CGFloat {
+
+    var y: CGFloat {
         get {
-            self.base.frame.origin.x
+            base.frame.origin.x
         }
         set {
-            self.base.frame.origin.y = newValue
+            base.frame.origin.y = newValue
         }
     }
-    
-    public var width: CGFloat {
+
+    var width: CGFloat {
         get {
-            self.base.frame.size.width
+            base.frame.size.width
         }
         set {
-            self.base.frame.size.width = newValue
+            base.frame.size.width = newValue
         }
     }
-    
-    public var height: CGFloat {
+
+    var height: CGFloat {
         get {
-            self.base.frame.size.height
+            base.frame.size.height
         }
         set {
-            self.base.frame.size.height = newValue
+            base.frame.size.height = newValue
         }
     }
-    
-    public var left: CGFloat {
+
+    var left: CGFloat {
         get {
-            self.x
+            x
         }
         set {
-            self.x = newValue
+            x = newValue
         }
     }
-    
-    public var right: CGFloat {
+
+    var right: CGFloat {
         get {
-            self.x + self.width
+            x + width
         }
         set {
-            self.x = newValue - self.width
+            x = newValue - width
         }
     }
-    
-    public var top: CGFloat {
+
+    var top: CGFloat {
         get {
-            self.y
+            y
         }
         set {
-            self.y = newValue
+            y = newValue
         }
     }
-    
-    public var bottom: CGFloat {
+
+    var bottom: CGFloat {
         get {
-            self.y + self.height
+            y + height
         }
         set {
-            self.y = newValue - self.height
+            y = newValue - height
         }
     }
-    
-    public var centerX: CGFloat {
+
+    var centerX: CGFloat {
         get {
-            self.x + self.width * 0.5
+            x + width * 0.5
         }
         set {
-            self.x = newValue - self.width * 0.5
+            x = newValue - width * 0.5
         }
     }
-    
-    public var centerY: CGFloat {
+
+    var centerY: CGFloat {
         get {
-            self.y + self.height * 0.5
+            y + height * 0.5
         }
         set {
-            self.y = newValue - self.height * 0.5
+            y = newValue - height * 0.5
         }
     }
-    
-    public var center: CGPoint {
+
+    var center: CGPoint {
         get {
-            return CGPoint(x: self.centerX, y: self.centerY)
+            return CGPoint(x: centerX, y: centerY)
         }
         set {
-            self.centerX = newValue.x
-            self.centerY = newValue.y
+            centerX = newValue.x
+            centerY = newValue.y
         }
     }
-    
-    public var boundsCenterX: CGFloat {
-        self.width * 0.5
+
+    var boundsCenterX: CGFloat {
+        width * 0.5
     }
-    
-    public var boundsCenterY: CGFloat {
-        self.height * 0.5
+
+    var boundsCenterY: CGFloat {
+        height * 0.5
     }
-    
-    public var boundsCenter: CGPoint {
-        CGPoint(x: self.width * 0.5, y: self.height * 0.5)
+
+    var boundsCenter: CGPoint {
+        CGPoint(x: width * 0.5, y: height * 0.5)
     }
-    
+
     #if os(iOS) || os(tvOS)
-    @discardableResult
-    public func roundCorners(
-        _ corners: UIRectCorner = UIRectCorner.allCorners,
-        radius: CGFloat
-    ) -> T {
-        let path = UIBezierPath(roundedRect: self.base.bounds, byRoundingCorners: corners, cornerRadii: CGSize(width: radius, height: radius))
-        
-        let mask = CAShapeLayer()
-        mask.path = path.cgPath
-        
-        self.base.layer.mask = mask
-        
-        return self.base
-    }
+        @discardableResult
+        func roundCorners(
+            _ corners: UIRectCorner = UIRectCorner.allCorners,
+            radius: CGFloat
+        ) -> T {
+            let path = UIBezierPath(roundedRect: base.bounds, byRoundingCorners: corners, cornerRadii: CGSize(width: radius, height: radius))
+
+            let mask = CAShapeLayer()
+            mask.path = path.cgPath
+
+            base.layer.mask = mask
+
+            return base
+        }
     #endif
-    
+
     @available(macOS 10.13, iOS 11.0, tvOS 11, *)
     @discardableResult
-    public func roundCorners(
+    func roundCorners(
         _ corners: CACornerMask = [.layerMinXMinYCorner, .layerMaxXMinYCorner, .layerMinXMaxYCorner, .layerMaxXMaxYCorner],
         radius: CGFloat
     ) -> T {
-        
         #if os(iOS) || os(tvOS)
-        self.base.layer.cornerRadius = radius
-        self.base.layer.maskedCorners = corners
+            base.layer.cornerRadius = radius
+            base.layer.maskedCorners = corners
         #else
-        self.base.layer?.cornerRadius = radius
-        self.base.layer?.maskedCorners = corners
+            base.layer?.cornerRadius = radius
+            base.layer?.maskedCorners = corners
         #endif
-        return self.base
+        return base
     }
 }
 
 public extension ZDSWraper where T: ZDView {
-    
     /// Convenience function to ease creating new views.
     ///
     /// - Parameter builder: A function that takes the newly created view.
@@ -190,26 +186,26 @@ public extension ZDSWraper where T: ZDView {
 
         return view
     }
-    
+
     @discardableResult
     func addSubviews(_ subviews: T ...) -> Self {
         subviews.forEach { self.base.addSubview($0) }
         return self
     }
-    
+
     func viewController() -> ZDViewController? {
-        var nextResponder: ZDResponder? = self.base
+        var nextResponder: ZDResponder? = base
         while nextResponder != nil {
             if let vc = nextResponder as? ZDViewController {
                 return vc
             }
             #if os(iOS) || os(tvOS)
-            nextResponder = nextResponder?.next
+                nextResponder = nextResponder?.next
             #else
-            nextResponder = nextResponder?.nextResponder
+                nextResponder = nextResponder?.nextResponder
             #endif
         }
-        
+
         return nil
     }
 
@@ -225,11 +221,11 @@ public extension ZDSWraper where T: ZDView {
               base.alpha > 0,
               !base.bounds.isEmpty,
               let window = base.window,
-              window.hitTest(window.convert(base.center, from: base.superview), with: nil) == base else {
+              window.hitTest(window.convert(base.center, from: base.superview), with: nil) == base
+        else {
             return false
         }
 
         return true
     }
-    
 }

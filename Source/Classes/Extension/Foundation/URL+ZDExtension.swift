@@ -1,5 +1,5 @@
 //
-//  URLExtention.swift
+//  URL+ZDExtension.swift
 //  ZDToolBoxSwift
 //
 //  Created by Zero.D.Saber on 2020/11/18.
@@ -11,7 +11,6 @@ import Foundation
 
 /// example: `let url: URL = "www.google.com"`
 extension URL: ExpressibleByStringLiteral {
-    
     public init(stringLiteral value: String) {
         self = URL(string: value)!
     }

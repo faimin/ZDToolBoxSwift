@@ -9,14 +9,12 @@
 import UIKit
 
 class ZDExpandClickAreaView: UIView {
-    
     override func hitTest(_ point: CGPoint, with event: UIEvent?) -> UIView? {
-        
         // 不可交互、隐藏、alpha <= 0.01 都不响应
         guard isUserInteractionEnabled && !isHidden && alpha > 0.01 else {
             return nil
         }
-                
+
         for view in subviews.reversed() {
             // 把当前视图上的坐标点转换为在子视图坐标系上的坐标点
             let pointInSubViewSystem = convert(point, to: view)
@@ -25,7 +23,7 @@ class ZDExpandClickAreaView: UIView {
                 return view.hitTest(pointInSubViewSystem, with: event)
             }
         }
-        
+
         return super.hitTest(point, with: event)
     }
 }

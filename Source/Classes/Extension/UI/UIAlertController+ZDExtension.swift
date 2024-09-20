@@ -5,8 +5,8 @@
 //  Created by Zero.D.Saber on 2020/12/2.
 //
 
-import UIKit
 import ObjectiveC
+import UIKit
 
 private var ZD_UIAlertAction_Key: Void?
 
@@ -14,7 +14,7 @@ public struct ZDActionModel {
     let title: String
     let style: UIAlertAction.Style
     let tag: Int
-    
+
     public init(
         title: String,
         style: UIAlertAction.Style,
@@ -26,8 +26,7 @@ public struct ZDActionModel {
     }
 }
 
-extension ZDSWraper where T: UIAlertController {
-    
+public extension ZDSWraper where T: UIAlertController {
     /// 便捷创建Alert弹窗
     ///
     /// - Parameters:
@@ -39,7 +38,7 @@ extension ZDSWraper where T: UIAlertController {
     ///
     /// - Returns: UIAlertController
     @discardableResult
-    public static func showAlert(
+    static func showAlert(
         _ containerController: UIViewController,
         preferredStyle: T.Style,
         title: String?,
@@ -49,25 +48,22 @@ extension ZDSWraper where T: UIAlertController {
         completion: (() -> Void)?,
         clickHandler: ((UIAlertAction, Int) -> Void)?
     ) -> T {
-        
         let alertController = T(title: title, message: message, preferredStyle: preferredStyle)
-        
+
         for model in actionModels {
-            let action = UIAlertAction(title: model.title, style: model.style) { (a) in
+            let action = UIAlertAction(title: model.title, style: model.style) { a in
                 let actionTag = objc_getAssociatedObject(a, &ZD_UIAlertAction_Key) as? Int ?? 0
                 clickHandler?(a, actionTag)
             }
             objc_setAssociatedObject(action, &ZD_UIAlertAction_Key, model.tag, .OBJC_ASSOCIATION_RETAIN_NONATOMIC)
-            
+
             alertController.addAction(action)
         }
-        
+
         extraConfig?(alertController)
-        
+
         containerController.present(alertController, animated: true, completion: completion)
-        
+
         return alertController
     }
-    
 }
-

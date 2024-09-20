@@ -181,9 +181,11 @@
 			buildConfigurationList = FA7083B2255A32E200B523C9 /* Build configuration list for PBXNativeTarget "ZDToolBoxSwiftDemo" */;
 			buildPhases = (
 				E0D3823E5117A4E2E48A377C /* [CP] Check Pods Manifest.lock */,
+				C2418EF22C9D33EB007128F5 /* SwiftFormat */,
 				FA708384255A32DF00B523C9 /* Sources */,
 				FA708385255A32DF00B523C9 /* Frameworks */,
 				FA708386255A32DF00B523C9 /* Resources */,
+				C2418EF32C9D340C007128F5 /* SwiftLint */,
 			);
 			buildRules = (
 			);
@@ -348,6 +350,42 @@
 			shellPath = /bin/sh;
 			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
 			showEnvVarsInLog = 0;
+		};
+		C2418EF22C9D33EB007128F5 /* SwiftFormat */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+			);
+			name = SwiftFormat;
+			outputFileListPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "if which ${PODS_ROOT}/SwiftFormat/CommandLineTool/swiftformat > /dev/null; then\n    \"${PODS_ROOT}/SwiftFormat/CommandLineTool/swiftformat\" \"${SRCROOT}/../Source\"\nelse\n  echo \"warning: SwiftFormat not installed, download from https://github.com/nicklockwood/SwiftFormat\"\nfi\n\n";
+		};
+		C2418EF32C9D340C007128F5 /* SwiftLint */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+			);
+			name = SwiftLint;
+			outputFileListPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "if [[ \"$(uname -m)\" == arm64 ]]; then\n    export PATH=\"/opt/homebrew/bin:$PATH\"\nfi\n\n#swiftlint\nif which ${PODS_ROOT}/SwiftLint/swiftlint > /dev/null; then\n  \"${PODS_ROOT}/SwiftLint/swiftlint\" autocorrect\nelse\n  echo \"warning: SwiftLint not installed, download from https://github.com/realm/SwiftLint\"\nfi\n";
 		};
 		E0D3823E5117A4E2E48A377C /* [CP] Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;

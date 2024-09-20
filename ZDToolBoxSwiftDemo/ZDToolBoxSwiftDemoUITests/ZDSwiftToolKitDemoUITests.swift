@@ -1,5 +1,5 @@
 //
-//  ZDToolBoxSwiftDemoUITests.swift
+//  ZDSwiftToolKitDemoUITests.swift
 //  ZDToolBoxSwiftDemoUITests
 //
 //  Created by Zero.D.Saber on 2020/11/10.
@@ -9,6 +9,7 @@ import XCTest
 import ZDToolBoxSwift
 
 class ZDToolBoxSwiftDemoUITests: XCTestCase {
+    // MARK: Overridden Functions
 
     override func setUpWithError() throws {
         // Put setup code here. This method is called before the invocation of each test method in the class.
@@ -16,12 +17,15 @@ class ZDToolBoxSwiftDemoUITests: XCTestCase {
         // In UI tests it is usually best to stop immediately when a failure occurs.
         continueAfterFailure = false
 
-        // In UI tests it’s important to set the initial state - such as interface orientation - required for your tests before they run. The setUp method is a good place to do this.
+        // In UI tests it’s important to set the initial state - such as interface orientation - required for your tests
+        // before they run. The setUp method is a good place to do this.
     }
 
     override func tearDownWithError() throws {
         // Put teardown code here. This method is called after the invocation of each test method in the class.
     }
+
+    // MARK: Functions
 
     func testExample() throws {
         // UI tests must launch the application that they test.
@@ -40,17 +44,16 @@ class ZDToolBoxSwiftDemoUITests: XCTestCase {
             }
         }
     }
-    
+
     func testChainCaller() {
-        let label: UILabel = UILabel()
+        let label = UILabel()
             .zd
             .font(.systemFont(ofSize: 10))
             .text("你好")
             .backgroundColor(.red)
             .textColor(.yellow)
             .textAlignment(.center)
-        
-        
+
         label[keyPath: \.font] = .systemFont(ofSize: 18)
     }
 }

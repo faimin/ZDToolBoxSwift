@@ -10,16 +10,16 @@ import Foundation
 public final class ZDSNotificationToken {
     private unowned var notificationCenter: NotificationCenter?
     private var token: NSObjectProtocol
-    
+
     deinit {
         dispose()
     }
-    
+
     public init(notificationCenter: NotificationCenter = .default, token: NSObjectProtocol) {
         self.notificationCenter = notificationCenter
         self.token = token
     }
-    
+
     public func dispose() {
         notificationCenter?.removeObserver(token)
     }
@@ -29,7 +29,7 @@ extension ZDSNotificationToken: Hashable {
     public static func == (lhs: ZDSNotificationToken, rhs: ZDSNotificationToken) -> Bool {
         return ObjectIdentifier(lhs.token) == ObjectIdentifier(rhs.token)
     }
-    
+
     public func hash(into hasher: inout Hasher) {
         hasher.combine(ObjectIdentifier(token))
     }
@@ -38,7 +38,6 @@ extension ZDSNotificationToken: Hashable {
 private var NotificationTokenKey: Void?
 
 public extension ZDSWraper where T == NotificationCenter {
-    
     private func tokens(_ observer: Any) -> NSMutableSet {
         var set = objc_getAssociatedObject(observer, &NotificationTokenKey) as? NSMutableSet
         guard let value = set else {
@@ -48,29 +47,29 @@ public extension ZDSWraper where T == NotificationCenter {
         }
         return value
     }
-    
+
     /// 打破引用环的通知监听；
     /// 需要外界持有`token`，否则出当前作用域后通知就会被移除掉，导致收不到通知
     func addObserver(
-        forName name: NSNotification.Name?,
+        forName name: Notification.Name?,
         object obj: Any?,
         queue: OperationQueue?,
         using block: @escaping (Notification) -> Void
     ) -> ZDSNotificationToken {
-        let token = self.base.addObserver(forName: name, object: obj, queue: queue, using: block)
-        return ZDSNotificationToken(notificationCenter: self.base, token: token)
+        let token = base.addObserver(forName: name, object: obj, queue: queue, using: block)
+        return ZDSNotificationToken(notificationCenter: base, token: token)
     }
-    
+
     /// 自动移除token的通知(Observer析构时)
     func addObserver(
         observer: Any,
-        forName name: NSNotification.Name?,
+        forName name: Notification.Name?,
         object obj: Any?,
         queue: OperationQueue?,
         using block: @escaping (Notification) -> Void
     ) {
-        let token = self.base.addObserver(forName: name, object: obj, queue: queue, using: block)
-        let notificationToken = ZDSNotificationToken(notificationCenter: self.base, token: token)
+        let token = base.addObserver(forName: name, object: obj, queue: queue, using: block)
+        let notificationToken = ZDSNotificationToken(notificationCenter: base, token: token)
         tokens(observer).add(notificationToken)
     }
 }

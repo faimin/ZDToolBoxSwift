@@ -1,0 +1,81 @@
+# Directory and file filters
+included:
+  - ../Source
+excluded:
+  - Pods
+
+strict: false
+
+# 这几条自定义规则应该要开启，但工程中报错太多，先改为警告
+# force_cast: warning # 隐式
+# force_try:
+#   severity: warning # 显式
+empty_count:
+  severity: error
+line_length: 300
+file_length: 500
+type_name:
+  severity: warning
+  unallowed_symbols_severity: warning
+  validates_start_with_lowercase: warning
+generic_type_name:
+  severity: warning
+  unallowed_symbols_severity: warning
+  validates_start_with_lowercase: warning
+attribute_name_spacing:
+  severity: warning
+
+# Enabled/disabled rules
+analyzer_rules:
+  - unused_declaration
+  - unused_import
+opt_in_rules:
+  - all
+disabled_rules:
+  - anonymous_argument_in_multiline_closure
+  - conditional_returns_on_newline
+  - contrasted_opening_brace
+  - convenience_type
+  - discouraged_optional_collection
+  - explicit_acl
+  - explicit_enum_raw_value
+  - explicit_top_level_acl
+  - explicit_type_interface
+  - file_types_order
+  - force_unwrapping
+  - function_default_parameter_at_end
+  - indentation_width
+  - inert_defer
+  - missing_docs
+  - multiline_arguments
+  - multiline_arguments_brackets
+  - multiline_function_chains
+  - multiline_parameters_brackets
+  - no_extension_access_modifier
+  - no_grouping_extension
+  - no_magic_numbers
+  - one_declaration_per_file
+  - prefer_nimble
+  - prefixed_toplevel_constant
+  - required_deinit
+  - sorted_enum_cases
+  - strict_fileprivate
+  - switch_case_on_newline
+  - todo
+  - trailing_closure
+  - type_contents_order
+  - unused_capture_list
+  - vertical_whitespace_between_cases
+  - identifier_name #应该开启
+  - shorthand_operator #应该开启
+  - trailing_whitespace
+  - sorted_imports
+  - modifier_order
+  - implicit_return
+  - cyclomatic_complexity
+  - type_name
+  - file_name
+  - direct_return
+  - shorthand_optional_binding
+  - no_empty_block
+  - trailing_comma

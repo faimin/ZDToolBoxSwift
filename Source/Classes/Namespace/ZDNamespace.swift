@@ -1,5 +1,5 @@
 //
-//  ZD.swift
+//  ZDNamespace.swift
 //  ZDToolBoxSwift
 //
 //  Created by Zero.D.Saber on 2020/11/10.
@@ -20,29 +20,28 @@ public struct ZDSWraper<T> {
 }
 
 public protocol ZDSAny {
-    
     associatedtype ZDSType
-    
+
     /// 类变量
     static var zd: ZDSWraper<ZDSType>.Type { get set }
-    
+
     /// 实例变量
     var zd: ZDSWraper<ZDSType> { get set }
 }
 
-extension ZDSAny {
-    public static var zd: ZDSWraper<Self>.Type {
+public extension ZDSAny {
+    static var zd: ZDSWraper<Self>.Type {
         get {
             return ZDSWraper<Self>.self
         }
-        set { }
+        set {}
     }
-    
-    public var zd: ZDSWraper<Self> {
+
+    var zd: ZDSWraper<Self> {
         get {
             return ZDSWraper(self)
         }
-        set { }
+        set {}
     }
 }
 
