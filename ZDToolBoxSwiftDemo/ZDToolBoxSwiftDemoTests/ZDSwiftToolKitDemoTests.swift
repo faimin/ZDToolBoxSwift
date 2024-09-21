@@ -51,4 +51,12 @@ class ZDToolBoxSwiftDemoTests: XCTestCase {
             }
         }
     }
+    
+    func testChainCaller() -> Void {
+        let label: UILabel = UILabel()
+            .chain
+            .font(10)
+            .text("你好")
+        printf(label)
+    }
 }

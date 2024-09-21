@@ -39,11 +39,12 @@ public struct ZDChainCaller<T> {
 
 public protocol ZDSChainProtocol {
     associatedtype T
-    var zd: ZDChainCaller<T> { get set }
+
+    var chain: ZDChainCaller<T> { get set }
 }
 
 public extension ZDSChainProtocol {
-    var zd: ZDChainCaller<Self> {
+    var chain: ZDChainCaller<Self> {
         get { ZDChainCaller(self) }
         set {}
     }

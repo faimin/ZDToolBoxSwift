@@ -79,3 +79,4 @@ disabled_rules:
   - shorthand_optional_binding
   - no_empty_block
   - trailing_comma
+  - unused_setter_value
