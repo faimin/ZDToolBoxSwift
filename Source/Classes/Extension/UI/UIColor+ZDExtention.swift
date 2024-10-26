@@ -29,10 +29,12 @@ public func HEX(_ value: Int) -> UIColor {
     g = (rgb & 0x0000_FF00) >> 8
     b = rgb & 0x0000_00FF
 
-    return UIColor(red: CGFloat(r) / 255.0,
-                   green: CGFloat(g) / 255.0,
-                   blue: CGFloat(b) / 255.0,
-                   alpha: CGFloat(a) / 255.0)
+    return UIColor(
+        red: CGFloat(r) / 255.0,
+        green: CGFloat(g) / 255.0,
+        blue: CGFloat(b) / 255.0,
+        alpha: CGFloat(a) / 255.0
+    )
 }
 
 /// 16进制字符串转换`UIColor`, 兼容 “0xARGB”、“0xRGB”
@@ -55,7 +57,6 @@ public func HEX(_ value: String) -> UIColor {
         guard let hexInt = Int(hexString, radix: 16) else {
             return UIColor.clear
         }
-
         return HEX(hexInt)
     }
 }
@@ -88,8 +89,10 @@ public func HEXShort(_ value: Int) -> UIColor {
 
     a |= (a << 4)
 
-    return UIColor(red: CGFloat(r) / 255.0,
-                   green: CGFloat(g) / 255.0,
-                   blue: CGFloat(b) / 255.0,
-                   alpha: CGFloat(a) / 255.0)
+    return UIColor(
+        red: CGFloat(r) / 255.0,
+        green: CGFloat(g) / 255.0,
+        blue: CGFloat(b) / 255.0,
+        alpha: CGFloat(a) / 255.0
+    )
 }
