@@ -258,4 +258,20 @@ public extension ZDSWraper where T: ZDView {
 
         return true
     }
+
+    var screenshot: UIImage? {
+        /*
+         defer {
+             UIGraphicsEndImageContext()
+         }
+         UIGraphicsBeginImageContextWithOptions(base.frame.size, false, 0)
+         guard let context = UIGraphicsGetCurrentContext() else { return nil }
+         base.layer.render(in: context)
+         return UIGraphicsGetImageFromCurrentImageContext()
+         */
+        let render = UIGraphicsImageRenderer(bounds: base.bounds)
+        return render.image { renderContext in
+            self.base.layer.render(in: renderContext.cgContext)
+        }
+    }
 }
