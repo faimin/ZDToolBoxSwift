@@ -168,6 +168,12 @@ public extension ZDSWraper where T: ZDView {
     }
 }
 
+@resultBuilder public struct ZDSubviewsBuilder<T> {
+    public static func buildBlock(_ content: T...) -> [T] {
+        return content
+    }
+}
+
 public extension ZDSWraper where T: ZDView {
     /// Convenience function to ease creating new views.
     ///
@@ -207,6 +213,30 @@ public extension ZDSWraper where T: ZDView {
         }
 
         return nil
+    }
+    
+    @discardableResult
+    func subviews(@ZDSubviewsBuilder<T> content: () -> T) -> T {
+        let subview = content()
+        base.addSubview(subview)
+        return base
+    }
+    
+    /// @code
+    /// ```
+    /// subviews {
+    ///     email
+    ///     password
+    ///     login
+    /// }
+    /// ```
+    /// @endcode
+    @discardableResult
+    func subviews(@ZDSubviewsBuilder<T> content: () -> [T]) -> T {
+        content().forEach {
+            base.addSubview($0)
+        }
+        return base
     }
 
     /// Checkes if the view is (mostly) visible to user or not.
