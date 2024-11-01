@@ -1,5 +1,5 @@
 //
-//  View+ZDExtension.swift
+//  View+.swift
 //  ZDToolBoxSwift
 //
 //  Created by Zero.D.Saber on 2020/11/10.
@@ -168,8 +168,8 @@ public extension ZDSWraper where T: ZDView {
     }
 }
 
-@resultBuilder public struct ZDSubviewsBuilder<T> {
-    public static func buildBlock(_ content: T...) -> [T] {
+@resultBuilder public struct ZDSubviewsBuilder<V> {
+    public static func buildBlock(_ content: V...) -> [V] {
         return content
     }
 }
@@ -216,12 +216,11 @@ public extension ZDSWraper where T: ZDView {
     }
     
     @discardableResult
-    func subviews(@ZDSubviewsBuilder<T> content: () -> T) -> T {
+    func subviews<V: UIView>(@ZDSubviewsBuilder<V> content: () -> V) -> T {
         let subview = content()
         base.addSubview(subview)
         return base
     }
-    
     /// @code
     /// ```
     /// subviews {
@@ -232,7 +231,7 @@ public extension ZDSWraper where T: ZDView {
     /// ```
     /// @endcode
     @discardableResult
-    func subviews(@ZDSubviewsBuilder<T> content: () -> [T]) -> T {
+    func subviews<V: UIView>(@ZDSubviewsBuilder<V> content: () -> [V]) -> T {
         content().forEach {
             base.addSubview($0)
         }
