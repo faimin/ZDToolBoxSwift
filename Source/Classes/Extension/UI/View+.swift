@@ -168,7 +168,8 @@ public extension ZDSWraper where T: ZDView {
     }
 }
 
-@resultBuilder public struct ZDSubviewsBuilder<V> {
+@resultBuilder
+public struct ZDSubviewsBuilder<V> {
     public static func buildBlock(_ content: V...) -> [V] {
         return content
     }
@@ -214,13 +215,14 @@ public extension ZDSWraper where T: ZDView {
 
         return nil
     }
-    
+
     @discardableResult
     func subviews<V: UIView>(@ZDSubviewsBuilder<V> content: () -> V) -> T {
         let subview = content()
         base.addSubview(subview)
         return base
     }
+
     /// @code
     /// ```
     /// subviews {
@@ -232,8 +234,8 @@ public extension ZDSWraper where T: ZDView {
     /// @endcode
     @discardableResult
     func subviews<V: UIView>(@ZDSubviewsBuilder<V> content: () -> [V]) -> T {
-        content().forEach {
-            base.addSubview($0)
+        for item in content() {
+            base.addSubview(item)
         }
         return base
     }

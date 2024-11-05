@@ -6,7 +6,7 @@
 //
 
 /// Int -> Bool
-extension Bool: ExpressibleByIntegerLiteral {
+extension Bool: @retroactive ExpressibleByIntegerLiteral {
     public init(integerLiteral value: IntegerLiteralType) {
         self.init(value != 0)
     }

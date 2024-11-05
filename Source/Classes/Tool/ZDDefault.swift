@@ -119,9 +119,11 @@ public extension Array {
 }
 
 /// 默认为空字典
-extension Dictionary {
+public extension Dictionary {
     enum Empty<K, V>: ZDDefaultValue where K: Codable & Hashable, V: Codable & Equatable {
-        public static var defaultValue: [K: V] { [K: V]() }
+        public static var defaultValue: [K: V] {
+            [K: V]()
+        }
     }
 }
 
@@ -129,5 +131,7 @@ extension Dictionary {
 
 /// 空集合，e.g: `String`、`Array` ...
 public enum Empty<T>: ZDDefaultValue where T: Codable, T: Equatable, T: RangeReplaceableCollection {
-    public static var defaultValue: T { T() }
+    public static var defaultValue: T {
+        T()
+    }
 }

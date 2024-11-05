@@ -6,7 +6,7 @@
 //
 
 /// Bool -> Int
-extension Int: ExpressibleByBooleanLiteral {
+extension Int: @retroactive ExpressibleByBooleanLiteral {
     public init(booleanLiteral value: BooleanLiteralType) {
         self.init(value ? 1 : 0)
     }
