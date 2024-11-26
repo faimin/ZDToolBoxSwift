@@ -11,19 +11,19 @@ public protocol ZDSCellProtocol: AnyObject {
     associatedtype T
 
     /// cell重用id
-    static func cellIdentifier() -> String
+    static var reuseIdentifier: String { get }
 
     /// 绑定数据
     func bindModel(_ model: T)
 }
 
 public extension ZDSCellProtocol {
-    static func cellIdentifier() -> String {
-        return "\(Self.self)"
+    static var reuseIdentifier: String {
+        return String(describing: self)
     }
 
     func bindModel(_: T) {
-        print("ZDSCellProtocol -> \(#function) 默认实现")
+        debugPrint("ZDSCellProtocol -> \(#function) 默认实现")
     }
 }
 
@@ -31,6 +31,6 @@ extension UITableViewCell: ZDSCellProtocol {
     public typealias T = Any
 }
 
-extension UICollectionViewCell: ZDSCellProtocol {
+extension UICollectionReusableView: ZDSCellProtocol {
     public typealias T = Any
 }
