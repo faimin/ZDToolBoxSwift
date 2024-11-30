@@ -1,5 +1,5 @@
 //
-//  UIColor+ZDExtention.swift
+//  UIColor+.swift
 //  ZDToolBoxSwift
 //
 //  Created by Zero.D.Saber on 2021/3/16.
@@ -57,7 +57,6 @@ public func HEX(_ value: String) -> UIColor {
         guard let hexInt = Int(hexString, radix: 16) else {
             return UIColor.clear
         }
-
         return HEX(hexInt)
     }
 }

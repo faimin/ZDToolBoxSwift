@@ -14,7 +14,8 @@ class ZDInteractiveEnableIfNeedView: UIControl {
     /// 是否让空白区域响应点击事件
     /// 默认不响应，直接透传到下面的层级
     @objc public var isBlankAreaResponse = false
-
+    
+#if false
     override func hitTest(_ point: CGPoint, with event: UIEvent?) -> UIView? {
         // 不可交互、隐藏、alpha <= 0.01 都不响应
         guard isUserInteractionEnabled && !isHidden && alpha > 0.01 else {
@@ -49,4 +50,16 @@ class ZDInteractiveEnableIfNeedView: UIControl {
 
         return super.hitTest(point, with: event)
     }
+    
+#else
+    
+    // https://github.com/mastodon/mastodon-ios/blob/311bbc0/MastodonSDK/Sources/MastodonUI/View/Container/TouchTransparentStackView.swift
+    override func hitTest(_ point: CGPoint, with event: UIEvent?) -> UIView? {
+        let view = super.hitTest(point, with: event)
+        if view == self, !isBlankAreaResponse {
+            return nil
+        }
+        return view
+    }
+#endif
 }

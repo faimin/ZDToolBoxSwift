@@ -1,5 +1,5 @@
 //
-//  View+ZDExtension.swift
+//  View+.swift
 //  ZDToolBoxSwift
 //
 //  Created by Zero.D.Saber on 2020/11/10.
@@ -168,6 +168,13 @@ public extension ZDSWraper where T: ZDView {
     }
 }
 
+@resultBuilder
+public struct ZDSubviewsBuilder<V> {
+    public static func buildBlock(_ content: V...) -> [V] {
+        return content
+    }
+}
+
 public extension ZDSWraper where T: ZDView {
     /// Convenience function to ease creating new views.
     ///
@@ -209,6 +216,30 @@ public extension ZDSWraper where T: ZDView {
         return nil
     }
 
+    @discardableResult
+    func subviews<V: UIView>(@ZDSubviewsBuilder<V> content: () -> V) -> T {
+        let subview = content()
+        base.addSubview(subview)
+        return base
+    }
+
+    /// @code
+    /// ```
+    /// subviews {
+    ///     email
+    ///     password
+    ///     login
+    /// }
+    /// ```
+    /// @endcode
+    @discardableResult
+    func subviews<V: UIView>(@ZDSubviewsBuilder<V> content: () -> [V]) -> T {
+        for item in content() {
+            base.addSubview(item)
+        }
+        return base
+    }
+
     /// Checkes if the view is (mostly) visible to user or not.
     /// Internaly it checks following things
     ///  - Should NOT be hidden
@@ -227,5 +258,21 @@ public extension ZDSWraper where T: ZDView {
         }
 
         return true
+    }
+
+    var screenshot: UIImage? {
+        /*
+         defer {
+             UIGraphicsEndImageContext()
+         }
+         UIGraphicsBeginImageContextWithOptions(base.frame.size, false, 0)
+         guard let context = UIGraphicsGetCurrentContext() else { return nil }
+         base.layer.render(in: context)
+         return UIGraphicsGetImageFromCurrentImageContext()
+         */
+        let render = UIGraphicsImageRenderer(bounds: base.bounds)
+        return render.image { renderContext in
+            self.base.layer.render(in: renderContext.cgContext)
+        }
     }
 }

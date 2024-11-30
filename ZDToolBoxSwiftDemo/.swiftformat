@@ -34,10 +34,8 @@ redundantInternal,                \
 redundantParens,                  \
 redundantPattern,                 \
 redundantRawValues,               \
-redundantType,                    \
 redundantVoidReturnType,          \
 semicolons,                       \
-sortImports,                      \
 spaceAroundBraces,                \
 spaceAroundBrackets,              \
 spaceAroundComments,              \
@@ -88,7 +86,9 @@ initCoderUnavailable,             \
 #opaqueGenericParameters,   #some any    
 #redundantClosure,
 #redundantGet,    
-#sortSwitchCases,                                                          
+#sortSwitchCases,
+#sortImports,
+#redundantType,
 
 # Options for basic rules
 
@@ -101,11 +101,12 @@ initCoderUnavailable,             \
 --wraparguments before-first
 --wrapparameters before-first
 --wrapcollections before-first
---wrapreturntype if-multiline
+--wrapreturntype preserve #if-multiline
 --wrapconditions after-first
 --elseposition same-line #next-line
 --guardelse auto
 --organizationmode type #声明顺序
+#--redundanttype inferred
 
 # Option for additional rules
 
