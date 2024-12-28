@@ -8,8 +8,8 @@
 
 import UIKit
 
-class ZDExpandClickAreaView: UIView {
-    override func hitTest(_ point: CGPoint, with event: UIEvent?) -> UIView? {
+public class ZDExpandClickAreaView: UIView {
+    override public func hitTest(_ point: CGPoint, with event: UIEvent?) -> UIView? {
         // 不可交互、隐藏、alpha <= 0.01 都不响应
         guard isUserInteractionEnabled && !isHidden && alpha > 0.01 else {
             return nil
