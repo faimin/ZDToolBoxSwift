@@ -13,7 +13,6 @@ blankLinesAtEndOfScope,           \
 blankLinesAtStartOfScope,         \
 blankLinesBetweenScopes,          \
 blankLinesBetweenImports,         \
-blockComments,                    \
 braces,                           \
 consecutiveBlankLines,            \
 consecutiveSpaces,                \
@@ -89,12 +88,15 @@ initCoderUnavailable,             \
 #sortSwitchCases,
 #sortImports,
 #redundantType,
+#blockComments, # /*注释转为 //
 
 # Options for basic rules
 
 --extensionacl on-extension
 --funcattributes prev-line
 --indent 4
+--ifdef no-indent
+#--xcodeindentation enabled
 --maxwidth 120
 --typeattributes prev-line
 --storedvarattrs same-line
