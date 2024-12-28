@@ -9,7 +9,7 @@ public extension ZDSWraper where T: CALayer {
     func snapshot(_ size: CGSize = .zero) -> UIImage {
         var newSize = size
         if newSize.width.isZero || newSize.height.isZero {
-            newSize = self.base.frame.size
+            newSize = base.frame.size
         }
         let render = UIGraphicsImageRenderer(size: newSize)
         let img = render.image { context in

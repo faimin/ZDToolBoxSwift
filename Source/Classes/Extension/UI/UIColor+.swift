@@ -96,3 +96,9 @@ public func HEXShort(_ value: Int) -> UIColor {
         alpha: CGFloat(a) / 255.0
     )
 }
+
+public extension ZDSWraper where T: UIColor {
+    var isPatternColor: Bool {
+        return base.cgColor.colorSpace?.model == .pattern
+    }
+}
