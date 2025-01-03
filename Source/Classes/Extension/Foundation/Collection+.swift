@@ -21,4 +21,8 @@ public extension Collection {
     subscript(zd index: Index, defaultValue: Element) -> Element {
         return indices.contains(index) ? self[index] : defaultValue
     }
+    
+    var noEmpty: Self? {
+        return isEmpty ? nil : self
+    }
 }
