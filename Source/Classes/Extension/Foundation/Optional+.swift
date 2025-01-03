@@ -15,8 +15,15 @@ public extension Optional where Wrapped: Collection {
         return self?.isEmpty == true ? nil : self
     }
     
+    var isNilOrEmpty: Bool {
+        return self?.isEmpty ?? true
+    }
+    
+    var isEmpty: Bool {
+        isNilOrEmpty
+    }
+    
     var isNonEmpty: Bool {
-        guard let self else { return false }
-        return !self.isEmpty
+        !isEmpty
     }
 }
