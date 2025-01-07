@@ -7,11 +7,11 @@
 
 public struct ZDWeakBox<T: AnyObject> {
     // MARK: Properties
-    
+
     public weak var object: T?
-    
+
     // MARK: Lifecycle
-    
+
     public init(object: T? = nil) {
         self.object = object
     }
