@@ -48,15 +48,12 @@ public func HEX(_ value: String) -> UIColor {
         hexString = value
     }
 
+    guard let hexInt = Int(hexString, radix: 16) else {
+        return UIColor.clear
+    }
     if hexString.count <= 4 {
-        guard let hexInt = Int(hexString, radix: 16) else {
-            return UIColor.clear
-        }
         return HEXShort(hexInt)
     } else {
-        guard let hexInt = Int(hexString, radix: 16) else {
-            return UIColor.clear
-        }
         return HEX(hexInt)
     }
 }

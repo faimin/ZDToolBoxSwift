@@ -9,7 +9,7 @@
 public final class ZDGradientView: UIView {
     @objc public var gradientLayer: CAGradientLayer {
         guard let layer = layer as? CAGradientLayer else {
-            fatalError()
+            fatalError("impossible appear")
         }
         return layer
     }
