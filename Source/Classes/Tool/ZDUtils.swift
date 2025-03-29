@@ -22,3 +22,37 @@ public final class ZDUtils: NSObject {
         return isDebuggerAttaced
     }
 }
+
+public extension ZDUtils {
+    enum Environment {
+        case debug
+        case testFlight
+        case appStore
+    }
+
+    static var appPublishEnv: Environment {
+        #if DEBUG
+            return .debug
+        #elseif targetEnvironment(simulator)
+            return .debug
+        #else
+            if Bundle.main.path(forResource: "embedded", ofType: "mobileprovision") != nil {
+                return .testFlight
+            }
+
+            guard let appStoreReceiptUrl = Bundle.main.appStoreReceiptURL else {
+                return .debug
+            }
+
+            if appStoreReceiptUrl.lastPathComponent.lowercased() == "sandboxreceipt" {
+                return .testFlight
+            }
+
+            if appStoreReceiptUrl.path.lowercased().contains("simulator") {
+                return .debug
+            }
+
+            return .appStore
+        #endif
+    }
+}
