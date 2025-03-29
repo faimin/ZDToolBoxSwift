@@ -9,7 +9,7 @@ import Foundation
 
 public struct ZDSWraper<T> {
     /// Base object to extend.
-    public var base: T
+    public internal(set) var base: T
 
     /// Creates extensions with base object.
     ///
