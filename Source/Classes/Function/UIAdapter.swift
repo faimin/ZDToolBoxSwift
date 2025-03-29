@@ -9,25 +9,30 @@ import UIKit
 
 public enum UIAdapter {
     public static var window: UIWindow = {
-        let application = UIApplication.shared
-        if let delegeWindow = application.delegate?.window, let delegeWindow = delegeWindow {
-            return delegeWindow
-        }
+        let window = UIApplication.zd.keyWindow ?? UIWindow()
+        return window
 
-        guard #available(iOS 13.0, *) else {
-            let keyWindow = application.keyWindow ?? UIWindow()
-            return keyWindow
-        }
+        /*
+         let application = UIApplication.shared
+         if let delegeWindow = application.delegate?.window, let delegeWindow = delegeWindow {
+             return delegeWindow
+         }
 
-        for scene in application.connectedScenes where scene is UIWindowScene {
-            guard let windowSceneDelete = scene.delegate as? UIWindowSceneDelegate, let window = windowSceneDelete.window, let window = window else {
-                continue
-            }
-            return window
-        }
+         guard #available(iOS 13.0, tvOS 13.0, *) else {
+             let keyWindow = application.keyWindow ?? UIWindow()
+             return keyWindow
+         }
 
-        let mainWindow = application.windows.first ?? UIWindow()
-        return mainWindow
+         for scene in application.connectedScenes where scene is UIWindowScene {
+             guard let windowSceneDelete = scene.delegate as? UIWindowSceneDelegate, let window = windowSceneDelete.window, let window = window else {
+                 continue
+             }
+             return window
+         }
+
+         let mainWindow = application.windows.first ?? UIWindow()
+         return mainWindow
+          */
     }()
 
     // MARK: - 安全区域
