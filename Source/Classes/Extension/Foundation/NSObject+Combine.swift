@@ -11,7 +11,7 @@ import ObjectiveC.runtime
 @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
 public extension NSObject {
     private enum AssociateKey {
-        static var disposeBag: Void?
+        nonisolated(unsafe) static var disposeBag: Void?
     }
 
     var zd_disposeBag: Set<AnyCancellable> {

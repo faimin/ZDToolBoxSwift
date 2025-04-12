@@ -19,6 +19,7 @@
     public typealias ZDResponder = NSResponder
 #endif
 
+@MainActor
 public extension ZDSWraper where T: ZDView {
     // MARK: - Frame
 
@@ -175,6 +176,7 @@ public struct ZDSubviewsBuilder<V> {
     }
 }
 
+@MainActor
 public extension ZDSWraper where T: ZDView {
     /// Convenience function to ease creating new views.
     ///

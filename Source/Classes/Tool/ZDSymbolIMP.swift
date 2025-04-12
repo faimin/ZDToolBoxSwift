@@ -11,13 +11,12 @@
 import Foundation
 import MachO
 
-@objc
-public class ZDSymbolIMP: NSObject {
+@MainActor
+public final class ZDSymbolIMP: NSObject {
     // MARK: Singleton
 
     override private init() {}
     public static let shareInstance = ZDSymbolIMP()
-
     private static var ZDSymbolMap = [String: UnsafeRawPointer]()
 
     // MARK: Public

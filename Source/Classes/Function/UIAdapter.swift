@@ -7,6 +7,7 @@
 
 import UIKit
 
+@MainActor
 public enum UIAdapter {
     public static var window: UIWindow = {
         let window = UIApplication.zd.keyWindow ?? UIWindow()
@@ -72,7 +73,7 @@ public enum UIAdapter {
     }
 
     /// 以iPhone6为比例的适配宽度
-    public static func scaleValue(_ value: CGFloat) -> CGFloat {
-        return (UIScreen.main.bounds.width / 375) * value
+    public static func rem375(_ value: CGFloat) -> CGFloat {
+        return (UIScreen.main.bounds.width / 375.0) * value
     }
 }

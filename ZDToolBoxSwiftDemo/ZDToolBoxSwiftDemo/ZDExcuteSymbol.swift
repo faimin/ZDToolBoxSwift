@@ -14,6 +14,7 @@ typealias F = @convention(thin) (_ params: [String: Any]) -> [String: Any]?
 
 // MARK: - ZDExcuteSymbol
 
+@MainActor
 class ZDExcuteSymbol {
     // MARK: Lifecycle
 

@@ -8,6 +8,7 @@
 import ObjectiveC
 import UIKit
 
+@MainActor
 private var ZD_UIAlertAction_Key: Void?
 
 public struct ZDActionModel {
@@ -26,6 +27,7 @@ public struct ZDActionModel {
     }
 }
 
+@MainActor
 public extension ZDSWraper where T: UIAlertController {
     /// 便捷创建Alert弹窗
     ///

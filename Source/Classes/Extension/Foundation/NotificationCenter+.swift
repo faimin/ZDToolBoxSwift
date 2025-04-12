@@ -35,7 +35,7 @@ extension ZDSNotificationToken: Hashable {
     }
 }
 
-private var NotificationTokenKey: Void?
+private nonisolated(unsafe) var NotificationTokenKey: Void?
 
 public extension ZDSWraper where T == NotificationCenter {
     private func tokens(_ observer: Any) -> NSMutableSet {
@@ -54,7 +54,7 @@ public extension ZDSWraper where T == NotificationCenter {
         forName name: Notification.Name?,
         object obj: Any?,
         queue: OperationQueue?,
-        using block: @escaping (Notification) -> Void
+        using block: @Sendable @escaping (Notification) -> Void
     ) -> ZDSNotificationToken {
         let token = base.addObserver(forName: name, object: obj, queue: queue, using: block)
         return ZDSNotificationToken(notificationCenter: base, token: token)
@@ -66,7 +66,7 @@ public extension ZDSWraper where T == NotificationCenter {
         forName name: Notification.Name?,
         object obj: Any?,
         queue: OperationQueue?,
-        using block: @escaping (Notification) -> Void
+        using block: @Sendable @escaping (Notification) -> Void
     ) {
         let token = base.addObserver(forName: name, object: obj, queue: queue, using: block)
         let notificationToken = ZDSNotificationToken(notificationCenter: base, token: token)
