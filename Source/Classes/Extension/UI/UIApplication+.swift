@@ -1,5 +1,5 @@
 //
-//  UIApplication.swift
+//  UIApplication+.swift
 //  Pods
 //
 //  Created by Zero.D.Saber on 2025/3/29.
@@ -29,6 +29,15 @@
                 .compactMap { $0.windows.first(where: \UIWindow.isKeyWindow) }
                 .first
             return mainWindow
+        }
+        
+        @available(iOS 13.0, *)
+        var keyWindow: UIWindow? {
+            base
+                .connectedScenes
+                .compactMap({ $0 as? UIWindowScene })
+                .flatMap({ $0.windows })
+                .first(where: { $0.isKeyWindow })
         }
     }
 
