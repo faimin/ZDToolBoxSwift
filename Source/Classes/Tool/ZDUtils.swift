@@ -7,21 +7,7 @@
 
 import Foundation
 
-@objc
-public final class ZDUtils: NSObject {
-    /// See http://developer.apple.com/library/mac/#qa/qa1361/_index.html
-    /// 是否处于调试状态
-    @objc
-    public static func isDebuggerAttached() -> Bool {
-        var info = kinfo_proc()
-        var mib = [CTL_KERN, KERN_PROC, KERN_PROC_PID, getpid()]
-        var size = MemoryLayout<kinfo_proc>.stride
-        let junk = sysctl(&mib, u_int(mib.count), &info, &size, nil, 0)
-        assert(junk == 0)
-        let isDebuggerAttaced = info.kp_proc.p_flag & P_TRACED != 0
-        return isDebuggerAttaced
-    }
-}
+public struct ZDUtils {}
 
 public extension ZDUtils {
     enum Environment {
@@ -54,5 +40,35 @@ public extension ZDUtils {
 
             return .appStore
         #endif
+    }
+}
+
+public extension ZDUtils {
+    /// Usage:
+    ///
+    ///     let needUpgrade = ZDUtils.compareVersions(v1, v2) == .orderedDescending // v1 > v2
+    ///
+    static func compareVersions(_ version1: String, _ version2: String) -> ComparisonResult {
+        let components1 = version1.components(separatedBy: CharacterSet(charactersIn: ".-_"))
+        let components2 = version2.components(separatedBy: CharacterSet(charactersIn: ".-_"))
+        
+        let maxLength = max(components1.count, components2.count)
+        
+        let components1Count = components1.count
+        let components2Count = components2.count
+        for i in 0 ..< maxLength {
+            let part1 = i < components1Count ? Int(components1[i]) ?? 0 : 0
+            let part2 = i < components2Count ? Int(components2[i]) ?? 0 : 0
+            
+            if part1 == part2 {
+                continue
+            } else if part1 < part2 {
+                return .orderedAscending
+            } else if part1 > part2 {
+                return .orderedDescending
+            }
+        }
+        
+        return .orderedSame
     }
 }
