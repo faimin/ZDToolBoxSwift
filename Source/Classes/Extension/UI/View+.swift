@@ -169,13 +169,6 @@ public extension ZDSWraper where T: ZDView {
     }
 }
 
-@resultBuilder
-public struct ZDSubviewsBuilder<V> {
-    public static func buildBlock(_ content: V...) -> [V] {
-        return content
-    }
-}
-
 @MainActor
 public extension ZDSWraper where T: ZDView {
     /// Convenience function to ease creating new views.
@@ -218,16 +211,9 @@ public extension ZDSWraper where T: ZDView {
         return nil
     }
 
-    @discardableResult
-    func subviews<V: UIView>(@ZDSubviewsBuilder<V> content: () -> V) -> T {
-        let subview = content()
-        base.addSubview(subview)
-        return base
-    }
-
     /// @code
     /// ```
-    /// subviews {
+    /// components {
     ///     email
     ///     password
     ///     login
@@ -235,7 +221,7 @@ public extension ZDSWraper where T: ZDView {
     /// ```
     /// @endcode
     @discardableResult
-    func subviews<V: UIView>(@ZDSubviewsBuilder<V> content: () -> [V]) -> T {
+    func components<V: UIView>(@ZDViewBuilder<V> _ content: () -> [V]) -> T {
         for item in content() {
             base.addSubview(item)
         }

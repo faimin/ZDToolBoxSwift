@@ -17,4 +17,12 @@ public extension ZDSWraper where T: CALayer {
         }
         return img
     }
+
+    @discardableResult
+    func components<V: CALayer>(@ZDViewBuilder<V> _ content: () -> [V]) -> T {
+        for item in content() {
+            base.addSublayer(item)
+        }
+        return base
+    }
 }
