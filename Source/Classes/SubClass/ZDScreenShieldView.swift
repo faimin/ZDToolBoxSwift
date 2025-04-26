@@ -19,23 +19,24 @@ public final class ZDScreenShieldView: UIView {
         view.isUserInteractionEnabled = false
         return view
     }()
-    
-    public override init(frame: CGRect) {
+
+    override public init(frame: CGRect) {
         super.init(frame: frame)
         _setupUI()
     }
-    
-    required init?(coder: NSCoder) {
+
+    @available(*, unavailable)
+    required init?(coder _: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
-    
+
     private func _setupUI() {
         addSubview(shieldView)
-        
+
         shieldView.translatesAutoresizingMaskIntoConstraints = false
         NSLayoutConstraint.activate([
-            shieldView.widthAnchor.constraint(equalTo: self.widthAnchor),
-            shieldView.heightAnchor.constraint(equalTo: self.heightAnchor),
+            shieldView.widthAnchor.constraint(equalTo: widthAnchor),
+            shieldView.heightAnchor.constraint(equalTo: heightAnchor),
         ])
     }
 }

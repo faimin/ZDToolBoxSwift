@@ -51,15 +51,15 @@ public extension ZDUtils {
     static func compareVersions(_ version1: String, _ version2: String) -> ComparisonResult {
         let components1 = version1.components(separatedBy: CharacterSet(charactersIn: ".-_"))
         let components2 = version2.components(separatedBy: CharacterSet(charactersIn: ".-_"))
-        
+
         let maxLength = max(components1.count, components2.count)
-        
+
         let components1Count = components1.count
         let components2Count = components2.count
         for i in 0 ..< maxLength {
             let part1 = i < components1Count ? Int(components1[i]) ?? 0 : 0
             let part2 = i < components2Count ? Int(components2[i]) ?? 0 : 0
-            
+
             if part1 == part2 {
                 continue
             } else if part1 < part2 {
@@ -68,7 +68,7 @@ public extension ZDUtils {
                 return .orderedDescending
             }
         }
-        
+
         return .orderedSame
     }
 }

@@ -60,24 +60,24 @@ public extension ZDSWraper where T == String {
     /// urlComponents
     var urlComponents: URLComponents {
         var components = URLComponents(string: base) ?? URLComponents()
-        
+
         let fragment = components.fragment
         guard let fragment, !fragment.isEmpty else {
             return components
         }
-        
+
         let fragmentComponents = fragment.components(separatedBy: "?")
         guard fragmentComponents.count > 1 else {
             return components
         }
-        
+
         let queryStr = fragmentComponents.last ?? ""
         let tempUrlComponents = URLComponents(string: "https://zd.com?\(queryStr)")
-        
+
         components.fragment = fragmentComponents.first
         components.query = queryStr
         components.queryItems = tempUrlComponents?.queryItems
-        
+
         return components
     }
 }
