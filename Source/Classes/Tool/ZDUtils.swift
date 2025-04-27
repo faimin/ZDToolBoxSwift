@@ -44,10 +44,12 @@ public extension ZDUtils {
 }
 
 public extension ZDUtils {
-    /// Usage:
+    /// compare version
     ///
-    ///     let needUpgrade = ZDUtils.compareVersions(v1, v2) == .orderedDescending // v1 > v2
-    ///
+    /// ```swift
+    /// // v1 > v2
+    /// let needUpgrade = ZDUtils.compareVersions(v1, v2) == .orderedDescending
+    /// ```
     static func compareVersions(_ version1: String, _ version2: String) -> ComparisonResult {
         let components1 = version1.components(separatedBy: CharacterSet(charactersIn: ".-_"))
         let components2 = version2.components(separatedBy: CharacterSet(charactersIn: ".-_"))
