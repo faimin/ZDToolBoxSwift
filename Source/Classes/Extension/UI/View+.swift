@@ -19,6 +19,11 @@
     public typealias ZDResponder = NSResponder
 #endif
 
+public protocol ZDComponentProtocol: AnyObject {}
+extension ZDView: ZDComponentProtocol {}
+extension CALayer: ZDComponentProtocol {}
+extension UILayoutGuide: ZDComponentProtocol {}
+
 @MainActor
 public extension ZDSWraper where T: ZDView {
     // MARK: - Frame
@@ -176,11 +181,11 @@ public extension ZDSWraper where T: ZDView {
     /// - Parameter builder: A function that takes the newly created view.
     ///
     /// Usage:
-    /// ```
-    ///    private let button: UIButton = .zd.build { button in
-    ///        button.setTitle("Tap me!", for state: .normal)
-    ///        button.backgroundColor = .systemPink
-    ///    }
+    /// ```swift
+    /// private let button: UIButton = .zd.build { button in
+    ///     button.setTitle("Tap me!", for state: .normal)
+    ///     button.backgroundColor = .systemPink
+    /// }
     /// ```
     static func build(_ builder: ((T) -> Void)? = nil) -> T {
         let view = T()
@@ -211,19 +216,33 @@ public extension ZDSWraper where T: ZDView {
         return nil
     }
 
+    /// ViewBuilder
+    ///
+    /// - Parameter content: A block for components, e.g UI/NSView、CALayer、UILayoutGuide
+    ///
     /// @code
-    /// ```
+    /// ```swift
     /// components {
     ///     email
     ///     password
     ///     login
+    ///     layoutGuide
+    ///     gradientLayer
     /// }
     /// ```
     /// @endcode
     @discardableResult
-    func components<V: UIView>(@ZDViewBuilder<V> _ content: () -> [V]) -> T {
+    func components(@ZDViewBuilder<any ZDComponentProtocol> _ content: () -> [any ZDComponentProtocol]) -> T {
         for item in content() {
-            base.addSubview(item)
+            if let view = item as? UIView {
+                base.addSubview(view)
+            } else if let guide = item as? UILayoutGuide {
+                base.addLayoutGuide(guide)
+            } else if let layer = item as? CALayer {
+                base.layer.addSublayer(layer)
+            } else {
+                assertionFailure("不支持的类型 => \(String(describing: item))")
+            }
         }
         return base
     }
