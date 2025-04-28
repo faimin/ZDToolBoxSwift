@@ -5,24 +5,27 @@
 //  Created by Zero.D.Saber on 2021/5/31.
 //
 
-public extension Collection {
-    /// 安全取值
-    /// - Parameters index: 下标
-    /// - Notes 来源：https://github.com/Luur/SwiftTips
-    subscript(zd index: Index) -> Element? {
-        return indices.contains(index) ? self[index] : nil
+public extension ZDSWraper where T: Collection {
+    /// get value at index safely
+    ///
+    /// - Parameter index: The index to include in the range set.
+    subscript(index: T.Index) -> T.Element? {
+        guard index >= base.startIndex, index < base.endIndex else {
+            return nil
+        }
+        return base[index]
     }
 
-    /// 安全取值并提供默认值
-    /// - Parameters
-    ///     - index: 下标
-    ///     - defaultValue: 默认值
-    /// - Notes
-    subscript(zd index: Index, defaultValue: Element) -> Element {
-        return indices.contains(index) ? self[index] : defaultValue
-    }
-
-    var noEmpty: Self? {
-        return isEmpty ? nil : self
+    /// get value at index safely, return default value if failed
+    ///
+    /// - Parameters:
+    ///   - index: The index to include in the range set.
+    ///   - default: defaultValue
+    subscript(index: T.Index, default: T.Element) -> T.Element {
+        // return base.indices.contains(index) ? base[index] : `default`
+        guard index >= base.startIndex, index < base.endIndex else {
+            return `default`
+        }
+        return base[index]
     }
 }

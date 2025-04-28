@@ -7,52 +7,52 @@
 
 import Foundation
 
-public extension String {
-    subscript<T>(zd range: T) -> Self.SubSequence where T: RangeExpression, T.Bound == Int {
+public extension ZDSWraper where T == String {
+    subscript<R>(range: R) -> T.SubSequence where R: RangeExpression, R.Bound == Int {
         let range = range.relative(to: Int.min ..< Int.max)
-        guard let firstIndex = index(startIndex, offsetBy: range.lowerBound, limitedBy: endIndex),
-              let secondIndex = index(startIndex, offsetBy: range.upperBound, limitedBy: endIndex)
+        guard let firstIndex = base.index(base.startIndex, offsetBy: range.lowerBound, limitedBy: base.endIndex),
+              let secondIndex = base.index(base.startIndex, offsetBy: range.upperBound, limitedBy: base.endIndex)
         else {
             return ""
         }
-        return self[firstIndex ..< secondIndex]
+        return base[firstIndex ..< secondIndex]
     }
 
     subscript(i: Int) -> Character {
-        return self[index(startIndex, offsetBy: i)]
+        return base[base.index(base.startIndex, offsetBy: i)]
     }
 
     subscript(bounds: CountableRange<Int>) -> Substring {
-        let start = index(startIndex, offsetBy: bounds.lowerBound)
-        let end = index(startIndex, offsetBy: bounds.upperBound)
+        let start = base.index(base.startIndex, offsetBy: bounds.lowerBound)
+        let end = base.index(base.startIndex, offsetBy: bounds.upperBound)
         if end < start { return "" }
-        return self[start ..< end]
+        return base[start ..< end]
     }
 
     subscript(bounds: CountableClosedRange<Int>) -> Substring {
-        let start = index(startIndex, offsetBy: bounds.lowerBound)
-        let end = index(startIndex, offsetBy: bounds.upperBound)
+        let start = base.index(base.startIndex, offsetBy: bounds.lowerBound)
+        let end = base.index(base.startIndex, offsetBy: bounds.upperBound)
         if end < start { return "" }
-        return self[start ... end]
+        return base[start ... end]
     }
 
     subscript(bounds: CountablePartialRangeFrom<Int>) -> Substring {
-        let start = index(startIndex, offsetBy: bounds.lowerBound)
-        let end = index(endIndex, offsetBy: -1)
+        let start = base.index(base.startIndex, offsetBy: bounds.lowerBound)
+        let end = base.index(base.endIndex, offsetBy: -1)
         if end < start { return "" }
-        return self[start ... end]
+        return base[start ... end]
     }
 
     subscript(bounds: PartialRangeThrough<Int>) -> Substring {
-        let end = index(startIndex, offsetBy: bounds.upperBound)
-        if end < startIndex { return "" }
-        return self[startIndex ... end]
+        let end = base.index(base.startIndex, offsetBy: bounds.upperBound)
+        if end < base.startIndex { return "" }
+        return base[base.startIndex ... end]
     }
 
     subscript(bounds: PartialRangeUpTo<Int>) -> Substring {
-        let end = index(startIndex, offsetBy: bounds.upperBound)
-        if end < startIndex { return "" }
-        return self[startIndex ..< end]
+        let end = base.index(base.startIndex, offsetBy: bounds.upperBound)
+        if end < base.startIndex { return "" }
+        return base[base.startIndex ..< end]
     }
 }
 
