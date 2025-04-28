@@ -22,11 +22,11 @@ public struct ZDSWraper<T> {
 public protocol ZDSAny {
     associatedtype ZDSType
 
-    /// 类变量
+    /// Type
     static var zd: ZDSWraper<ZDSType>.Type { get set }
 
-    /// 实例变量
-    var zd: ZDSWraper<ZDSType> { get set }
+    /// Instance
+    var zd: ZDSWraper<ZDSType> { mutating get set }
 }
 
 public extension ZDSAny {
@@ -38,8 +38,8 @@ public extension ZDSAny {
     }
 
     var zd: ZDSWraper<Self> {
-        get {
-            return ZDSWraper(self)
+        mutating get {
+            ZDSWraper(self)
         }
         set {}
     }
