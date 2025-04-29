@@ -10,7 +10,7 @@ import Foundation
 public typealias ZDCADidStartBlock = (CAAnimation) -> Void
 public typealias ZDCADidStopBlock = (CAAnimation, Bool) -> Void
 
-private class CAAnimationDelegateMediator: NSObject, CAAnimationDelegate {
+private final class CAAnimationDelegateMediator: NSObject, CAAnimationDelegate {
     fileprivate var startBlock: ZDCADidStartBlock?
     fileprivate var stopBlock: ZDCADidStopBlock?
 

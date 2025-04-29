@@ -218,11 +218,11 @@ public extension ZDSWraper where T: ZDView {
 
     /// ViewBuilder
     ///
-    /// - Parameter content: A block for components, e.g UI/NSView、CALayer、UILayoutGuide
+    /// - Parameter components: A block for components, e.g UI/NSView、CALayer、UILayoutGuide
     ///
     /// @code
     /// ```swift
-    /// components {
+    /// view.addComponents {
     ///     email
     ///     password
     ///     login
@@ -232,8 +232,8 @@ public extension ZDSWraper where T: ZDView {
     /// ```
     /// @endcode
     @discardableResult
-    func components(@ZDViewBuilder<any ZDComponentProtocol> _ content: () -> [any ZDComponentProtocol]) -> T {
-        for item in content() {
+    func addComponents(@ZDViewBuilder<any ZDComponentProtocol> _ components: () -> [any ZDComponentProtocol]) -> T {
+        for item in components() {
             if let view = item as? UIView {
                 base.addSubview(view)
             } else if let guide = item as? UILayoutGuide {
