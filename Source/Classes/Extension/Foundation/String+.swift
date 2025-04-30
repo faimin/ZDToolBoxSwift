@@ -18,8 +18,11 @@ public extension ZDSWraper where T == String {
         return base[firstIndex ..< secondIndex]
     }
 
-    subscript(i: Int) -> Character {
-        return base[base.index(base.startIndex, offsetBy: i)]
+    subscript(index: Int) -> Character? {
+        guard !base.isEmpty, index >= 0, index < base.count else {
+            return nil
+        }
+        return base[base.index(base.startIndex, offsetBy: index)]
     }
 
     subscript(bounds: CountableRange<Int>) -> Substring {
