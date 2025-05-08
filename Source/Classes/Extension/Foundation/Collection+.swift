@@ -21,10 +21,10 @@ public extension ZDSWraper where T: Collection {
     /// - Parameters:
     ///   - index: The index to include in the range set.
     ///   - default: defaultValue
-    subscript(index: T.Index, default: T.Element) -> T.Element {
+    subscript(index: T.Index, default: @autoclosure () -> T.Element) -> T.Element {
         // return base.indices.contains(index) ? base[index] : `default`
         guard index >= base.startIndex, index < base.endIndex else {
-            return `default`
+            return `default`()
         }
         return base[index]
     }
