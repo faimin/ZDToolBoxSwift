@@ -7,42 +7,55 @@
 
 import Foundation
 
-public typealias ZDCADidStartBlock = (CAAnimation) -> Void
-public typealias ZDCADidStopBlock = (CAAnimation, Bool) -> Void
+private final class CAAnimationDelegateProxy: NSObject, CAAnimationDelegate {
+    fileprivate lazy var onStartActions = [(CAAnimation) -> Void]()
+    fileprivate lazy var onStopActions = [(CAAnimation, Bool) -> Void]()
 
-private final class CAAnimationDelegateMediator: NSObject, CAAnimationDelegate {
-    fileprivate var startBlock: ZDCADidStartBlock?
-    fileprivate var stopBlock: ZDCADidStopBlock?
-
-    // MARK: - CAAnimationDelegate
+    // MARK: CAAnimationDelegate
 
     func animationDidStart(_ anim: CAAnimation) {
-        startBlock?(anim)
+        onStartActions.forEach { $0(anim) }
     }
 
     func animationDidStop(_ anim: CAAnimation, finished flag: Bool) {
-        stopBlock?(anim, flag)
+        onStopActions.forEach { $0(anim, flag) }
     }
 }
 
 public extension ZDSWraper where T: CAAnimation {
-    func animationDidStart(_ block: @escaping ZDCADidStartBlock) {
-        guard let delegate = base.delegate as? CAAnimationDelegateMediator else {
-            let delegateMediator = CAAnimationDelegateMediator()
-            delegateMediator.startBlock = block
-            base.delegate = delegateMediator // retain
-            return
+    /// Create delegate proxy if it doesn't exist
+    ///
+    /// The delegate object is retained by the receiver
+    ///
+    /// - Returns: CAAnimationDelegateProxy
+    private var delegateProxy: CAAnimationDelegateProxy {
+        guard let delegate = base.delegate as? CAAnimationDelegateProxy else {
+            let proxy = CAAnimationDelegateProxy()
+            base.delegate = proxy
+            return proxy
         }
-        delegate.startBlock = block
+        return delegate
     }
 
-    func animationDidStop(_ block: @escaping ZDCADidStopBlock) {
-        guard let delegate = base.delegate as? CAAnimationDelegateMediator else {
-            let delegateMediator = CAAnimationDelegateMediator()
-            delegateMediator.stopBlock = block
-            base.delegate = delegateMediator // retain
-            return
-        }
-        delegate.stopBlock = block
+    /// CAAnimation wrapper to avoid circular references.
+    ///
+    /// - Parameters:
+    ///   - action: A closure that call back with you created `animation` instance when animation start.
+    /// - Returns: Reer
+    @discardableResult
+    func onStart(_ action: @escaping (CAAnimation) -> Void) -> Self {
+        delegateProxy.onStartActions.append(action)
+        return self
+    }
+
+    /// ReerKit: CAAnimation wrapper to avoid circular references.
+    ///
+    /// - Parameters:
+    ///   - action: A closure that call back with you created `animation` instance and `finished` flag when animation stop.
+    /// - Returns: Reer
+    @discardableResult
+    func onStop(_ action: @escaping (CAAnimation, Bool) -> Void) -> Self {
+        delegateProxy.onStopActions.append(action)
+        return self
     }
 }
