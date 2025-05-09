@@ -38,7 +38,7 @@ public extension ZDSAny {
     }
 
     var zd: ZDSWraper<Self> {
-        mutating get {
+        get {
             ZDSWraper(self)
         }
         set {}
