@@ -9,6 +9,7 @@ import XCTest
 import ZDToolBoxSwift
 @testable import ZDToolBoxSwiftDemo
 
+@MainActor
 class ZDToolBoxSwiftDemoTests: XCTestCase {
     // MARK: Overridden Functions
 
@@ -55,8 +56,14 @@ class ZDToolBoxSwiftDemoTests: XCTestCase {
     func testChainCaller() -> Void {
         let label: UILabel = UILabel()
             .chain
-            .font(10)
+            .font(.boldSystemFont(ofSize: 10))
             .text("你好")
-        printf(label)
+        print(String(describing: label))
+    }
+    
+    func testSubstr() {
+        var str = "你好,我是小明: 0123456789"
+        let res = str.zd.substring(maxLength: 5, addEllipsis: true)
+        XCTAssertEqual(res, "你好,我是...")
     }
 }

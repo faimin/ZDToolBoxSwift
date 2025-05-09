@@ -20,6 +20,7 @@ target 'ZDToolBoxSwiftDemo' do
   end
 
   target 'ZDToolBoxSwiftDemoUITests' do
+    inherit! :search_paths
     # Pods for testing
   end
 

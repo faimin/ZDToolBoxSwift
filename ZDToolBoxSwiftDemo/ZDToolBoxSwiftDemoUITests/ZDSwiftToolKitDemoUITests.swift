@@ -8,6 +8,7 @@
 import XCTest
 import ZDToolBoxSwift
 
+@MainActor
 class ZDToolBoxSwiftDemoUITests: XCTestCase {
     // MARK: Overridden Functions
 
@@ -47,7 +48,7 @@ class ZDToolBoxSwiftDemoUITests: XCTestCase {
 
     func testChainCaller() {
         let label = UILabel()
-            .zd
+            .chain
             .font(.systemFont(ofSize: 10))
             .text("你好")
             .backgroundColor(.red)

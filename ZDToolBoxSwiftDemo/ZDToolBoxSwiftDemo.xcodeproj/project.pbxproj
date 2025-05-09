@@ -8,7 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		07A599721AFF0D41DE9911EA /* libPods-ZDToolBoxSwiftDemo.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 746E0A9B3D74E0CD6AB5695F /* libPods-ZDToolBoxSwiftDemo.a */; };
-		16763A55D8D6DE0B0D2E67BE /* libPods-ZDToolBoxSwiftDemo-ZDToolBoxSwiftDemoUITests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 72DA6282C2D0751D39FC5005 /* libPods-ZDToolBoxSwiftDemo-ZDToolBoxSwiftDemoUITests.a */; };
+		D7719631CE869CB2D1835CEA /* libPods-ZDToolBoxSwiftDemoUITests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 57C958A3B9A11E8E8843798E /* libPods-ZDToolBoxSwiftDemoUITests.a */; };
 		DA3546AF2B10F36C006ACF2A /* ZDSwiftToolKitDemoTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA3546AE2B10F36C006ACF2A /* ZDSwiftToolKitDemoTests.swift */; };
 		DA3546B12B10F39C006ACF2A /* ZDSwiftToolKitDemoUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA3546B02B10F39C006ACF2A /* ZDSwiftToolKitDemoUITests.swift */; };
 		E45420E4AE14799F2A028AC1 /* libPods-ZDToolBoxSwiftDemoTests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 3831015AA670F70F4703F520 /* libPods-ZDToolBoxSwiftDemoTests.a */; };
@@ -42,12 +42,15 @@
 		0C3EF5A1C1DC85ADC167FA97 /* Pods-ZDToolBoxSwiftDemoTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ZDToolBoxSwiftDemoTests.release.xcconfig"; path = "Target Support Files/Pods-ZDToolBoxSwiftDemoTests/Pods-ZDToolBoxSwiftDemoTests.release.xcconfig"; sourceTree = "<group>"; };
 		31DB197719B2BCA4C4F5DBD6 /* Pods-ZDToolBoxSwiftDemo.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ZDToolBoxSwiftDemo.debug.xcconfig"; path = "Target Support Files/Pods-ZDToolBoxSwiftDemo/Pods-ZDToolBoxSwiftDemo.debug.xcconfig"; sourceTree = "<group>"; };
 		3831015AA670F70F4703F520 /* libPods-ZDToolBoxSwiftDemoTests.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-ZDToolBoxSwiftDemoTests.a"; sourceTree = BUILT_PRODUCTS_DIR; };
-		72DA6282C2D0751D39FC5005 /* libPods-ZDToolBoxSwiftDemo-ZDToolBoxSwiftDemoUITests.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-ZDToolBoxSwiftDemo-ZDToolBoxSwiftDemoUITests.a"; sourceTree = BUILT_PRODUCTS_DIR; };
+		57C958A3B9A11E8E8843798E /* libPods-ZDToolBoxSwiftDemoUITests.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-ZDToolBoxSwiftDemoUITests.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		746E0A9B3D74E0CD6AB5695F /* libPods-ZDToolBoxSwiftDemo.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-ZDToolBoxSwiftDemo.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		85885DA783DDAFA31E0DB0E4 /* Pods-ZDToolBoxSwiftDemo.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ZDToolBoxSwiftDemo.release.xcconfig"; path = "Target Support Files/Pods-ZDToolBoxSwiftDemo/Pods-ZDToolBoxSwiftDemo.release.xcconfig"; sourceTree = "<group>"; };
 		95ADEB99A5AD1E09328BF114 /* Pods-ZDToolBoxSwiftDemo-ZDToolBoxSwiftDemoUITests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ZDToolBoxSwiftDemo-ZDToolBoxSwiftDemoUITests.release.xcconfig"; path = "Target Support Files/Pods-ZDToolBoxSwiftDemo-ZDToolBoxSwiftDemoUITests/Pods-ZDToolBoxSwiftDemo-ZDToolBoxSwiftDemoUITests.release.xcconfig"; sourceTree = "<group>"; };
+		C2CA7F702DCCA212000BF730 /* ZDToolBoxSwiftDemoTests-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "ZDToolBoxSwiftDemoTests-Bridging-Header.h"; sourceTree = "<group>"; };
 		DA3546AE2B10F36C006ACF2A /* ZDSwiftToolKitDemoTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ZDSwiftToolKitDemoTests.swift; sourceTree = "<group>"; };
 		DA3546B02B10F39C006ACF2A /* ZDSwiftToolKitDemoUITests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ZDSwiftToolKitDemoUITests.swift; sourceTree = "<group>"; };
+		E2109F206FC1AB12FA653574 /* Pods-ZDToolBoxSwiftDemoUITests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ZDToolBoxSwiftDemoUITests.debug.xcconfig"; path = "Target Support Files/Pods-ZDToolBoxSwiftDemoUITests/Pods-ZDToolBoxSwiftDemoUITests.debug.xcconfig"; sourceTree = "<group>"; };
+		E5DDB0FD335C455582C3C680 /* Pods-ZDToolBoxSwiftDemoUITests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ZDToolBoxSwiftDemoUITests.release.xcconfig"; path = "Target Support Files/Pods-ZDToolBoxSwiftDemoUITests/Pods-ZDToolBoxSwiftDemoUITests.release.xcconfig"; sourceTree = "<group>"; };
 		E7CD1C41BE3824B9085F859D /* Pods-ZDToolBoxSwiftDemo-ZDToolBoxSwiftDemoUITests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ZDToolBoxSwiftDemo-ZDToolBoxSwiftDemoUITests.debug.xcconfig"; path = "Target Support Files/Pods-ZDToolBoxSwiftDemo-ZDToolBoxSwiftDemoUITests/Pods-ZDToolBoxSwiftDemo-ZDToolBoxSwiftDemoUITests.debug.xcconfig"; sourceTree = "<group>"; };
 		F355F35C1CAA2E1E186AA926 /* Pods-ZDToolBoxSwiftDemoTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ZDToolBoxSwiftDemoTests.debug.xcconfig"; path = "Target Support Files/Pods-ZDToolBoxSwiftDemoTests/Pods-ZDToolBoxSwiftDemoTests.debug.xcconfig"; sourceTree = "<group>"; };
 		FA46776228F26C8E005E0A99 /* ZDToolBoxSwiftDemo-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "ZDToolBoxSwiftDemo-Bridging-Header.h"; sourceTree = "<group>"; };
@@ -87,7 +90,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				16763A55D8D6DE0B0D2E67BE /* libPods-ZDToolBoxSwiftDemo-ZDToolBoxSwiftDemoUITests.a in Frameworks */,
+				D7719631CE869CB2D1835CEA /* libPods-ZDToolBoxSwiftDemoUITests.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -98,8 +101,8 @@
 			isa = PBXGroup;
 			children = (
 				746E0A9B3D74E0CD6AB5695F /* libPods-ZDToolBoxSwiftDemo.a */,
-				72DA6282C2D0751D39FC5005 /* libPods-ZDToolBoxSwiftDemo-ZDToolBoxSwiftDemoUITests.a */,
 				3831015AA670F70F4703F520 /* libPods-ZDToolBoxSwiftDemoTests.a */,
+				57C958A3B9A11E8E8843798E /* libPods-ZDToolBoxSwiftDemoUITests.a */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -113,6 +116,8 @@
 				95ADEB99A5AD1E09328BF114 /* Pods-ZDToolBoxSwiftDemo-ZDToolBoxSwiftDemoUITests.release.xcconfig */,
 				F355F35C1CAA2E1E186AA926 /* Pods-ZDToolBoxSwiftDemoTests.debug.xcconfig */,
 				0C3EF5A1C1DC85ADC167FA97 /* Pods-ZDToolBoxSwiftDemoTests.release.xcconfig */,
+				E2109F206FC1AB12FA653574 /* Pods-ZDToolBoxSwiftDemoUITests.debug.xcconfig */,
+				E5DDB0FD335C455582C3C680 /* Pods-ZDToolBoxSwiftDemoUITests.release.xcconfig */,
 			);
 			path = Pods;
 			sourceTree = "<group>";
@@ -159,6 +164,7 @@
 			isa = PBXGroup;
 			children = (
 				DA3546AE2B10F36C006ACF2A /* ZDSwiftToolKitDemoTests.swift */,
+				C2CA7F702DCCA212000BF730 /* ZDToolBoxSwiftDemoTests-Bridging-Header.h */,
 				FA7083A4255A32E200B523C9 /* Info.plist */,
 			);
 			path = ZDToolBoxSwiftDemoTests;
@@ -323,7 +329,7 @@
 			outputFileListPaths = (
 			);
 			outputPaths = (
-				"$(DERIVED_FILE_DIR)/Pods-ZDToolBoxSwiftDemo-ZDToolBoxSwiftDemoUITests-checkManifestLockResult.txt",
+				"$(DERIVED_FILE_DIR)/Pods-ZDToolBoxSwiftDemoUITests-checkManifestLockResult.txt",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
@@ -693,7 +699,7 @@
 		};
 		FA7083B9255A32E200B523C9 /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = E7CD1C41BE3824B9085F859D /* Pods-ZDToolBoxSwiftDemo-ZDToolBoxSwiftDemoUITests.debug.xcconfig */;
+			baseConfigurationReference = E2109F206FC1AB12FA653574 /* Pods-ZDToolBoxSwiftDemoUITests.debug.xcconfig */;
 			buildSettings = {
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_STYLE = Automatic;
@@ -714,7 +720,7 @@
 		};
 		FA7083BA255A32E200B523C9 /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 95ADEB99A5AD1E09328BF114 /* Pods-ZDToolBoxSwiftDemo-ZDToolBoxSwiftDemoUITests.release.xcconfig */;
+			baseConfigurationReference = E5DDB0FD335C455582C3C680 /* Pods-ZDToolBoxSwiftDemoUITests.release.xcconfig */;
 			buildSettings = {
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_STYLE = Automatic;

@@ -60,6 +60,33 @@ public extension ZDSWraper where T == String {
 }
 
 public extension ZDSWraper where T == String {
+    func substring(maxLength: Int, addEllipsis: Bool) -> String {
+        guard !base.isEmpty else {
+            return base
+        }
+
+        let length = base.count
+        guard length > maxLength else {
+            return base
+        }
+
+        var maxEnd = Int.max
+        var tempMaxLength = maxLength
+        var range: Range<T.Index> = base.startIndex ..< base.startIndex
+        while maxEnd > maxLength {
+            tempMaxLength -= 1
+            range = base.rangeOfComposedCharacterSequence(at: base.index(base.startIndex, offsetBy: tempMaxLength))
+            maxEnd = base.distance(from: range.lowerBound, to: range.upperBound)
+        }
+        guard !range.isEmpty, maxEnd != Int.max, length <= maxEnd else {
+            return base
+        }
+        let subStr = String(base[range]) + (addEllipsis ? "..." : "")
+        return subStr
+    }
+}
+
+public extension ZDSWraper where T == String {
     /// urlComponents
     var urlComponents: URLComponents {
         var components = URLComponents(string: base) ?? URLComponents()
