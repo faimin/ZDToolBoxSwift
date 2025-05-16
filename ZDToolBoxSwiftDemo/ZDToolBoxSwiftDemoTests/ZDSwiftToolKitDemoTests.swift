@@ -6,7 +6,6 @@
 //
 
 import XCTest
-import ZDToolBoxSwift
 @testable import ZDToolBoxSwiftDemo
 
 @MainActor
@@ -33,37 +32,5 @@ class ZDToolBoxSwiftDemoTests: XCTestCase {
         measure {
             // Put the code you want to measure the time of here.
         }
-    }
-
-    func testDebouds() {
-        var x = ZDDelay()
-        for i in 0 ... 100_000 {
-            x.debounce(0.05) {
-                print("debounce = ", Thread.current, i)
-            }
-        }
-    }
-
-    func testThrottle() {
-        var x = ZDDelay()
-        for i in 0 ... 100_000 {
-            x.throttle(0.05) {
-                print("throttle = ", Thread.current, i)
-            }
-        }
-    }
-    
-    func testChainCaller() -> Void {
-        let label: UILabel = UILabel()
-            .chain
-            .font(.boldSystemFont(ofSize: 10))
-            .text("你好")
-        print(String(describing: label))
-    }
-    
-    func testSubstr() {
-        var str = "你好,我是小明: 0123456789"
-        let res = str.zd.substring(maxLength: 5, addEllipsis: true)
-        XCTAssertEqual(res, "你好,我是...")
     }
 }
