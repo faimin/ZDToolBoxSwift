@@ -8,10 +8,11 @@
 import CryptoKit
 import Foundation
 
-struct ZDCrypto {}
+public struct ZDCrypto {}
 
+/// AES加解密
 @available(iOS 13.0, macOS 10.15, watchOS 6.0, tvOS 13.0, *)
-extension ZDCrypto {
+public extension ZDCrypto {
     /// 加密失败时抛出的错误
     private enum AESGCMError: Error {
         case invalidKey
@@ -20,17 +21,24 @@ extension ZDCrypto {
         case openFailed
     }
 
-    /// 从 Base64 字符串加载 256 位 key
-    private static func aesKey(from base64Key: String) throws -> SymmetricKey {
-        guard let keyData = Data(base64Encoded: base64Key),
-              keyData.count == 32
-        else {
+    /// 字符串`key`生成`SymmetricKey`类型
+    ///
+    /// - Parameters:
+    ///   - key: 加密key
+    /// - Returns: SymmetricKey对象
+    private static func aesKey(from key: String) throws -> SymmetricKey {
+        guard let keyData = key.data(using: .utf8) else {
             throw AESGCMError.invalidKey
         }
         return SymmetricKey(data: keyData)
     }
 
     /// 加密
+    ///
+    /// - Parameters:
+    ///   - plaintext: 要做加密处理的普通字符串
+    ///   - key: 加密对应的字符key
+    /// - Returns: 加密后的字符串
     static func aesEncrypt(plaintext: String, key: String, aad: Data? = nil) throws -> String {
         let key = try aesKey(from: key)
         let data = Data(plaintext.utf8)
@@ -49,6 +57,11 @@ extension ZDCrypto {
     }
 
     /// 解密
+    ///
+    /// - Parameters:
+    ///   - encodedText: 要做解密处理的加密字符串
+    ///   - key: 解密对应的字符key
+    /// - Returns: 解密后的字符串
     static func aesDecrypt(encodedText: String, key: String, aad: Data? = nil) throws -> String {
         guard let encodedData = encodedText.data(using: .utf8) else {
             throw AESGCMError.invalidCiphertext
@@ -63,9 +76,12 @@ extension ZDCrypto {
         return plaintext
     }
 
+    /// 解密
+    ///
     /// - Parameters:
-    ///   - data: 普通的data
-    ///   - key: 盐key
+    ///   - data: 未加密的`data`数据
+    ///   - key: 解密需要的key
+    /// - Returns: 解密后的`data`数据
     static func aesDecrypt(data: Data, key: String, aad: Data? = nil) throws -> Data {
         // 拆分：12-byte nonce, 剩下前 ciphertext，后 16-byte tag
         let nonceData = data.prefix(12)
