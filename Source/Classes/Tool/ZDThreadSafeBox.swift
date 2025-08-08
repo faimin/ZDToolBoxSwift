@@ -15,13 +15,13 @@ public struct ZDThreadSafeBox<T>: ~Copyable {
         mutex = Mutex(value)
     }
 
-    func update(_ transform: (inout T) -> Void) {
+    public var value: T {
+        mutex.withLock { $0 }
+    }
+
+    public func update(_ transform: (inout T) -> Void) {
         mutex.withLock { value in
             transform(&value)
         }
-    }
-
-    func value() -> T {
-        mutex.withLock { $0 }
     }
 }
