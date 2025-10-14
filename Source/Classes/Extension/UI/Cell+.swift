@@ -7,6 +7,8 @@
 
 import UIKit
 
+// MARK: - ZDSCellProtocol
+
 public protocol ZDSCellProtocol: AnyObject {
     associatedtype T
 
@@ -27,9 +29,13 @@ public extension ZDSCellProtocol {
     }
 }
 
+// MARK: - UITableViewCell + ZDSCellProtocol
+
 extension UITableViewCell: ZDSCellProtocol {
     public typealias T = Any
 }
+
+// MARK: - UICollectionReusableView + ZDSCellProtocol
 
 extension UICollectionReusableView: ZDSCellProtocol {
     public typealias T = Any

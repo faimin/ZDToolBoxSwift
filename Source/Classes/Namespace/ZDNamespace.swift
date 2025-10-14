@@ -7,9 +7,15 @@
 
 import Foundation
 
+// MARK: - ZDSWraper
+
 public struct ZDSWraper<T> {
+    // MARK: Properties
+
     /// Base object to extend.
     public internal(set) var base: T
+
+    // MARK: Lifecycle
 
     /// Creates extensions with base object.
     ///
@@ -18,6 +24,8 @@ public struct ZDSWraper<T> {
         self.base = base
     }
 }
+
+// MARK: - ZDSAny
 
 public protocol ZDSAny {
     associatedtype ZDSType
@@ -44,6 +52,8 @@ public extension ZDSAny {
         set {}
     }
 }
+
+// MARK: - NSObject + ZDSAny
 
 /// Extend NSObject with `zd` proxy.
 extension NSObject: ZDSAny {}

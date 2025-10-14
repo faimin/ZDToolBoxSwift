@@ -7,9 +7,15 @@
 
 import Foundation
 
+// MARK: - CAAnimationDelegateProxy
+
 private final class CAAnimationDelegateProxy: NSObject, CAAnimationDelegate {
+    // MARK: Properties
+
     fileprivate lazy var onStartActions = [(CAAnimation) -> Void]()
     fileprivate lazy var onStopActions = [(CAAnimation, Bool) -> Void]()
+
+    // MARK: Functions
 
     // MARK: CAAnimationDelegate
 
@@ -51,7 +57,8 @@ public extension ZDSWraper where T: CAAnimation {
     /// ReerKit: CAAnimation wrapper to avoid circular references.
     ///
     /// - Parameters:
-    ///   - action: A closure that call back with you created `animation` instance and `finished` flag when animation stop.
+    ///   - action: A closure that call back with you created `animation` instance and `finished` flag when animation
+    /// stop.
     /// - Returns: Reer
     @discardableResult
     func onStop(_ action: @escaping (CAAnimation, Bool) -> Void) -> Self {

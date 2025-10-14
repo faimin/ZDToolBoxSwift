@@ -8,6 +8,8 @@
 import CryptoKit
 import Foundation
 
+// MARK: - ZDCrypto
+
 public struct ZDCrypto {}
 
 /// AES加解密
@@ -71,7 +73,7 @@ public extension ZDCrypto {
             throw AESGCMError.openFailed
         }
         #if DEBUG
-            debugPrint("解密后的明文 = \(plaintext)")
+        debugPrint("解密后的明文 = \(plaintext)")
         #endif
         return plaintext
     }

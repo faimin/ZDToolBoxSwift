@@ -9,7 +9,7 @@ import Foundation
 
 // MARK: - Optional Extension
 
-// https://www.objc.io/blog/2019/01/22/non-empty-optionals/
+/// https://www.objc.io/blog/2019/01/22/non-empty-optionals/
 public extension Optional where Wrapped: Collection {
     var nonEmpty: Wrapped? {
         return self?.isEmpty == true ? nil : self

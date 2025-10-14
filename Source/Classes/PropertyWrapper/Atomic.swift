@@ -9,12 +9,12 @@ import Darwin.os.lock
 
 @propertyWrapper
 public struct Atomic<Value> {
+    // MARK: Properties
+
     private var value: Value
     private var lock = os_unfair_lock()
 
-    public init(wrappedValue value: Value) {
-        self.value = value
-    }
+    // MARK: Computed Properties
 
     public var wrappedValue: Value {
         mutating get {
@@ -27,5 +27,11 @@ public struct Atomic<Value> {
             defer { os_unfair_lock_unlock(&lock) }
             value = newValue
         }
+    }
+
+    // MARK: Lifecycle
+
+    public init(wrappedValue value: Value) {
+        self.value = value
     }
 }

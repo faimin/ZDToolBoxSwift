@@ -7,18 +7,30 @@
 
 import Foundation
 
+// MARK: - ZDDelay
+
 public struct ZDDelay {
+    // MARK: Properties
+
     private lazy var _zdFuncCache: [String: DispatchWorkItem] = [:]
     private lazy var _lock = os_unfair_lock()
+
+    // MARK: Lifecycle
 
     // MARK: - Public
 
     public init() {}
 
+    // MARK: Functions
+
     /// 防抖：只执行最后一次
     /// 最终任务是在子线程执行
     @discardableResult
-    public mutating func debounce(key: String = "\(#fileID)-\(#function)-\(#line)", _ delay: TimeInterval, _ callback: @escaping os_block_t) -> DispatchWorkItem {
+    public mutating func debounce(
+        key: String = "\(#fileID)-\(#function)-\(#line)",
+        _ delay: TimeInterval,
+        _ callback: @escaping os_block_t
+    ) -> DispatchWorkItem {
         if let item = _zdFuncCache[key] {
             if !item.isCancelled {
                 item.cancel()
@@ -36,7 +48,11 @@ public struct ZDDelay {
 
     /// 节流：只执行第一次
     /// 最终任务是在子线程执行
-    public mutating func throttle(key: String = "\(#fileID)-\(#function)-\(#line)", _ delay: TimeInterval, _ callback: @escaping os_block_t) {
+    public mutating func throttle(
+        key: String = "\(#fileID)-\(#function)-\(#line)",
+        _ delay: TimeInterval,
+        _ callback: @escaping os_block_t
+    ) {
         guard getItemFromDict(key) == nil else {
             return
         }

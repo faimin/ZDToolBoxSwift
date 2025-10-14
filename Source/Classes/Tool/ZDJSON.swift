@@ -7,6 +7,8 @@
 
 import CoreGraphics
 
+// MARK: - ZDJSON
+
 @dynamicMemberLookup
 public enum ZDJSON {
     // MARK: - Case
@@ -29,112 +31,7 @@ public enum ZDJSON {
     case bool(Bool)
     case null
 
-    // MARK: - Initialize
-
-    /// 根据不同的类型创建ZDJSON
-    public init(_ object: Any?) {
-        guard let object = object else {
-            self = .null
-            return
-        }
-
-        switch object {
-        case let value as Data:
-            self = Self(data: value)
-        case let value as [String: Any]:
-            self = .dictionary(value.mapValues { Self($0) }, value)
-        case let value as [Any?]:
-            let mapedArray = value.compactMap { $0 }
-            self = .array(mapedArray.map { Self($0) }, mapedArray)
-        case let value as String:
-            self = .string(value)
-        case let value as Int:
-            self = .int(value)
-        case let value as Int8:
-            self = .int8(value)
-        case let value as Int16:
-            self = .int16(value)
-        case let value as Int32:
-            self = .int32(value)
-        case let value as Int64:
-            self = .int64(value)
-        case let value as UInt:
-            self = .uint(value)
-        case let value as UInt8:
-            self = .uint8(value)
-        case let value as UInt16:
-            self = .uint16(value)
-        case let value as UInt32:
-            self = .uint32(value)
-        case let value as UInt64:
-            self = .uint64(value)
-        case let value as Double:
-            self = .double(value)
-        case let value as CGFloat:
-            self = .float(value)
-        case let value as Float:
-            self = .float(CGFloat(value))
-        case let value as Bool:
-            self = .bool(value)
-        case let value as Self:
-            self = value
-        default:
-            self = .null
-        }
-    }
-
-    /// 把Data对象转换成JSON对象
-    public init(data: Data, options: JSONSerialization.ReadingOptions = .fragmentsAllowed) {
-        let object = try? JSONSerialization.jsonObject(with: data, options: options)
-        #if DEBUG
-            if object == nil {
-                print("\(#function) => ⚠️json不合法")
-            }
-        #endif
-        self.init(object)
-    }
-
-    /// 把String对象转换成JSON对象
-    public init(jsonString: String) {
-        let jsonData = jsonString.data(using: .utf8)
-        self.init(jsonData)
-    }
-
-    // MARK: - DynamicMemberLookup
-
-    public subscript(dynamicMember member: String) -> Self {
-        switch self {
-        case let .dictionary(wrapDict, _):
-            return wrapDict[member] ?? .null
-        default:
-            print("\(#function) => 匹配失败：key = \(member)")
-        }
-        return .null
-    }
-
-    // MARK: - Subcript
-
-    public subscript(key: String) -> Self {
-        switch self {
-        case let .dictionary(wrapDict, _):
-            return wrapDict[key] ?? .null
-        default:
-            print("\(#function) => 匹配失败：key = \(key)")
-        }
-        return .null
-    }
-
-    public subscript(index: Int) -> Self {
-        switch self {
-        case let .array(wrapArray, _):
-            return index >= wrapArray.count ? .null : wrapArray[index]
-        default:
-            print("\(#function) => 匹配失败：index = \(index)")
-        }
-        return .null
-    }
-
-    // MARK: - Computed Properties
+    // MARK: Computed Properties
 
     /// 如果是字符串，那么会尝试转为字典
     public var dictionary: [String: Any] {
@@ -258,7 +155,7 @@ public enum ZDJSON {
         }
     }
 
-    // will deprecate in the future
+    /// will deprecate in the future
     public var rawValue: Any? {
         switch self {
         case let .dictionary(_, originValue):
@@ -281,9 +178,118 @@ public enum ZDJSON {
             return nil
         }
     }
+
+    // MARK: Lifecycle
+
+    // MARK: - Initialize
+
+    /// 根据不同的类型创建ZDJSON
+    public init(_ object: Any?) {
+        guard let object = object else {
+            self = .null
+            return
+        }
+
+        switch object {
+        case let value as Data:
+            self = Self(data: value)
+        case let value as [String: Any]:
+            self = .dictionary(value.mapValues { Self($0) }, value)
+        case let value as [Any?]:
+            let mapedArray = value.compactMap { $0 }
+            self = .array(mapedArray.map { Self($0) }, mapedArray)
+        case let value as String:
+            self = .string(value)
+        case let value as Int:
+            self = .int(value)
+        case let value as Int8:
+            self = .int8(value)
+        case let value as Int16:
+            self = .int16(value)
+        case let value as Int32:
+            self = .int32(value)
+        case let value as Int64:
+            self = .int64(value)
+        case let value as UInt:
+            self = .uint(value)
+        case let value as UInt8:
+            self = .uint8(value)
+        case let value as UInt16:
+            self = .uint16(value)
+        case let value as UInt32:
+            self = .uint32(value)
+        case let value as UInt64:
+            self = .uint64(value)
+        case let value as Double:
+            self = .double(value)
+        case let value as CGFloat:
+            self = .float(value)
+        case let value as Float:
+            self = .float(CGFloat(value))
+        case let value as Bool:
+            self = .bool(value)
+        case let value as Self:
+            self = value
+        default:
+            self = .null
+        }
+    }
+
+    /// 把Data对象转换成JSON对象
+    public init(data: Data, options: JSONSerialization.ReadingOptions = .fragmentsAllowed) {
+        let object = try? JSONSerialization.jsonObject(with: data, options: options)
+        #if DEBUG
+        if object == nil {
+            print("\(#function) => ⚠️json不合法")
+        }
+        #endif
+        self.init(object)
+    }
+
+    /// 把String对象转换成JSON对象
+    public init(jsonString: String) {
+        let jsonData = jsonString.data(using: .utf8)
+        self.init(jsonData)
+    }
+
+    // MARK: Functions
+
+    // MARK: - DynamicMemberLookup
+
+    public subscript(dynamicMember member: String) -> Self {
+        switch self {
+        case let .dictionary(wrapDict, _):
+            return wrapDict[member] ?? .null
+        default:
+            print("\(#function) => 匹配失败：key = \(member)")
+        }
+        return .null
+    }
+
+    // MARK: - Subcript
+
+    public subscript(key: String) -> Self {
+        switch self {
+        case let .dictionary(wrapDict, _):
+            return wrapDict[key] ?? .null
+        default:
+            print("\(#function) => 匹配失败：key = \(key)")
+        }
+        return .null
+    }
+
+    public subscript(index: Int) -> Self {
+        switch self {
+        case let .array(wrapArray, _):
+            return index >= wrapArray.count ? .null : wrapArray[index]
+        default:
+            print("\(#function) => 匹配失败：index = \(index)")
+        }
+        return .null
+    }
 }
 
-// MARK: - Codable
+// MARK: Codable
 
 // Reference SwiftyJSON
 
@@ -407,7 +413,7 @@ extension ZDJSON: Codable {
     }
 }
 
-// MARK: - ExpressibleByLiteral
+// MARK: ExpressibleByDictionaryLiteral
 
 extension ZDJSON: ExpressibleByDictionaryLiteral {
     public typealias Key = String
@@ -422,6 +428,8 @@ extension ZDJSON: ExpressibleByDictionaryLiteral {
     }
 }
 
+// MARK: ExpressibleByArrayLiteral
+
 extension ZDJSON: ExpressibleByArrayLiteral {
     public typealias ArrayLiteralElement = Any?
 
@@ -430,6 +438,8 @@ extension ZDJSON: ExpressibleByArrayLiteral {
         self.init(newArray)
     }
 }
+
+// MARK: ExpressibleByStringLiteral
 
 extension ZDJSON: ExpressibleByStringLiteral {
     public init(stringLiteral value: StringLiteralType) {
@@ -445,17 +455,23 @@ extension ZDJSON: ExpressibleByStringLiteral {
     }
 }
 
+// MARK: ExpressibleByIntegerLiteral
+
 extension ZDJSON: ExpressibleByIntegerLiteral {
     public init(integerLiteral value: IntegerLiteralType) {
         self.init(value)
     }
 }
 
+// MARK: ExpressibleByFloatLiteral
+
 extension ZDJSON: ExpressibleByFloatLiteral {
     public init(floatLiteral value: FloatLiteralType) {
         self.init(value)
     }
 }
+
+// MARK: ExpressibleByBooleanLiteral
 
 extension ZDJSON: ExpressibleByBooleanLiteral {
     public init(booleanLiteral value: BooleanLiteralType) {

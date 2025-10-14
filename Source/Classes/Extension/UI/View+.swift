@@ -6,22 +6,33 @@
 //
 
 #if os(iOS) || os(tvOS)
-    import UIKit
+import UIKit
 
-    public typealias ZDView = UIView
-    public typealias ZDViewController = UIViewController
-    public typealias ZDResponder = UIResponder
+public typealias ZDView = UIView
+public typealias ZDViewController = UIViewController
+public typealias ZDResponder = UIResponder
 #else
-    import AppKit
+import AppKit
 
-    public typealias ZDView = NSView
-    public typealias ZDViewController = NSViewController
-    public typealias ZDResponder = NSResponder
+public typealias ZDView = NSView
+public typealias ZDViewController = NSViewController
+public typealias ZDResponder = NSResponder
 #endif
 
+// MARK: - ZDComponentProtocol
+
 public protocol ZDComponentProtocol: AnyObject {}
+
+// MARK: - ZDView + ZDComponentProtocol
+
 extension ZDView: ZDComponentProtocol {}
+
+// MARK: - CALayer + ZDComponentProtocol
+
 extension CALayer: ZDComponentProtocol {}
+
+// MARK: - UILayoutGuide + ZDComponentProtocol
+
 extension UILayoutGuide: ZDComponentProtocol {}
 
 @MainActor
@@ -141,34 +152,43 @@ public extension ZDSWraper where T: ZDView {
     }
 
     #if os(iOS) || os(tvOS)
-        @discardableResult
-        func roundCorners(
-            _ corners: UIRectCorner = UIRectCorner.allCorners,
-            radius: CGFloat
-        ) -> T {
-            let path = UIBezierPath(roundedRect: base.bounds, byRoundingCorners: corners, cornerRadii: CGSize(width: radius, height: radius))
+    @discardableResult
+    func roundCorners(
+        _ corners: UIRectCorner = UIRectCorner.allCorners,
+        radius: CGFloat
+    ) -> T {
+        let path = UIBezierPath(
+            roundedRect: base.bounds,
+            byRoundingCorners: corners,
+            cornerRadii: CGSize(width: radius, height: radius)
+        )
 
-            let mask = CAShapeLayer()
-            mask.path = path.cgPath
+        let mask = CAShapeLayer()
+        mask.path = path.cgPath
 
-            base.layer.mask = mask
+        base.layer.mask = mask
 
-            return base
-        }
+        return base
+    }
     #endif
 
     @available(macOS 10.13, iOS 11.0, tvOS 11, *)
     @discardableResult
     func roundCorners(
-        _ corners: CACornerMask = [.layerMinXMinYCorner, .layerMaxXMinYCorner, .layerMinXMaxYCorner, .layerMaxXMaxYCorner],
+        _ corners: CACornerMask = [
+            .layerMinXMinYCorner,
+            .layerMaxXMinYCorner,
+            .layerMinXMaxYCorner,
+            .layerMaxXMaxYCorner,
+        ],
         radius: CGFloat
     ) -> T {
         #if os(iOS) || os(tvOS)
-            base.layer.cornerRadius = radius
-            base.layer.maskedCorners = corners
+        base.layer.cornerRadius = radius
+        base.layer.maskedCorners = corners
         #else
-            base.layer?.cornerRadius = radius
-            base.layer?.maskedCorners = corners
+        base.layer?.cornerRadius = radius
+        base.layer?.maskedCorners = corners
         #endif
         return base
     }
@@ -207,9 +227,9 @@ public extension ZDSWraper where T: ZDView {
                 return vc
             }
             #if os(iOS) || os(tvOS)
-                nextResponder = nextResponder?.next
+            nextResponder = nextResponder?.next
             #else
-                nextResponder = nextResponder?.nextResponder
+            nextResponder = nextResponder?.nextResponder
             #endif
         }
 

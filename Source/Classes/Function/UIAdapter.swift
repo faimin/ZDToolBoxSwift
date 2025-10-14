@@ -9,6 +9,8 @@ import UIKit
 
 @MainActor
 public enum UIAdapter {
+    // MARK: Static Properties
+
     public static var window: UIWindow = {
         let window = UIApplication.zd.keyWindow ?? UIWindow()
         return window
@@ -46,6 +48,8 @@ public enum UIAdapter {
         return Self.window.safeAreaInsets
     }()
 
+    // MARK: Static Computed Properties
+
     // MARK: - 计算属性
 
     public static var safeAreaTopMargin: CGFloat {
@@ -55,6 +59,8 @@ public enum UIAdapter {
     public static var safeAreaBottomMargin: CGFloat {
         safeAreaInsets.bottom
     }
+
+    // MARK: Static Functions
 
     /// 如果是刘海屏就返回刘海顶部，否则返回默认值
     public static func safeAreaTopMargin(defaultMargin: CGFloat) -> CGFloat {

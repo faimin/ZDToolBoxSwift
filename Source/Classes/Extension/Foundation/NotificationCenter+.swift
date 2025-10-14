@@ -7,23 +7,33 @@
 
 import Foundation
 
+// MARK: - ZDSNotificationToken
+
 public final class ZDSNotificationToken {
+    // MARK: Properties
+
     private unowned var notificationCenter: NotificationCenter?
     private var token: NSObjectProtocol
 
-    deinit {
-        dispose()
-    }
+    // MARK: Lifecycle
 
     public init(notificationCenter: NotificationCenter = .default, token: NSObjectProtocol) {
         self.notificationCenter = notificationCenter
         self.token = token
     }
 
+    deinit {
+        dispose()
+    }
+
+    // MARK: Functions
+
     public func dispose() {
         notificationCenter?.removeObserver(token)
     }
 }
+
+// MARK: Hashable
 
 extension ZDSNotificationToken: Hashable {
     public static func == (lhs: ZDSNotificationToken, rhs: ZDSNotificationToken) -> Bool {

@@ -8,13 +8,18 @@
 import ObjectiveC
 import UIKit
 
-@MainActor
-private var ZD_UIAlertAction_Key: Void?
+@MainActor private var ZD_UIAlertAction_Key: Void?
+
+// MARK: - ZDActionModel
 
 public struct ZDActionModel {
+    // MARK: Properties
+
     let title: String
     let style: UIAlertAction.Style
     let tag: Int
+
+    // MARK: Lifecycle
 
     public init(
         title: String,

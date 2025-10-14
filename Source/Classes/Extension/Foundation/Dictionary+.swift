@@ -8,8 +8,7 @@
 public extension ZDSWraper where T == [AnyHashable: Any] {
     /// 字典合并
     mutating func merge<S>(_ other: S)
-        where S: Sequence, S.Iterator.Element == (key: T.Key, value: T.Value)
-    {
+        where S: Sequence, S.Iterator.Element == (key: T.Key, value: T.Value) {
         for (key, value) in other {
             base[key] = value
         }

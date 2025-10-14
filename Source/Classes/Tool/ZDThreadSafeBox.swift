@@ -9,15 +9,23 @@ import Synchronization
 
 @available(macOS 15.0, iOS 18.0, watchOS 11.0, tvOS 18.0, visionOS 2.0, *)
 public struct ZDThreadSafeBox<T>: ~Copyable {
+    // MARK: Properties
+
     private let mutex: Mutex<T>
+
+    // MARK: Computed Properties
+
+    public var value: T {
+        mutex.withLock { $0 }
+    }
+
+    // MARK: Lifecycle
 
     init(_ value: T) {
         mutex = Mutex(value)
     }
 
-    public var value: T {
-        mutex.withLock { $0 }
-    }
+    // MARK: Functions
 
     public func update(_ transform: (inout T) -> Void) {
         mutex.withLock { value in
