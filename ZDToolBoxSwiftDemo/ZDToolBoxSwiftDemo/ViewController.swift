@@ -27,6 +27,8 @@ class ViewController: UIViewController {
         super.viewDidLoad()
         // Do any additional setup after loading the view.
         
+        view.backgroundColor = .lightText
+        
         let label = ZDGradientLabel()
         let l = label.layer
         print(l)
@@ -35,11 +37,12 @@ class ViewController: UIViewController {
         
         let layout = ZDLayoutGuide()
         self.view.addLayoutGuide(layout)
-        //view.translatesAutoresizingMaskIntoConstraints = false
         NSLayoutConstraint.activate([
             layout.widthAnchor.constraint(equalTo: view.widthAnchor),
             layout.heightAnchor.constraint(equalTo: view.heightAnchor),
         ])
+        
+        resultBuilder()
     }
 
     override func viewDidAppear(_ animated: Bool) {
@@ -56,8 +59,45 @@ class ViewController: UIViewController {
 }
 
 extension ViewController {
+    func resultBuilder() {
+        let aView = {
+            let v = UIView()
+            v.backgroundColor = .red
+            v.translatesAutoresizingMaskIntoConstraints = false
+            return v
+        }()
+        view.addSubview(aView)
+        
+        let a = 1
+        let b = 2
+        NSLayoutConstraint.activate {
+            if a > b {
+                aView.widthAnchor.constraint(equalToConstant: 100)
+            } else if a < b {
+                aView.widthAnchor.constraint(equalToConstant: 200)
+            } else {
+                aView.widthAnchor.constraint(equalToConstant: 300)
+            }
+            
+            switch b {
+            case 1: aView.heightAnchor.constraint(equalToConstant: 200)
+            default: aView.heightAnchor.constraint(equalToConstant: 300)
+            }
+            
+            aView.centerXAnchor.constraint(equalTo: view.centerXAnchor)
+            aView.centerYAnchor.constraint(equalTo: view.centerYAnchor)
+        }
+    }
+}
+
+extension ViewController {
     @ZDGloableActor
     func foo() {
         debugPrint(#function)
     }
+}
+
+@available(iOS 17, *)
+#Preview(traits: .defaultLayout) {
+    ViewController()
 }
