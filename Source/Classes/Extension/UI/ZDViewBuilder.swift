@@ -9,12 +9,18 @@
 
 @resultBuilder
 public struct ZDViewBuilder<V> {
-    public static func buildBlock(_ components: [V]...) -> [V] {
-        components.flatMap { $0 }
+    /// 在 Swift ResultBuilder 中，存在一个**类型链**的概念：
+    ///    表达式 → buildExpression → 部分结果 → buildBlock → 最终结果
+    /// `buildExpression` 输出 `[V]`，把所有变量转换成了数组，所以 `buildBlock` 期望的输入是 `[V]`
+    public static func buildExpression(_ expression: V?) -> [V] {
+        guard let expression = expression else {
+            return []
+        }
+        return [expression]
     }
 
-    public static func buildArray(_ components: [[V]]) -> [V] {
-        components.flatMap { $0 }
+    public static func buildExpression(_ expression: V) -> [V] {
+        [expression]
     }
 
     public static func buildOptional(_ component: [V]?) -> [V] {
@@ -32,18 +38,15 @@ public struct ZDViewBuilder<V> {
         component
     }
 
-    public static func buildExpression(_ expression: V) -> [V] {
-        [expression]
-    }
-
-    public static func buildExpression(_ expression: V?) -> [V] {
-        guard let expression = expression else {
-            return []
-        }
-        return [expression]
-    }
-
     public static func buildLimitedAvailability(_ component: [V]) -> [V] {
         component
+    }
+
+    public static func buildBlock(_ components: [V]...) -> [V] {
+        components.flatMap { $0 }
+    }
+
+    public static func buildArray(_ components: [[V]]) -> [V] {
+        components.flatMap { $0 }
     }
 }
