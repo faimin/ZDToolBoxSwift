@@ -39,11 +39,12 @@ public func HEX(_ value: Int) -> UIColor {
 
 /// 16进制字符串转换`UIColor`, 兼容 “0xARGB”、“0xRGB”
 public func HEX(_ value: String) -> UIColor {
-    var hexString = ""
-    if value.lowercased().hasPrefix("0x") {
-        hexString = value.lowercased().replacingOccurrences(of: "0x", with: "")
+    let hexString: String
+    let lowercasedStr = value.lowercased()
+    if lowercasedStr.hasPrefix("0x") {
+        hexString = lowercasedStr.replaceText("0x", newStr: "")
     } else if value.hasPrefix("#") {
-        hexString = value.replacingOccurrences(of: "#", with: "")
+        hexString = value.replaceText("#", newStr: "")
     } else {
         hexString = value
     }
@@ -51,11 +52,11 @@ public func HEX(_ value: String) -> UIColor {
     guard let hexInt = Int(hexString, radix: 16) else {
         return UIColor.clear
     }
+
     if hexString.count <= 4 {
         return HEXShort(hexInt)
-    } else {
-        return HEX(hexInt)
     }
+    return HEX(hexInt)
 }
 
 /// 3-4位hex，如0xARGB、0xRGB
@@ -97,5 +98,15 @@ public func HEXShort(_ value: Int) -> UIColor {
 public extension ZDSWraper where T: UIColor {
     var isPatternColor: Bool {
         return base.cgColor.colorSpace?.model == .pattern
+    }
+}
+
+private extension String {
+    func replaceText(_ oldStr: String, newStr: String) -> String {
+        if #available(macOS 13.0, iOS 16.0, watchOS 9.0, tvOS 16.0, *) {
+            return self.replacing(oldStr, with: newStr)
+        } else {
+            return self.replacingOccurrences(of: oldStr, with: newStr)
+        }
     }
 }
