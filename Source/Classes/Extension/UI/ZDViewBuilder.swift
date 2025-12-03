@@ -9,8 +9,12 @@
 
 @resultBuilder
 public struct ZDViewBuilder<V> {
+    /// resultBuilder document:
+    /// https://doc.swiftgg.team/documentation/the-swift-programming-language/attributes/#resultBuilder
+    ///
     /// 在 Swift ResultBuilder 中，存在一个**类型链**的概念：
     ///    表达式 → buildExpression → 部分结果 → buildBlock → 最终结果
+    ///
     /// `buildExpression` 输出 `[V]`，把所有变量转换成了数组，所以 `buildBlock` 期望的输入是 `[V]`
     public static func buildExpression(_ expression: V?) -> [V] {
         guard let expression = expression else {

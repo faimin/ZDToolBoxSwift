@@ -68,6 +68,7 @@ extension ViewController {
         }()
         view.addSubview(aView)
         
+        let centerConstraint: NSLayoutConstraint?
         let a = 1
         let b = 2
         NSLayoutConstraint.activate {
@@ -86,6 +87,14 @@ extension ViewController {
             
             aView.centerXAnchor.constraint(equalTo: view.centerXAnchor)
             aView.centerYAnchor.constraint(equalTo: view.centerYAnchor)
+            
+            if let centerConstraint {
+                centerConstraint
+            }
+            
+            if #available(iOS 15.0, *) {
+                centerConstraint
+            }
         }
     }
 }
@@ -97,7 +106,7 @@ extension ViewController {
     }
 }
 
-@available(iOS 17, *)
+@available(iOS 17.0, *)
 #Preview(traits: .defaultLayout) {
     ViewController()
 }
