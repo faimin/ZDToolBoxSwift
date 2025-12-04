@@ -220,22 +220,6 @@ public extension ZDSWraper where T: ZDView {
         return self
     }
 
-    func viewController() -> ZDViewController? {
-        var nextResponder: ZDResponder? = base
-        while nextResponder != nil {
-            if let vc = nextResponder as? ZDViewController {
-                return vc
-            }
-            #if os(iOS) || os(tvOS)
-            nextResponder = nextResponder?.next
-            #else
-            nextResponder = nextResponder?.nextResponder
-            #endif
-        }
-
-        return nil
-    }
-
     /// ViewBuilder
     ///
     /// - Parameter components: A block for components, e.g UI/NSView、CALayer、UILayoutGuide
@@ -266,6 +250,22 @@ public extension ZDSWraper where T: ZDView {
         }
         return base
     }
+    
+    func viewController() -> ZDViewController? {
+        var nextResponder: ZDResponder? = base
+        while nextResponder != nil {
+            if let vc = nextResponder as? ZDViewController {
+                return vc
+            }
+            #if os(iOS) || os(tvOS)
+            nextResponder = nextResponder?.next
+            #else
+            nextResponder = nextResponder?.nextResponder
+            #endif
+        }
+        
+        return nil
+    }
 
     /// Checkes if the view is (mostly) visible to user or not.
     /// Internaly it checks following things
@@ -287,6 +287,22 @@ public extension ZDSWraper where T: ZDView {
         return true
     }
 
+    /// Search constraints until we find one for the given view
+    /// and attribute. This will enumerate ancestors since constraints are
+    /// always added to the common ancestor.
+    ///
+    /// - Parameters:
+    ///   - attribute: the attribute to find.
+    ///   - view: the view to find.
+    /// - Returns: matched constraint.
+    func findConstraint(attribute: NSLayoutConstraint.Attribute, for view: UIView) -> NSLayoutConstraint? {
+        let constraint = base.constraints.first {
+            ($0.firstAttribute == attribute && $0.firstItem as? UIView == view) ||
+            ($0.secondAttribute == attribute && $0.secondItem as? UIView == view)
+        }
+        return constraint ?? base.superview?.zd.findConstraint(attribute: attribute, for: view)
+    }
+    
     var screenshot: UIImage? {
         /*
          defer {
