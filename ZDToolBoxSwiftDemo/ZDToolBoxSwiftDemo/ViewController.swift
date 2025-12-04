@@ -68,7 +68,7 @@ extension ViewController {
         }()
         view.addSubview(aView)
         
-        let centerConstraint: NSLayoutConstraint?
+        var centerConstraint: NSLayoutConstraint?
         let a = 1
         let b = 2
         NSLayoutConstraint.activate {
