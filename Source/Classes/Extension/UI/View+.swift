@@ -36,7 +36,7 @@ extension CALayer: ZDComponentProtocol {}
 extension UILayoutGuide: ZDComponentProtocol {}
 
 @MainActor
-public extension ZDSWraper where T: ZDView {
+public extension ZDSWrapper where T: ZDView {
     // MARK: - Frame
 
     var x: CGFloat {
@@ -195,7 +195,7 @@ public extension ZDSWraper where T: ZDView {
 }
 
 @MainActor
-public extension ZDSWraper where T: ZDView {
+public extension ZDSWrapper where T: ZDView {
     /// Convenience function to ease creating new views.
     ///
     /// - Parameter builder: A function that takes the newly created view.

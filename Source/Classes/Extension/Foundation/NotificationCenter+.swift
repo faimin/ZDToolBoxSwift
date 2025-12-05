@@ -47,7 +47,7 @@ extension ZDSNotificationToken: Hashable {
 
 private nonisolated(unsafe) var NotificationTokenKey: Void?
 
-public extension ZDSWraper where T == NotificationCenter {
+public extension ZDSWrapper where T == NotificationCenter {
     private func tokens(_ observer: Any) -> NSMutableSet {
         var set = objc_getAssociatedObject(observer, &NotificationTokenKey) as? NSMutableSet
         guard let value = set else {

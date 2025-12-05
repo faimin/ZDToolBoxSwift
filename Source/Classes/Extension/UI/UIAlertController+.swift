@@ -33,7 +33,7 @@ public struct ZDActionModel {
 }
 
 @MainActor
-public extension ZDSWraper where T: UIAlertController {
+public extension ZDSWrapper where T: UIAlertController {
     /// 便捷创建Alert弹窗
     ///
     /// - Parameters:

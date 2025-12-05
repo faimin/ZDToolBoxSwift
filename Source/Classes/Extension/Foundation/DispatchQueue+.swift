@@ -7,7 +7,7 @@
 
 import Foundation
 
-public extension ZDSWraper where T == DispatchQueue {
+public extension ZDSWrapper where T == DispatchQueue {
     private nonisolated(unsafe) static var _onceTracker = Set<String>()
 
     static func once(

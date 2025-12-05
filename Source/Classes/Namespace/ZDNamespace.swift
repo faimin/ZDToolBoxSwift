@@ -7,9 +7,9 @@
 
 import Foundation
 
-// MARK: - ZDSWraper
+// MARK: - ZDSWrapper
 
-public struct ZDSWraper<T> {
+public struct ZDSWrapper<T> {
     // MARK: Properties
 
     /// Base object to extend.
@@ -31,23 +31,23 @@ public protocol ZDSAny {
     associatedtype ZDSType
 
     /// Type
-    static var zd: ZDSWraper<ZDSType>.Type { get set }
+    static var zd: ZDSWrapper<ZDSType>.Type { get set }
 
     /// Instance
-    var zd: ZDSWraper<ZDSType> { mutating get set }
+    var zd: ZDSWrapper<ZDSType> { mutating get set }
 }
 
 public extension ZDSAny {
-    static var zd: ZDSWraper<Self>.Type {
+    static var zd: ZDSWrapper<Self>.Type {
         get {
-            return ZDSWraper<Self>.self
+            return ZDSWrapper<Self>.self
         }
         set {}
     }
 
-    var zd: ZDSWraper<Self> {
+    var zd: ZDSWrapper<Self> {
         get {
-            ZDSWraper(self)
+            ZDSWrapper(self)
         }
         set {}
     }

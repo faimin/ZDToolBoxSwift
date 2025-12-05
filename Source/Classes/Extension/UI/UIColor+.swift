@@ -95,7 +95,7 @@ public func HEXShort(_ value: Int) -> UIColor {
     )
 }
 
-public extension ZDSWraper where T: UIColor {
+public extension ZDSWrapper where T: UIColor {
     var isPatternColor: Bool {
         return base.cgColor.colorSpace?.model == .pattern
     }

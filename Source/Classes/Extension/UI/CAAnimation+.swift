@@ -28,7 +28,7 @@ private final class CAAnimationDelegateProxy: NSObject, CAAnimationDelegate {
     }
 }
 
-public extension ZDSWraper where T: CAAnimation {
+public extension ZDSWrapper where T: CAAnimation {
     /// Create delegate proxy if it doesn't exist
     ///
     /// The delegate object is retained by the receiver

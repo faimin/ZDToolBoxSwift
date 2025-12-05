@@ -9,7 +9,7 @@
 import UIKit
 
 @MainActor
-public extension ZDSWraper where T: UIApplication {
+public extension ZDSWrapper where T: UIApplication {
     /// https://github.com/reers/ReerKit/blob/main/Sources/ReerKit/UIKit/UIApplication+REExtensions.swift
     static var keyWindow: UIWindow? {
         let application = UIApplication.shared

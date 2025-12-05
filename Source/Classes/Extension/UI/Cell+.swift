@@ -27,7 +27,7 @@ extension UITableViewCell: ZDSCellProtocol {}
 
 extension UICollectionReusableView: ZDSCellProtocol {}
 
-public extension ZDSWraper where T: ZDSCellProtocol {
+public extension ZDSWrapper where T: ZDSCellProtocol {
     static var reuseIdentifier: String {
         String(describing: T.self)
     }

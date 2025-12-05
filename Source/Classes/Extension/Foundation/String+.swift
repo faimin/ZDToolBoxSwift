@@ -7,7 +7,7 @@
 
 import Foundation
 
-public extension ZDSWraper where T == String {
+public extension ZDSWrapper where T == String {
     subscript<R>(range: R) -> T.SubSequence where R: RangeExpression, R.Bound == Int {
         let range = range.relative(to: Int.min ..< Int.max)
         guard let firstIndex = base.index(base.startIndex, offsetBy: range.lowerBound, limitedBy: base.endIndex),
@@ -59,7 +59,7 @@ public extension ZDSWraper where T == String {
     }
 }
 
-public extension ZDSWraper where T == String {
+public extension ZDSWrapper where T == String {
     func substring(maxLength: Int, addEllipsis: Bool) -> String {
         guard !base.isEmpty else {
             return base
@@ -86,7 +86,7 @@ public extension ZDSWraper where T == String {
     }
 }
 
-public extension ZDSWraper where T == String {
+public extension ZDSWrapper where T == String {
     /// urlComponents
     var urlComponents: URLComponents {
         var components = URLComponents(string: base) ?? URLComponents()

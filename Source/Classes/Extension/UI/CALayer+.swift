@@ -5,7 +5,7 @@
 //  Created by Zero_D_Saber on 2024/11/20.
 //
 
-public extension ZDSWraper where T: CALayer {
+public extension ZDSWrapper where T: CALayer {
     func snapshot(_ size: CGSize = .zero) -> UIImage {
         var newSize = size
         if newSize.width.isZero || newSize.height.isZero {
