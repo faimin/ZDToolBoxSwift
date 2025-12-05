@@ -41,8 +41,6 @@ class ViewController: UIViewController {
             layout.widthAnchor.constraint(equalTo: view.widthAnchor),
             layout.heightAnchor.constraint(equalTo: view.heightAnchor),
         ])
-        
-        resultBuilder()
     }
 
     override func viewDidAppear(_ animated: Bool) {
@@ -54,51 +52,6 @@ class ViewController: UIViewController {
             }
         } else {
             // Fallback on earlier versions
-        }
-    }
-}
-
-extension ViewController {
-    func resultBuilder() {
-        let aView = {
-            let v = UIView()
-            v.backgroundColor = .red
-            v.translatesAutoresizingMaskIntoConstraints = false
-            return v
-        }()
-        view.addSubview(aView)
-        
-        var centerConstraint: NSLayoutConstraint?
-        centerConstraint = nil //Fix warning
-        let a = 1
-        let b = 2
-        NSLayoutConstraint.zd.activate {
-            if a > b {
-                aView.widthAnchor.constraint(equalToConstant: 100)
-            } else if a < b {
-                aView.widthAnchor.constraint(equalToConstant: 200)
-            } else {
-                aView.widthAnchor.constraint(equalToConstant: 300)
-            }
-            
-            switch b {
-            case 1: aView.heightAnchor.constraint(equalToConstant: 200)
-            default: aView.heightAnchor.constraint(equalToConstant: 300)
-            }
-            
-            aView.centerXAnchor.constraint(equalTo: view.centerXAnchor)
-            
-            for i in (0..<1) {
-                aView.centerYAnchor.constraint(equalTo: view.centerYAnchor)
-            }
-            
-            if let centerConstraint {
-                centerConstraint
-            }
-            
-            if #available(iOS 15.0, *) {
-                centerConstraint
-            }
         }
     }
 }
