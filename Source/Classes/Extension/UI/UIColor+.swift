@@ -106,7 +106,7 @@ private extension String {
         if #available(macOS 13.0, iOS 16.0, watchOS 9.0, tvOS 16.0, *) {
             return self.replacing(oldStr, with: newStr)
         } else {
-            return self.replacingOccurrences(of: oldStr, with: newStr)
+            return replacingOccurrences(of: oldStr, with: newStr)
         }
     }
 }

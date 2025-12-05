@@ -5,8 +5,8 @@
 //  Created by Zero_D_Saber on 2025/10/14.
 //
 
-import UIKit
 import Combine
+import UIKit
 
 // MARK: - ZDPopupAnimationType
 
@@ -31,11 +31,11 @@ public class ZDCommonPopupView<T: UIView>: UIControl {
     // MARK: Lifecycle
 
     @available(*, unavailable)
-    required public init?(coder: NSCoder) {
+    public required init?(coder _: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
 
-    public override init(frame: CGRect) {
+    override public init(frame: CGRect) {
         super.init(frame: frame)
 
         backgroundColor = UIColor(white: 0, alpha: 0.3)
@@ -47,7 +47,7 @@ public class ZDCommonPopupView<T: UIView>: UIControl {
 
     @objc
     private func onClick() {
-        guard self.enableCloseOnTouchOutside else {
+        guard enableCloseOnTouchOutside else {
             return
         }
 
@@ -145,7 +145,7 @@ public extension ZDCommonPopupView {
     }
 
     func dismiss(_ completion: ((ZDCommonPopupView<T>) -> Void)? = nil) {
-        self.alpha = 1
+        alpha = 1
         UIView.animate(withDuration: 0.25) {
             self.alpha = 0
 
