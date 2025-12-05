@@ -149,8 +149,8 @@ public struct ZDViewBuilder<T> {
         component
     }
 
-    public static func buildArray(_ components: [[T]]) -> [T] {
-        components.flatMap { $0 }
+    public static func buildArray(_ components: [Component]) -> Component {
+        .elements(components.flatMap(\.values))
     }
 
     public static func buildBlock(_ components: Component...) -> Component {
