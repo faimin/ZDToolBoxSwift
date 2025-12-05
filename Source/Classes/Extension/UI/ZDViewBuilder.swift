@@ -5,7 +5,9 @@
 //  Created by Zero.D.Saber on 2025/4/26.
 //
 
-// MARK: - ZDViewBuilder
+#if true
+
+// MARK: - ZDBuildElement
 
 @resultBuilder
 public struct ZDViewBuilder<T> {
@@ -23,6 +25,7 @@ public struct ZDViewBuilder<T> {
     ///    表达式 → buildExpression → 部分结果 → buildBlock → 最终结果
     ///
     /// `buildExpression` 输出 `[V]`，把所有变量转换成了数组，所以 `buildBlock` 期望的输入是 `[V]`
+    /// 在`if/switch`方法块中属于部分结果，也会执行`buildBlock`
     public static func buildExpression(_ expression: Expression?) -> Component {
         guard let expression = expression else {
             return []
@@ -34,9 +37,85 @@ public struct ZDViewBuilder<T> {
         [expression]
     }
 
+    /// if
     public static func buildOptional(_ component: Component?) -> Component {
         guard let component = component else {
             return []
+        }
+        return component
+    }
+
+    /// if-else / switch
+    public static func buildEither(first component: Component) -> Component {
+        component
+    }
+
+    /// if-else / switch
+    public static func buildEither(second component: Component) -> Component {
+        component
+    }
+
+    /// #if avaliable
+    public static func buildLimitedAvailability(_ component: Component) -> Component {
+        component
+    }
+
+    /// for-in
+    public static func buildArray(_ components: [Component]) -> Component {
+        components.flatMap { $0 }
+    }
+
+    /// 在if方法块中属于部分结果，也会执行buildBlock
+    public static func buildBlock(_ components: Component...) -> Component {
+        components.flatMap { $0 }
+    }
+}
+
+#else
+
+// MARK: - ZDBuildElement
+
+public enum ZDBuildElement<E> {
+    case element(E)
+    case elements([E])
+    case empty
+
+    // MARK: Computed Properties
+
+    var values: [E] {
+        switch self {
+        case let .element(x): [x]
+        case let .elements(xx): xx
+        case .empty: []
+        }
+    }
+}
+
+// MARK: - ZDViewBuilder
+
+@resultBuilder
+public struct ZDViewBuilder<T> {
+    // MARK: Nested Types
+
+    public typealias Expression = T
+    public typealias Component = ZDBuildElement<T>
+
+    // MARK: Static Functions
+
+    public static func buildExpression(_ expression: Expression?) -> Component {
+        guard let expression else {
+            return .empty
+        }
+        return .element(expression)
+    }
+
+    public static func buildExpression(_ expression: Expression) -> Component {
+        .element(expression)
+    }
+
+    public static func buildOptional(_ component: Component?) -> Component {
+        guard let component = component else {
+            return .empty
         }
         return component
     }
@@ -53,11 +132,18 @@ public struct ZDViewBuilder<T> {
         component
     }
 
-    public static func buildBlock(_ components: Component...) -> Component {
+    public static func buildArray(_ components: [[T]]) -> [T] {
         components.flatMap { $0 }
     }
 
-    public static func buildArray(_ components: [Component]) -> Component {
-        components.flatMap { $0 }
+    public static func buildBlock(_ components: Component...) -> Component {
+        let expressions = components.flatMap(\.values)
+        return .elements(expressions)
+    }
+
+    public static func buildFinalResult(_ component: Component) -> [Expression] {
+        component.values
     }
 }
+
+#endif
