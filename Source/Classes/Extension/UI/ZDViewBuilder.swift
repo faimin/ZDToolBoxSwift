@@ -69,6 +69,17 @@ public struct ZDViewBuilder<T> {
     public static func buildBlock(_ components: Component...) -> Component {
         components.flatMap { $0 }
     }
+
+    public static func buildPartialBlock(first: ZDViewBuilder<T>.Component) -> ZDViewBuilder<T>.Component {
+        first
+    }
+
+    public static func buildPartialBlock(
+        accumulated: ZDViewBuilder<T>.Component,
+        next: ZDViewBuilder<T>.Component
+    ) -> ZDViewBuilder<T>.Component {
+        accumulated + next
+    }
 }
 
 #else
@@ -88,6 +99,12 @@ public enum ZDBuildElement<E> {
         case let .elements(xx): xx
         case .empty: []
         }
+    }
+
+    // MARK: Static Functions
+
+    static func + (lhs: Self, rhs: Self) -> Self {
+        .elements(lhs.values + rhs.values)
     }
 }
 
@@ -139,6 +156,17 @@ public struct ZDViewBuilder<T> {
     public static func buildBlock(_ components: Component...) -> Component {
         let expressions = components.flatMap(\.values)
         return .elements(expressions)
+    }
+
+    public static func buildPartialBlock(first: ZDViewBuilder<T>.Component) -> ZDViewBuilder<T>.Component {
+        first
+    }
+
+    public static func buildPartialBlock(
+        accumulated: ZDViewBuilder<T>.Component,
+        next: ZDViewBuilder<T>.Component
+    ) -> ZDViewBuilder<T>.Component {
+        accumulated + next
     }
 
     public static func buildFinalResult(_ component: Component) -> [Expression] {
