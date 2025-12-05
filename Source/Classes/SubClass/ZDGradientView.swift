@@ -12,7 +12,7 @@ public class ZDGradientView: UIView {
         return CAGradientLayer.self
     }
 
-    // MARK: Computed Properties
+    // MARK: Properties
 
     @objc public var colors: [UIColor]? {
         didSet {
@@ -37,6 +37,8 @@ public class ZDGradientView: UIView {
             gradientLayer.locations = locations
         }
     }
+
+    // MARK: Computed Properties
 
     @objc public var gradientLayer: CAGradientLayer {
         guard let layer = layer as? CAGradientLayer else {
