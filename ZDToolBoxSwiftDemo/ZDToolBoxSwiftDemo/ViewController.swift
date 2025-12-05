@@ -69,6 +69,7 @@ extension ViewController {
         view.addSubview(aView)
         
         var centerConstraint: NSLayoutConstraint?
+        centerConstraint = nil //Fix warning
         let a = 1
         let b = 2
         NSLayoutConstraint.activate {
@@ -86,7 +87,10 @@ extension ViewController {
             }
             
             aView.centerXAnchor.constraint(equalTo: view.centerXAnchor)
-            aView.centerYAnchor.constraint(equalTo: view.centerYAnchor)
+            
+            for i in (0..<1) {
+                aView.centerYAnchor.constraint(equalTo: view.centerYAnchor)
+            }
             
             if let centerConstraint {
                 centerConstraint

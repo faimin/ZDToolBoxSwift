@@ -9,7 +9,7 @@ target 'ZDToolBoxSwiftDemo' do
   # 规则： https://realm.github.io/SwiftLint/rule-directory.html
   pod 'SwiftLint', '~> 0.57'
   # 规则： https://github.com/nicklockwood/SwiftFormat/blob/main/Rules.md
-  pod 'SwiftFormat/CLI', '~> 0.54'
+  pod 'SwiftFormat/CLI', '~> 0.58'
   
   # Pods for ZDToolBoxSwiftDemo
   pod 'ZDToolBoxSwift', :path => '../ZDToolBoxSwift.podspec'

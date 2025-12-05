@@ -12,7 +12,7 @@
 public actor ZDGloableActor: GlobalActor {
     // MARK: Static Properties
 
-    public static var shared = ZDGloableActor()
+    public static let shared = ZDGloableActor()
 
     private static let excutor = ZDExecutor()
 

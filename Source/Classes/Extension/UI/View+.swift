@@ -224,17 +224,16 @@ public extension ZDSWraper where T: ZDView {
     ///
     /// - Parameter components: A block for components, e.g UI/NSView、CALayer、UILayoutGuide
     ///
-    /// @code
-    /// ```swift
-    /// view.addComponents {
-    ///     email
-    ///     password
-    ///     login
-    ///     layoutGuide
-    ///     gradientLayer
-    /// }
-    /// ```
-    /// @endcode
+    ///     ```swift
+    ///     view.addComponents {
+    ///         email
+    ///         password
+    ///         login
+    ///         layoutGuide
+    ///         gradientLayer
+    ///     }
+    ///     ```
+    /// - Returns: View
     @discardableResult
     func addComponents(@ZDViewBuilder<any ZDComponentProtocol> _ components: () -> [any ZDComponentProtocol]) -> T {
         for item in components() {
@@ -250,7 +249,7 @@ public extension ZDSWraper where T: ZDView {
         }
         return base
     }
-    
+
     func viewController() -> ZDViewController? {
         var nextResponder: ZDResponder? = base
         while nextResponder != nil {
@@ -263,7 +262,7 @@ public extension ZDSWraper where T: ZDView {
             nextResponder = nextResponder?.nextResponder
             #endif
         }
-        
+
         return nil
     }
 
@@ -298,11 +297,11 @@ public extension ZDSWraper where T: ZDView {
     func findConstraint(attribute: NSLayoutConstraint.Attribute, for view: UIView) -> NSLayoutConstraint? {
         let constraint = base.constraints.first {
             ($0.firstAttribute == attribute && $0.firstItem as? UIView == view) ||
-            ($0.secondAttribute == attribute && $0.secondItem as? UIView == view)
+                ($0.secondAttribute == attribute && $0.secondItem as? UIView == view)
         }
         return constraint ?? base.superview?.zd.findConstraint(attribute: attribute, for: view)
     }
-    
+
     var screenshot: UIImage? {
         /*
          defer {
