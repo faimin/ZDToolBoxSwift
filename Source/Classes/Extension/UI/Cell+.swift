@@ -10,33 +10,25 @@ import UIKit
 // MARK: - ZDSCellProtocol
 
 public protocol ZDSCellProtocol: AnyObject {
-    associatedtype T
-
-    /// cell重用id
-    static var reuseIdentifier: String { get }
-
-    /// 绑定数据
-    func bindModel(_ model: T)
+    func bindModel<T>(_ model: T)
 }
 
 public extension ZDSCellProtocol {
-    static var reuseIdentifier: String {
-        return String(describing: self)
-    }
-
-    func bindModel(_: T) {
-        debugPrint("ZDSCellProtocol -> \(#function) 默认实现")
+    func bindModel<T>(_: T) {
+        debugPrint("ZDSCellProtocol -> \(#function)'s default implication")
     }
 }
 
 // MARK: - UITableViewCell + ZDSCellProtocol
 
-extension UITableViewCell: ZDSCellProtocol {
-    public typealias T = Any
-}
+extension UITableViewCell: ZDSCellProtocol {}
 
 // MARK: - UICollectionReusableView + ZDSCellProtocol
 
-extension UICollectionReusableView: ZDSCellProtocol {
-    public typealias T = Any
+extension UICollectionReusableView: ZDSCellProtocol {}
+
+public extension ZDSWraper where T: ZDSCellProtocol {
+    static var reuseIdentifier: String {
+        String(describing: T.self)
+    }
 }

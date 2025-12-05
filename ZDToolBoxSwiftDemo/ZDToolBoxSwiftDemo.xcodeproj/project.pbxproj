@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		07A599721AFF0D41DE9911EA /* libPods-ZDToolBoxSwiftDemo.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 746E0A9B3D74E0CD6AB5695F /* libPods-ZDToolBoxSwiftDemo.a */; };
+		C20D668A2EE2D8A50005079D /* CellExtensionTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C20D66892EE2D89D0005079D /* CellExtensionTests.swift */; };
 		D7719631CE869CB2D1835CEA /* libPods-ZDToolBoxSwiftDemoUITests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 57C958A3B9A11E8E8843798E /* libPods-ZDToolBoxSwiftDemoUITests.a */; };
 		DA3546AF2B10F36C006ACF2A /* ZDSwiftToolKitDemoTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA3546AE2B10F36C006ACF2A /* ZDSwiftToolKitDemoTests.swift */; };
 		DA3546B12B10F39C006ACF2A /* ZDSwiftToolKitDemoUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA3546B02B10F39C006ACF2A /* ZDSwiftToolKitDemoUITests.swift */; };
@@ -48,6 +49,7 @@
 		746E0A9B3D74E0CD6AB5695F /* libPods-ZDToolBoxSwiftDemo.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-ZDToolBoxSwiftDemo.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		85885DA783DDAFA31E0DB0E4 /* Pods-ZDToolBoxSwiftDemo.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ZDToolBoxSwiftDemo.release.xcconfig"; path = "Target Support Files/Pods-ZDToolBoxSwiftDemo/Pods-ZDToolBoxSwiftDemo.release.xcconfig"; sourceTree = "<group>"; };
 		95ADEB99A5AD1E09328BF114 /* Pods-ZDToolBoxSwiftDemo-ZDToolBoxSwiftDemoUITests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ZDToolBoxSwiftDemo-ZDToolBoxSwiftDemoUITests.release.xcconfig"; path = "Target Support Files/Pods-ZDToolBoxSwiftDemo-ZDToolBoxSwiftDemoUITests/Pods-ZDToolBoxSwiftDemo-ZDToolBoxSwiftDemoUITests.release.xcconfig"; sourceTree = "<group>"; };
+		C20D66892EE2D89D0005079D /* CellExtensionTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CellExtensionTests.swift; sourceTree = "<group>"; };
 		C28358522DE046E70078A681 /* UILayoutGuide+Private.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "UILayoutGuide+Private.h"; sourceTree = "<group>"; };
 		C2CA7F702DCCA212000BF730 /* ZDToolBoxSwiftDemoTests-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "ZDToolBoxSwiftDemoTests-Bridging-Header.h"; sourceTree = "<group>"; };
 		DA3546AE2B10F36C006ACF2A /* ZDSwiftToolKitDemoTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ZDSwiftToolKitDemoTests.swift; sourceTree = "<group>"; };
@@ -172,6 +174,7 @@
 			children = (
 				DAFC72E92DD63A87005BD900 /* ZDChainCallerTests.swift */,
 				DAFC72EB2DD786E2005BD900 /* ZDDelayTests.swift */,
+				C20D66892EE2D89D0005079D /* CellExtensionTests.swift */,
 				DA3546AE2B10F36C006ACF2A /* ZDSwiftToolKitDemoTests.swift */,
 				C2CA7F702DCCA212000BF730 /* ZDToolBoxSwiftDemoTests-Bridging-Header.h */,
 				FA7083A4255A32E200B523C9 /* Info.plist */,
@@ -447,6 +450,7 @@
 				DAFC72EA2DD63A87005BD900 /* ZDChainCallerTests.swift in Sources */,
 				DAFC72EC2DD786EB005BD900 /* ZDDelayTests.swift in Sources */,
 				DA3546AF2B10F36C006ACF2A /* ZDSwiftToolKitDemoTests.swift in Sources */,
+				C20D668A2EE2D8A50005079D /* CellExtensionTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
