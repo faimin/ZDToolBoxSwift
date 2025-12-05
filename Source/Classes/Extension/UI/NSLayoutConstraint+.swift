@@ -5,13 +5,14 @@
 //  Created by Zero_D_Saber on 2025/12/2.
 //
 
-public extension NSLayoutConstraint {
+@MainActor
+public extension ZDSWraper where T: NSLayoutConstraint {
     static func activate(@ZDViewBuilder<NSLayoutConstraint> _ constraints: () -> [NSLayoutConstraint]) {
         let constraintArr = constraints()
         guard !constraintArr.isEmpty else {
             return
         }
-        NSLayoutConstraint.activate(constraintArr)
+        T.activate(constraintArr)
     }
 
     static func deactivate(@ZDViewBuilder<NSLayoutConstraint> _ constraints: () -> [NSLayoutConstraint]) {
@@ -19,6 +20,6 @@ public extension NSLayoutConstraint {
         guard !constraintArr.isEmpty else {
             return
         }
-        NSLayoutConstraint.deactivate(constraintArr)
+        T.deactivate(constraintArr)
     }
 }

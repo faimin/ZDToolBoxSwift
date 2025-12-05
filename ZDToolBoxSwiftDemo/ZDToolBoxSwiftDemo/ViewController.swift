@@ -72,7 +72,7 @@ extension ViewController {
         centerConstraint = nil //Fix warning
         let a = 1
         let b = 2
-        NSLayoutConstraint.activate {
+        NSLayoutConstraint.zd.activate {
             if a > b {
                 aView.widthAnchor.constraint(equalToConstant: 100)
             } else if a < b {
