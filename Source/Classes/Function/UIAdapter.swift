@@ -50,8 +50,6 @@ public enum UIAdapter {
 
     // MARK: Static Computed Properties
 
-    // MARK: - 计算属性
-
     public static var safeAreaTopMargin: CGFloat {
         safeAreaInsets.top
     }

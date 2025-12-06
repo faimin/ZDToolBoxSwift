@@ -49,11 +49,10 @@ private nonisolated(unsafe) var NotificationTokenKey: Void?
 
 public extension ZDSWrapper where T == NotificationCenter {
     private func tokens(_ observer: Any) -> NSMutableSet {
-        var set = objc_getAssociatedObject(observer, &NotificationTokenKey) as? NSMutableSet
-        guard let value = set else {
-            set = NSMutableSet()
+        guard let value = objc_getAssociatedObject(observer, &NotificationTokenKey) as? NSMutableSet else {
+            let set = NSMutableSet()
             objc_setAssociatedObject(observer, &NotificationTokenKey, set, .OBJC_ASSOCIATION_RETAIN_NONATOMIC)
-            return set!
+            return set
         }
         return value
     }

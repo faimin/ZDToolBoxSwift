@@ -7,6 +7,10 @@
 
 public extension ZDSWrapper where T == IntegerLiteralType {
     var toBool: Bool {
-        return base != 0
+        base != 0
+    }
+
+    var toStr: String {
+        "\(base)"
     }
 }
