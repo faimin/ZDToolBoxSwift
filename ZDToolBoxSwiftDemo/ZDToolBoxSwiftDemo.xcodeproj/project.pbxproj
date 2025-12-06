@@ -52,7 +52,6 @@
 		95ADEB99A5AD1E09328BF114 /* Pods-ZDToolBoxSwiftDemo-ZDToolBoxSwiftDemoUITests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ZDToolBoxSwiftDemo-ZDToolBoxSwiftDemoUITests.release.xcconfig"; path = "Target Support Files/Pods-ZDToolBoxSwiftDemo-ZDToolBoxSwiftDemoUITests/Pods-ZDToolBoxSwiftDemo-ZDToolBoxSwiftDemoUITests.release.xcconfig"; sourceTree = "<group>"; };
 		C20D66892EE2D89D0005079D /* ZDCellExtensionTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ZDCellExtensionTests.swift; sourceTree = "<group>"; };
 		C20D668B2EE2DFC70005079D /* ZDViewResultBuilder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ZDViewResultBuilder.swift; sourceTree = "<group>"; };
-		C28358522DE046E70078A681 /* UILayoutGuide+Private.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "UILayoutGuide+Private.h"; sourceTree = "<group>"; };
 		C2CA7F702DCCA212000BF730 /* ZDToolBoxSwiftDemoTests-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "ZDToolBoxSwiftDemoTests-Bridging-Header.h"; sourceTree = "<group>"; };
 		DA3546AE2B10F36C006ACF2A /* ZDSwiftToolKitDemoTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ZDSwiftToolKitDemoTests.swift; sourceTree = "<group>"; };
 		DA3546B02B10F39C006ACF2A /* ZDSwiftToolKitDemoUITests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ZDSwiftToolKitDemoUITests.swift; sourceTree = "<group>"; };
@@ -160,7 +159,6 @@
 				FA70838B255A32DF00B523C9 /* AppDelegate.swift */,
 				FA70838D255A32DF00B523C9 /* SceneDelegate.swift */,
 				FA70838F255A32DF00B523C9 /* ViewController.swift */,
-				C28358522DE046E70078A681 /* UILayoutGuide+Private.h */,
 				FA46777528F3CA4E005E0A99 /* ZDExcuteSymbol.swift */,
 				FA708391255A32DF00B523C9 /* Main.storyboard */,
 				FA708394255A32E100B523C9 /* Assets.xcassets */,

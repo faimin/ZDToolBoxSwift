@@ -8,6 +8,7 @@
 #ifndef UILayoutGuidePrivate_h
 #define UILayoutGuidePrivate_h
 
+#if DEBUG
 @import UIKit;
 
 @interface UILayoutGuide ()
@@ -15,5 +16,6 @@
 - (void)_updateLayoutFrameInOwningView:(id)arg1 fromEngine:(id)arg2;
 
 @end
+#endif
 
 #endif

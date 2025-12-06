@@ -36,7 +36,7 @@ Pod::Spec.new do |spec|
     :tag => "#{spec.version}" 
   }
 
-  spec.source_files  = "Source/Classes", "Source/Classes/**/*.{swift}"
+  spec.source_files  = "Source/Classes", "Source/Classes/**/*.{h,m,swift}"
   spec.exclude_files = "Classes/Exclude"
   # spec.public_header_files = "Classes/**/*.h"
   # spec.resource  = "icon.png"
