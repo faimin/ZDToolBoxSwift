@@ -19,7 +19,7 @@ public extension ZDSWrapper where T: CALayer {
     }
 
     @discardableResult
-    func components<V: CALayer>(@ZDViewBuilder<V> _ content: () -> [V]) -> T {
+    func components<V: CALayer>(@ZDArrayBuilder<V> _ content: () -> [V]) -> T {
         for item in content() {
             base.addSublayer(item)
         }

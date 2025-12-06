@@ -1,5 +1,5 @@
 //
-//  ZDViewBuilder.swift
+//  ZDArrayBuilder.swift
 //  Pods
 //
 //  Created by Zero.D.Saber on 2025/4/26.
@@ -10,7 +10,7 @@
 // MARK: - ZDBuildElement
 
 @resultBuilder
-public struct ZDViewBuilder<T> {
+public struct ZDArrayBuilder<T> {
     // MARK: Nested Types
 
     public typealias Expression = T
@@ -70,14 +70,14 @@ public struct ZDViewBuilder<T> {
         components.flatMap { $0 }
     }
 
-    public static func buildPartialBlock(first: ZDViewBuilder<T>.Component) -> ZDViewBuilder<T>.Component {
+    public static func buildPartialBlock(first: ZDArrayBuilder<T>.Component) -> ZDArrayBuilder<T>.Component {
         first
     }
 
     public static func buildPartialBlock(
-        accumulated: ZDViewBuilder<T>.Component,
-        next: ZDViewBuilder<T>.Component
-    ) -> ZDViewBuilder<T>.Component {
+        accumulated: ZDArrayBuilder<T>.Component,
+        next: ZDArrayBuilder<T>.Component
+    ) -> ZDArrayBuilder<T>.Component {
         accumulated + next
     }
 }
@@ -108,10 +108,10 @@ public enum ZDBuildElement<E> {
     }
 }
 
-// MARK: - ZDViewBuilder
+// MARK: - ZDArrayBuilder
 
 @resultBuilder
-public struct ZDViewBuilder<T> {
+public struct ZDArrayBuilder<T> {
     // MARK: Nested Types
 
     public typealias Expression = T
@@ -158,14 +158,14 @@ public struct ZDViewBuilder<T> {
         return .elements(expressions)
     }
 
-    public static func buildPartialBlock(first: ZDViewBuilder<T>.Component) -> ZDViewBuilder<T>.Component {
+    public static func buildPartialBlock(first: ZDArrayBuilder<T>.Component) -> ZDArrayBuilder<T>.Component {
         first
     }
 
     public static func buildPartialBlock(
-        accumulated: ZDViewBuilder<T>.Component,
-        next: ZDViewBuilder<T>.Component
-    ) -> ZDViewBuilder<T>.Component {
+        accumulated: ZDArrayBuilder<T>.Component,
+        next: ZDArrayBuilder<T>.Component
+    ) -> ZDArrayBuilder<T>.Component {
         accumulated + next
     }
 

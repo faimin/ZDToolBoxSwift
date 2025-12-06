@@ -7,7 +7,7 @@
 
 @MainActor
 public extension ZDSWrapper where T: NSLayoutConstraint {
-    static func activate(@ZDViewBuilder<NSLayoutConstraint> _ constraints: () -> [NSLayoutConstraint]) {
+    static func activate(@ZDArrayBuilder<NSLayoutConstraint> _ constraints: () -> [NSLayoutConstraint]) {
         let constraintArr = constraints()
         guard !constraintArr.isEmpty else {
             return
@@ -15,7 +15,7 @@ public extension ZDSWrapper where T: NSLayoutConstraint {
         T.activate(constraintArr)
     }
 
-    static func deactivate(@ZDViewBuilder<NSLayoutConstraint> _ constraints: () -> [NSLayoutConstraint]) {
+    static func deactivate(@ZDArrayBuilder<NSLayoutConstraint> _ constraints: () -> [NSLayoutConstraint]) {
         let constraintArr = constraints()
         guard !constraintArr.isEmpty else {
             return

@@ -235,7 +235,7 @@ public extension ZDSWrapper where T: ZDView {
     ///     ```
     /// - Returns: View
     @discardableResult
-    func addComponents(@ZDViewBuilder<any ZDComponentProtocol> _ components: () -> [any ZDComponentProtocol]) -> T {
+    func addComponents(@ZDArrayBuilder<any ZDComponentProtocol> _ components: () -> [any ZDComponentProtocol]) -> T {
         for item in components() {
             if let view = item as? UIView {
                 base.addSubview(view)
