@@ -9,11 +9,11 @@ import UIKit
 import ZDToolBoxSwift
 
 class ViewController: UIViewController {
+    @IBOutlet weak var aV: UIView!
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view.
-        
-        view.backgroundColor = .systemIndigo
         
         let _ = ZDExcuteSymbol()
     }
@@ -28,6 +28,17 @@ class ViewController: UIViewController {
         } else {
             // Fallback on earlier versions
         }
+    }
+}
+
+private extension ViewController {
+    @objc
+    @IBAction func fold(_ sender: UIButton) {
+        print(#function)
+        #if false
+        aV.zd.fold(sender.isSelected)
+        #endif
+        sender.isSelected.toggle()
     }
 }
 

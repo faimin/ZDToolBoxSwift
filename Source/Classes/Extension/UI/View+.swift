@@ -18,6 +18,9 @@ public typealias ZDView = NSView
 public typealias ZDViewController = NSViewController
 public typealias ZDResponder = NSResponder
 #endif
+#if canImport(ObjectiveC)
+import ObjectiveC
+#endif
 
 // MARK: - ZDComponentProtocol
 
@@ -294,13 +297,50 @@ public extension ZDSWrapper where T: ZDView {
     ///   - attribute: the attribute to find.
     ///   - view: the view to find.
     /// - Returns: matched constraint.
-    func findConstraint(attribute: NSLayoutConstraint.Attribute, for view: UIView) -> NSLayoutConstraint? {
+    func findConstraint(attribute: NSLayoutConstraint.Attribute) -> NSLayoutConstraint? {
         let constraint = base.constraints.first {
-            ($0.firstAttribute == attribute && $0.firstItem as? UIView == view) ||
-                ($0.secondAttribute == attribute && $0.secondItem as? UIView == view)
+            ($0.firstAttribute == attribute && $0.firstItem as? UIView == base) ||
+                ($0.secondAttribute == attribute && $0.secondItem as? UIView == base)
         }
-        return constraint ?? base.superview?.zd.findConstraint(attribute: attribute, for: view)
+        let x = constraint ?? base.superview?.zd.findConstraint(attribute: attribute)
+        return x
     }
+
+    #if false
+    /// fold constraint
+    func fold(
+        _ isFold: Bool,
+        attributes: [NSLayoutConstraint.Attribute] = [
+            .left,
+            .right,
+            .leading,
+            .trailing,
+            .top,
+            .bottom,
+            .width,
+            .height,
+        ]
+    ) {
+        attributes.forEach { attri in
+            guard let constraint = findConstraint(attribute: attri) else {
+                return
+            }
+
+            print("constraint first attribute = \(constraint.firstAttribute), second = \(constraint.secondAttribute)")
+
+            let key = UnsafeRawPointer(unsafeBitCast(attri, to: UnsafePointer<Int>.self))
+
+            if let value = objc_getAssociatedObject(constraint, key) as? CGFloat {
+                constraint.constant = isFold ? 0 : value
+            } else {
+                let value = constraint.constant
+                let storeValue = value == 0 ? nil : value
+                objc_setAssociatedObject(constraint, key, storeValue, .OBJC_ASSOCIATION_RETAIN_NONATOMIC)
+                constraint.constant = isFold ? 0 : value
+            }
+        }
+    }
+    #endif
 
     var screenshot: UIImage? {
         /*
