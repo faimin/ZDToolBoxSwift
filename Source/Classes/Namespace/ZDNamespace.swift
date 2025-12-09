@@ -53,6 +53,44 @@ public extension ZDSAny {
     }
 }
 
+// MARK: - ZDSGenericWrapper
+
+public struct ZDSGenericWrapper<T, T1> {
+    // MARK: Properties
+
+    /// Base object to extend.
+    public internal(set) var base: T
+
+    // MARK: Lifecycle
+
+    /// Creates extensions with base object.
+    ///
+    /// - parameter base: Base object.
+    public init(_ base: T) {
+        self.base = base
+    }
+}
+
+// MARK: - ZDSGenericAny
+
+public protocol ZDSGenericAny {
+    associatedtype T1
+}
+
+public extension ZDSGenericAny {
+    /// Gets a namespace holder for compatible types.
+    var zd: ZDSGenericWrapper<Self, T1> {
+        get { return ZDSGenericWrapper(self) }
+        set {}
+    }
+
+    /// Gets a namespace holder for compatible meta types.
+    static var zd: ZDSGenericWrapper<Self, T1>.Type {
+        get { return ZDSGenericWrapper<Self, T1>.self }
+        set {}
+    }
+}
+
 // MARK: - NSObject + ZDSAny
 
 /// Extend NSObject with `zd` proxy.
