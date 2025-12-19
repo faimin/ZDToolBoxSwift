@@ -39,7 +39,7 @@ public enum ZDJSON {
         case let .dictionary(_, originValue):
             return originValue
         case let .string(value):
-            let jsonDict = string2Json(value) as? [String: Any]
+            let jsonDict = Self.string2Json(value) as? [String: Any]
             return jsonDict ?? [:]
         default:
             return [:]
@@ -52,7 +52,7 @@ public enum ZDJSON {
         case let .array(_, originValue):
             return originValue
         case let .string(value):
-            let jsonArray = string2Json(value) as? [Any]
+            let jsonArray = Self.string2Json(value) as? [Any]
             return jsonArray ?? []
         default:
             return []
@@ -73,9 +73,9 @@ public enum ZDJSON {
         case let .float(value):
             return "\(value)"
         case let .dictionary(_, value):
-            return json2String(value) ?? ""
+            return Self.json2String(value) ?? ""
         case let .array(_, value):
-            return json2String(value) ?? ""
+            return Self.json2String(value) ?? ""
         default:
             return ""
         }
@@ -481,9 +481,9 @@ extension ZDJSON: ExpressibleByBooleanLiteral {
 
 // MARK: - Private Func
 
-extension ZDJSON {
+public extension ZDJSON {
     /// 字符串转字典或者数组
-    private func string2Json(_ jsonString: String) -> Any? {
+    static func string2Json(_ jsonString: String) -> Any? {
         guard let data = jsonString.data(using: .utf8) else {
             return nil
         }
@@ -491,7 +491,7 @@ extension ZDJSON {
     }
 
     /// 字典或者数组转字符串
-    private func json2String(_ jsonObject: Any) -> String? {
+    static func json2String(_ jsonObject: Any) -> String? {
         guard let data = try? JSONSerialization.data(withJSONObject: jsonObject, options: .fragmentsAllowed) else {
             return nil
         }
