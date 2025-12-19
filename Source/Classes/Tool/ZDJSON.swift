@@ -260,6 +260,11 @@ public enum ZDJSON {
         switch self {
         case let .dictionary(wrapDict, _):
             return wrapDict[member] ?? .null
+        case let .string(str):
+            guard let dict = Self.string2Json(str) else {
+                return .null
+            }
+            return ZDJSON(dict)[member]
         default:
             print("\(#function) => 匹配失败：key = \(member)")
         }
