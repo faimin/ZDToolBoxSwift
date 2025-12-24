@@ -7,66 +7,97 @@
 
 import Combine
 import ObjectiveC.runtime
+import Foundation
+
+// MARK: - AssociateKey
+
+nonisolated private enum AssociateKey {
+    nonisolated(unsafe) static var disposeBag: Void?
+}
 
 @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-public extension NSObject {
-    private enum AssociateKey {
-        nonisolated(unsafe) static var disposeBag: Void?
+public extension ZDSWrapper where T: NSObject {
+    private class AssociateValueBox: NSObject {
+        // MARK: Properties
+
+        fileprivate var disposeBag: Set<AnyCancellable>
+
+        // MARK: Lifecycle
+
+        init(disposeBag: Set<AnyCancellable> = []) {
+            self.disposeBag = disposeBag
+        }
     }
 
-    var zd_disposeBag: Set<AnyCancellable> {
+    var disposeBag: Set<AnyCancellable> {
         get {
-            if let collector = objc_getAssociatedObject(
+            if let cancellableBox = objc_getAssociatedObject(
                 self,
                 &AssociateKey.disposeBag
-            ) as? Set<AnyCancellable> {
-                return collector
+            ) as? AssociateValueBox {
+                return cancellableBox.disposeBag
             }
-            let collector = Set<AnyCancellable>()
-            self.zd_disposeBag = collector
-            return collector
+            let cancellableBox = AssociateValueBox()
+            objc_setAssociatedObject(self, &AssociateKey.disposeBag, cancellableBox, .OBJC_ASSOCIATION_RETAIN_NONATOMIC)
+            return cancellableBox.disposeBag
         }
         set {
-            let b = newValue
-            objc_setAssociatedObject(self, &AssociateKey.disposeBag, b, .OBJC_ASSOCIATION_RETAIN_NONATOMIC)
+            guard let cancellableBox = objc_getAssociatedObject(
+                self,
+                &AssociateKey.disposeBag
+            ) as? AssociateValueBox else {
+                #if DEBUG
+                fatalError(
+                    "It is not as expected. You should execute get first and then set. The box should have been created when getting."
+                )
+                #else
+                return
+                #endif
+            }
+            cancellableBox.disposeBag = newValue
         }
     }
 
-    func zd_storeCancellable(_ cancellabel: AnyCancellable) {
-        zd_disposeBag.insert(cancellabel)
+    fileprivate mutating func storeCancellable(_ cancellabel: AnyCancellable) {
+        disposeBag.insert(cancellabel)
     }
 
-    func zd_cancelAllCancellables() {
-        zd_disposeBag.removeAll()
+    mutating func cancelAllCancellables() {
+        disposeBag.removeAll()
     }
 }
 
 @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-public extension Publisher where Self.Failure == Never {
+public extension ZDSWrapper where T: Publisher {
     @discardableResult
-    func zd_store(in object: NSObject, receiveValue: @escaping (Output) -> Void) -> AnyCancellable {
-        let cancellable = sink(
+    func store(
+        in object: NSObject,
+        receiveValue: @escaping (T.Output) -> Void
+    ) -> AnyCancellable {
+        let cancellable = base.sink(
             receiveCompletion: { _ in },
             receiveValue: receiveValue
         )
-        object.zd_storeCancellable(cancellable)
+        var _object = object
+        _object.zd.storeCancellable(cancellable)
         return cancellable
     }
 }
 
 @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-public extension Publisher {
+extension ZDSWrapper where T: Publisher, T.Failure == Never {
     @discardableResult
-    func zd_store(
+    func store(
         in object: NSObject,
-        receiveCompletion: @escaping (Subscribers.Completion<Failure>) -> Void,
-        receiveValue: @escaping (Output) -> Void
+        receiveCompletion: @escaping (Subscribers.Completion<T.Failure>) -> Void,
+        receiveValue: @escaping (T.Output) -> Void
     ) -> AnyCancellable {
-        let cancellable = sink(
+        let cancellable = base.sink(
             receiveCompletion: receiveCompletion,
             receiveValue: receiveValue
         )
-        object.zd_storeCancellable(cancellable)
+        var _object = object
+        _object.zd.storeCancellable(cancellable)
         return cancellable
     }
 }
