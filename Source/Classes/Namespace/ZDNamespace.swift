@@ -53,6 +53,11 @@ public extension ZDSAny {
     }
 }
 
+// MARK: - NSObject + ZDSAny
+
+/// Extend NSObject with `zd` proxy.
+extension NSObject: ZDSAny {}
+
 // MARK: - ZDSGenericWrapper
 
 public struct ZDSGenericWrapper<T, T1> {
@@ -91,7 +96,30 @@ public extension ZDSGenericAny {
     }
 }
 
-// MARK: - NSObject + ZDSAny
+/// Wrapper for ZDSGeneric2Any types with a generic parameter in a reference way.
+public struct ZDSGeneric2Wrapper<T, T1, T2> {
+    public internal(set) var base: T
+    public init(_ base: T) {
+        self.base = base
+    }
+}
 
-/// Extend NSObject with `zd` proxy.
-extension NSObject: ZDSAny {}
+/// Represents a type with a generic parameter.
+public protocol ZDSGeneric2Any {
+    associatedtype T1
+    associatedtype T2
+}
+
+public extension ZDSGeneric2Any {
+    /// Gets a namespace holder for ZDSGeneric2Any types.
+    var zd: ZDSGeneric2Wrapper<Self, T1, T2> {
+        get { return ZDSGeneric2Wrapper(self) }
+        set {}
+    }
+    
+    /// Gets a namespace holder for ZDSGeneric2Any meta types.
+    static var zd: ZDSGeneric2Wrapper<Self, T1, T2>.Type {
+        get { return ZDSGeneric2Wrapper<Self, T1, T2>.self }
+        set {}
+    }
+}
