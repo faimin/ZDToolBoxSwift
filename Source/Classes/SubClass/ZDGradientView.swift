@@ -32,9 +32,9 @@ public class ZDGradientView: UIView {
         }
     }
 
-    @objc public var locations: [NSNumber]? {
+    @objc public var locations: [Double]? {
         didSet {
-            gradientLayer.locations = locations
+            gradientLayer.locations = locations?.compactMap({ NSNumber(value: $0) })
         }
     }
 
