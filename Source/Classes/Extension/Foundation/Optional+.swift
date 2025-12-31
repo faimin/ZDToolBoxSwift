@@ -43,3 +43,10 @@ public extension Optional where Wrapped: Collection {
         !isEmpty
     }
 }
+
+public extension Optional {
+    func unwrapped(default: @autoclosure () -> Wrapped) -> Wrapped {
+        let value = self ?? `default`()
+        return value
+    }
+}
