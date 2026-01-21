@@ -24,7 +24,7 @@ struct ZDViewExtensionTests {
         let leadingConstraint = aView.leadingAnchor.constraint(equalTo: container.leadingAnchor)
         leadingConstraint.isActive = true
         
-        let lc = aView.zd.findConstraint(attribute: .leading)
+        let lc = aView.zd.findConstraint(attribute: .leading, relation: .equal)
         #expect(leadingConstraint == lc)
     }
 }

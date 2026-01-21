@@ -295,15 +295,30 @@ public extension ZDSWrapper where T: ZDView {
     ///
     /// - Parameters:
     ///   - attribute: the attribute to find.
-    ///   - view: the view to find.
+    ///   - relation: the relation to find.
+    ///   - otherCondition: other judgment conditions
     /// - Returns: matched constraint.
-    func findConstraint(attribute: NSLayoutConstraint.Attribute) -> NSLayoutConstraint? {
+    func findConstraint(
+        attribute: NSLayoutConstraint.Attribute,
+        relation: NSLayoutConstraint.Relation,
+        otherConditions: ((NSLayoutConstraint) -> Bool)? = nil
+    ) -> NSLayoutConstraint? {
         let constraint = base.constraints.first {
-            ($0.firstAttribute == attribute && $0.firstItem as? UIView == base) ||
-                ($0.secondAttribute == attribute && $0.secondItem as? UIView == base)
+            let isFirst = $0.firstAttribute == attribute && $0.firstItem as? UIView == base && $0.relation == relation
+            if isFirst {
+                return true
+            }
+
+            let isSecond = $0.secondAttribute == attribute && $0.secondItem as? UIView == base && $0
+                .relation == relation
+            if isSecond {
+                return true
+            }
+
+            let isOtherConditionsOK = otherConditions?($0) ?? false
+            return isOtherConditionsOK
         }
-        let x = constraint ?? base.superview?.zd.findConstraint(attribute: attribute)
-        return x
+        return constraint ?? base.superview?.zd.findConstraint(attribute: attribute, relation: relation)
     }
 
     #if false
