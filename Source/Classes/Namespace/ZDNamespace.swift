@@ -96,13 +96,22 @@ public extension ZDSGenericAny {
     }
 }
 
+// MARK: - ZDSGeneric2Wrapper
+
 /// Wrapper for ZDSGeneric2Any types with a generic parameter in a reference way.
 public struct ZDSGeneric2Wrapper<T, T1, T2> {
+    // MARK: Properties
+
     public internal(set) var base: T
+
+    // MARK: Lifecycle
+
     public init(_ base: T) {
         self.base = base
     }
 }
+
+// MARK: - ZDSGeneric2Any
 
 /// Represents a type with a generic parameter.
 public protocol ZDSGeneric2Any {
@@ -116,7 +125,7 @@ public extension ZDSGeneric2Any {
         get { return ZDSGeneric2Wrapper(self) }
         set {}
     }
-    
+
     /// Gets a namespace holder for ZDSGeneric2Any meta types.
     static var zd: ZDSGeneric2Wrapper<Self, T1, T2>.Type {
         get { return ZDSGeneric2Wrapper<Self, T1, T2>.self }
