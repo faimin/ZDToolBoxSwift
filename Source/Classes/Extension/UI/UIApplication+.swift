@@ -39,6 +39,19 @@ public extension ZDSWrapper where T: UIApplication {
             .flatMap { $0.windows }
             .first(where: { $0.isKeyWindow })
     }
+    
+    @available(iOS 13.0, *)
+    var activeWindowScene: UIWindowScene? {
+        if let scene = keyWindow?.windowScene {
+            return scene
+        }
+
+        return base
+            .connectedScenes
+            .compactMap { $0 as? UIWindowScene }
+            .sorted { $0.activationState.sortPriority < $1.activationState.sortPriority }
+            .first
+    }
 }
 
 @available(iOS 13.0, tvOS 13.0, *)
