@@ -1,11 +1,11 @@
 PODS:
-  - SwiftFormat/CLI (0.58.6)
-  - SwiftLint (0.57.0)
+  - SwiftFormat/CLI (0.60.1)
+  - SwiftLint (0.63.2)
   - ZDToolBoxSwift (0.0.1)
 
 DEPENDENCIES:
-  - SwiftFormat/CLI (~> 0.58)
-  - SwiftLint (~> 0.57)
+  - SwiftFormat/CLI (~> 0.60)
+  - SwiftLint (~> 0.63)
   - ZDToolBoxSwift (from `../ZDToolBoxSwift.podspec`)
 
 SPEC REPOS:
@@ -18,10 +18,10 @@ EXTERNAL SOURCES:
     :path: "../ZDToolBoxSwift.podspec"
 
 SPEC CHECKSUMS:
-  SwiftFormat: f0cf9dc0cba0aad885b4dbba9de3431ec8d72f7d
-  SwiftLint: eb47480d47c982481592c195c221d11013a679cc
+  SwiftFormat: d32a8ff584c3e08fb5b0eb7f5dc610e02067df53
+  SwiftLint: 4fa4a9b437ccc4fc72f6c0bc98556e8e9e05bccf
   ZDToolBoxSwift: edbf0736fbcd707d9e4f2ed4de77f7d74c82b5c4
 
-PODFILE CHECKSUM: d01e6b172700bd129f6b5dd6e8e24d1611624d28
+PODFILE CHECKSUM: 659d469bdd9a479ed2f4d7e1e54989a312978a71
 
 COCOAPODS: 1.16.2
