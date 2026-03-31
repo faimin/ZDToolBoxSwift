@@ -11,6 +11,7 @@
 		C20D668A2EE2D8A50005079D /* ZDCellExtensionTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C20D66892EE2D89D0005079D /* ZDCellExtensionTests.swift */; };
 		C20D668C2EE2DFDA0005079D /* ZDViewResultBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = C20D668B2EE2DFC70005079D /* ZDViewResultBuilder.swift */; };
 		C20D66DE2EE680EF0005079D /* ZDViewExtensionTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C20D66DD2EE680DF0005079D /* ZDViewExtensionTests.swift */; };
+		C2271C2F2F7BBDE800BE7676 /* ZDNSObjectCombineTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C2271C2E2F7BBDE800BE7676 /* ZDNSObjectCombineTests.swift */; };
 		C27899B72F20B56100C11847 /* ZDMirrorTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C27899B62F20B55B00C11847 /* ZDMirrorTests.swift */; };
 		D7719631CE869CB2D1835CEA /* libPods-ZDToolBoxSwiftDemoUITests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 57C958A3B9A11E8E8843798E /* libPods-ZDToolBoxSwiftDemoUITests.a */; };
 		DA3546AF2B10F36C006ACF2A /* ZDSwiftToolKitDemoTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA3546AE2B10F36C006ACF2A /* ZDSwiftToolKitDemoTests.swift */; };
@@ -55,6 +56,7 @@
 		C20D66892EE2D89D0005079D /* ZDCellExtensionTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ZDCellExtensionTests.swift; sourceTree = "<group>"; };
 		C20D668B2EE2DFC70005079D /* ZDViewResultBuilder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ZDViewResultBuilder.swift; sourceTree = "<group>"; };
 		C20D66DD2EE680DF0005079D /* ZDViewExtensionTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ZDViewExtensionTests.swift; sourceTree = "<group>"; };
+		C2271C2E2F7BBDE800BE7676 /* ZDNSObjectCombineTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ZDNSObjectCombineTests.swift; sourceTree = "<group>"; };
 		C27899B62F20B55B00C11847 /* ZDMirrorTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ZDMirrorTests.swift; sourceTree = "<group>"; };
 		C2CA7F702DCCA212000BF730 /* ZDToolBoxSwiftDemoTests-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "ZDToolBoxSwiftDemoTests-Bridging-Header.h"; sourceTree = "<group>"; };
 		DA3546AE2B10F36C006ACF2A /* ZDSwiftToolKitDemoTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ZDSwiftToolKitDemoTests.swift; sourceTree = "<group>"; };
@@ -176,6 +178,7 @@
 		FA7083A1255A32E200B523C9 /* ZDToolBoxSwiftDemoTests */ = {
 			isa = PBXGroup;
 			children = (
+				C2271C2E2F7BBDE800BE7676 /* ZDNSObjectCombineTests.swift */,
 				DAFC72E92DD63A87005BD900 /* ZDChainCallerTests.swift */,
 				DAFC72EB2DD786E2005BD900 /* ZDDelayTests.swift */,
 				C20D66892EE2D89D0005079D /* ZDCellExtensionTests.swift */,
@@ -459,6 +462,7 @@
 				C20D668C2EE2DFDA0005079D /* ZDViewResultBuilder.swift in Sources */,
 				DAFC72EA2DD63A87005BD900 /* ZDChainCallerTests.swift in Sources */,
 				DAFC72EC2DD786EB005BD900 /* ZDDelayTests.swift in Sources */,
+				C2271C2F2F7BBDE800BE7676 /* ZDNSObjectCombineTests.swift in Sources */,
 				DA3546AF2B10F36C006ACF2A /* ZDSwiftToolKitDemoTests.swift in Sources */,
 				C20D668A2EE2D8A50005079D /* ZDCellExtensionTests.swift in Sources */,
 			);
