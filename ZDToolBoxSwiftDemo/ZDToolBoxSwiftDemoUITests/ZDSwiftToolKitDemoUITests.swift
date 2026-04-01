@@ -6,7 +6,7 @@
 //
 
 import XCTest
-@testable import ZDToolBoxSwiftDemo
+//@testable import ZDToolBoxSwiftDemo
 
 @MainActor
 class ZDToolBoxSwiftDemoUITests: XCTestCase {

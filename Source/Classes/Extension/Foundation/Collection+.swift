@@ -5,7 +5,7 @@
 //  Created by Zero.D.Saber on 2021/5/31.
 //
 
-public extension ZDSWraper where T: Collection {
+public extension ZDSWrapper where T: Collection {
     /// get value at index safely
     ///
     /// - Parameter index: The index to include in the range set.

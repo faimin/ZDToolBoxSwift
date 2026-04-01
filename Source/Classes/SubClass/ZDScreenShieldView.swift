@@ -8,10 +8,14 @@
 //  https://github.com/Kyle-Ye/ScreenShieldKit
 //  https://github.com/JayantBadlani/ScreenShield
 //
-//  防截屏
+//  Screen-capture protection
+
+import UIKit
 
 @available(iOS 13, *)
 public final class ZDScreenShieldView: UIView {
+    // MARK: Properties
+
     private lazy var shieldView = {
         let view = UITextField()
         view.isSecureTextEntry = true
@@ -19,6 +23,8 @@ public final class ZDScreenShieldView: UIView {
         view.isUserInteractionEnabled = false
         return view
     }()
+
+    // MARK: Lifecycle
 
     override public init(frame: CGRect) {
         super.init(frame: frame)
@@ -29,6 +35,8 @@ public final class ZDScreenShieldView: UIView {
     required init?(coder _: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
+
+    // MARK: Functions
 
     private func _setupUI() {
         addSubview(shieldView)

@@ -6,26 +6,40 @@
 //
 
 #if os(iOS) || os(tvOS)
-    import UIKit
+import UIKit
 
-    public typealias ZDView = UIView
-    public typealias ZDViewController = UIViewController
-    public typealias ZDResponder = UIResponder
+public typealias ZDView = UIView
+public typealias ZDViewController = UIViewController
+public typealias ZDResponder = UIResponder
 #else
-    import AppKit
+import AppKit
 
-    public typealias ZDView = NSView
-    public typealias ZDViewController = NSViewController
-    public typealias ZDResponder = NSResponder
+public typealias ZDView = NSView
+public typealias ZDViewController = NSViewController
+public typealias ZDResponder = NSResponder
+#endif
+#if canImport(ObjectiveC)
+import ObjectiveC
 #endif
 
+// MARK: - ZDComponentProtocol
+
 public protocol ZDComponentProtocol: AnyObject {}
+
+// MARK: - ZDView + ZDComponentProtocol
+
 extension ZDView: ZDComponentProtocol {}
+
+// MARK: - CALayer + ZDComponentProtocol
+
 extension CALayer: ZDComponentProtocol {}
+
+// MARK: - UILayoutGuide + ZDComponentProtocol
+
 extension UILayoutGuide: ZDComponentProtocol {}
 
 @MainActor
-public extension ZDSWraper where T: ZDView {
+public extension ZDSWrapper where T: ZDView {
     // MARK: - Frame
 
     var x: CGFloat {
@@ -39,7 +53,7 @@ public extension ZDSWraper where T: ZDView {
 
     var y: CGFloat {
         get {
-            base.frame.origin.x
+            base.frame.origin.y
         }
         set {
             base.frame.origin.y = newValue
@@ -141,41 +155,72 @@ public extension ZDSWraper where T: ZDView {
     }
 
     #if os(iOS) || os(tvOS)
-        @discardableResult
-        func roundCorners(
-            _ corners: UIRectCorner = UIRectCorner.allCorners,
-            radius: CGFloat
-        ) -> T {
-            let path = UIBezierPath(roundedRect: base.bounds, byRoundingCorners: corners, cornerRadii: CGSize(width: radius, height: radius))
+    /// Rounds specific corners using a shape mask.
+    ///
+    /// - Parameters:
+    ///   - corners: Corners to round.
+    ///   - radius: Corner radius.
+    /// - Returns: Base view.
+    ///
+    /// Example:
+    /// ```swift
+    /// view.zd.roundCorners([.topLeft, .topRight], radius: 12)
+    /// ```
+    @discardableResult
+    func roundCorners(
+        _ corners: UIRectCorner = UIRectCorner.allCorners,
+        radius: CGFloat
+    ) -> T {
+        let path = UIBezierPath(
+            roundedRect: base.bounds,
+            byRoundingCorners: corners,
+            cornerRadii: CGSize(width: radius, height: radius)
+        )
 
-            let mask = CAShapeLayer()
-            mask.path = path.cgPath
+        let mask = CAShapeLayer()
+        mask.path = path.cgPath
 
-            base.layer.mask = mask
+        base.layer.mask = mask
 
-            return base
-        }
+        return base
+    }
     #endif
 
     @available(macOS 10.13, iOS 11.0, tvOS 11, *)
+    /// Rounds corners using `cornerRadius` + `maskedCorners`.
+    ///
+    /// - Parameters:
+    ///   - corners: Corner mask to round.
+    ///   - radius: Corner radius.
+    /// - Returns: Base view.
+    ///
+    /// Example:
+    /// ```swift
+    /// view.zd.roundCorners([.layerMinXMinYCorner, .layerMaxXMinYCorner], radius: 10)
+    /// ```
     @discardableResult
     func roundCorners(
-        _ corners: CACornerMask = [.layerMinXMinYCorner, .layerMaxXMinYCorner, .layerMinXMaxYCorner, .layerMaxXMaxYCorner],
+        _ corners: CACornerMask = [
+            .layerMinXMinYCorner,
+            .layerMaxXMinYCorner,
+            .layerMinXMaxYCorner,
+            .layerMaxXMaxYCorner,
+        ],
         radius: CGFloat
     ) -> T {
         #if os(iOS) || os(tvOS)
-            base.layer.cornerRadius = radius
-            base.layer.maskedCorners = corners
+        base.layer.cornerRadius = radius
+        base.layer.maskedCorners = corners
         #else
-            base.layer?.cornerRadius = radius
-            base.layer?.maskedCorners = corners
+        base.layer?.cornerRadius = radius
+        base.layer?.maskedCorners = corners
         #endif
         return base
     }
 }
 
 @MainActor
-public extension ZDSWraper where T: ZDView {
+public extension ZDSWrapper where T: ZDView {
     /// Convenience function to ease creating new views.
     ///
     /// - Parameter builder: A function that takes the newly created view.
@@ -194,45 +239,37 @@ public extension ZDSWraper where T: ZDView {
         return view
     }
 
+    /// Adds subviews in a variadic form.
+    ///
+    /// - Parameter subviews: Subviews to add.
+    /// - Returns: Current wrapper.
+    ///
+    /// Example:
+    /// ```swift
+    /// container.zd.addSubviews(titleLabel, actionButton)
+    /// ```
     @discardableResult
     func addSubviews(_ subviews: T ...) -> Self {
         subviews.forEach { self.base.addSubview($0) }
         return self
     }
 
-    func viewController() -> ZDViewController? {
-        var nextResponder: ZDResponder? = base
-        while nextResponder != nil {
-            if let vc = nextResponder as? ZDViewController {
-                return vc
-            }
-            #if os(iOS) || os(tvOS)
-                nextResponder = nextResponder?.next
-            #else
-                nextResponder = nextResponder?.nextResponder
-            #endif
-        }
-
-        return nil
-    }
-
-    /// ViewBuilder
+    /// Adds supported components with a result builder.
     ///
-    /// - Parameter components: A block for components, e.g UI/NSView、CALayer、UILayoutGuide
+    /// - Parameter components: Builder closure for `UIView`, `CALayer`, or `UILayoutGuide`.
     ///
-    /// @code
-    /// ```swift
-    /// view.addComponents {
-    ///     email
-    ///     password
-    ///     login
-    ///     layoutGuide
-    ///     gradientLayer
-    /// }
-    /// ```
-    /// @endcode
+    ///     ```swift
+    ///     view.addComponents {
+    ///         email
+    ///         password
+    ///         login
+    ///         layoutGuide
+    ///         gradientLayer
+    ///     }
+    ///     ```
+    /// - Returns: Base view.
     @discardableResult
-    func addComponents(@ZDViewBuilder<any ZDComponentProtocol> _ components: () -> [any ZDComponentProtocol]) -> T {
+    func addComponents(@ZDArrayBuilder<any ZDComponentProtocol> _ components: () -> [any ZDComponentProtocol]) -> T {
         for item in components() {
             if let view = item as? UIView {
                 base.addSubview(view)
@@ -241,19 +278,48 @@ public extension ZDSWraper where T: ZDView {
             } else if let layer = item as? CALayer {
                 base.layer.addSublayer(layer)
             } else {
-                assertionFailure("不支持的类型 => \(String(describing: item))")
+                assertionFailure("Unsupported component type => \(String(describing: item))")
             }
         }
         return base
     }
 
-    /// Checkes if the view is (mostly) visible to user or not.
-    /// Internaly it checks following things
+    /// Returns the nearest parent view controller in responder chain.
+    ///
+    /// - Returns: Host view controller if found.
+    ///
+    /// Example:
+    /// ```swift
+    /// let vc = view.zd.viewController()
+    /// ```
+    func viewController() -> ZDViewController? {
+        var nextResponder: ZDResponder? = base
+        while nextResponder != nil {
+            if let vc = nextResponder as? ZDViewController {
+                return vc
+            }
+            #if os(iOS) || os(tvOS)
+            nextResponder = nextResponder?.next
+            #else
+            nextResponder = nextResponder?.nextResponder
+            #endif
+        }
+
+        return nil
+    }
+
+    /// Indicates whether the view is mostly visible to users.
+    /// It checks:
     ///  - Should NOT be hidden
     ///  - Should NOT be completely transparent
-    ///  - Bound should NOT be empty
-    ///  - Should be in some window i.e. in view heirarchy
-    ///  - Center should be directly visible to user i.e. NOT overlapped with other views
+    ///  - Bounds should NOT be empty
+    ///  - Should be in a window hierarchy
+    ///  - Center should be directly visible (not overlapped)
+    ///
+    /// Example:
+    /// ```swift
+    /// if view.zd.isMostlyVisible { print("visible") }
+    /// ```
     var isMostlyVisible: Bool {
         guard !base.isHidden,
               base.alpha > 0,
@@ -267,6 +333,83 @@ public extension ZDSWraper where T: ZDView {
         return true
     }
 
+    /// Finds a matching constraint on self or ancestor views.
+    ///
+    /// - Parameters:
+    ///   - attribute: Attribute to match.
+    ///   - relation: Relation to match.
+    ///   - otherConditions: Optional additional predicate.
+    /// - Returns: First matched constraint.
+    ///
+    /// Example:
+    /// ```swift
+    /// let leading = view.zd.findConstraint(attribute: .leading, relation: .equal)
+    /// ```
+    func findConstraint(
+        attribute: NSLayoutConstraint.Attribute,
+        relation: NSLayoutConstraint.Relation,
+        otherConditions: ((NSLayoutConstraint) -> Bool)? = nil
+    ) -> NSLayoutConstraint? {
+        let constraint = base.constraints.first {
+            let isFirst = $0.firstAttribute == attribute && $0.firstItem as? UIView == base && $0.relation == relation
+            if isFirst {
+                return true
+            }
+
+            let isSecond = $0.secondAttribute == attribute && $0.secondItem as? UIView == base && $0
+                .relation == relation
+            if isSecond {
+                return true
+            }
+
+            let isOtherConditionsOK = otherConditions?($0) ?? false
+            return isOtherConditionsOK
+        }
+        return constraint ?? base.superview?.zd.findConstraint(attribute: attribute, relation: relation)
+    }
+
+    #if false
+    /// fold constraint
+    func fold(
+        _ isFold: Bool,
+        attributes: [NSLayoutConstraint.Attribute] = [
+            .left,
+            .right,
+            .leading,
+            .trailing,
+            .top,
+            .bottom,
+            .width,
+            .height,
+        ]
+    ) {
+        attributes.forEach { attri in
+            guard let constraint = findConstraint(attribute: attri) else {
+                return
+            }
+
+            print("constraint first attribute = \(constraint.firstAttribute), second = \(constraint.secondAttribute)")
+
+            let key = UnsafeRawPointer(unsafeBitCast(attri, to: UnsafePointer<Int>.self))
+
+            if let value = objc_getAssociatedObject(constraint, key) as? CGFloat {
+                constraint.constant = isFold ? 0 : value
+            } else {
+                let value = constraint.constant
+                let storeValue = value == 0 ? nil : value
+                objc_setAssociatedObject(constraint, key, storeValue, .OBJC_ASSOCIATION_RETAIN_NONATOMIC)
+                constraint.constant = isFold ? 0 : value
+            }
+        }
+    }
+    #endif
+
+    /// Captures a snapshot image for the current view bounds.
+    ///
+    /// Example:
+    /// ```swift
+    /// let image = view.zd.screenshot
+    /// ```
     var screenshot: UIImage? {
         /*
          defer {

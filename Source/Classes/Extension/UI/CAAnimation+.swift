@@ -6,10 +6,17 @@
 //
 
 import Foundation
+import QuartzCore
+
+// MARK: - CAAnimationDelegateProxy
 
 private final class CAAnimationDelegateProxy: NSObject, CAAnimationDelegate {
+    // MARK: Properties
+
     fileprivate lazy var onStartActions = [(CAAnimation) -> Void]()
     fileprivate lazy var onStopActions = [(CAAnimation, Bool) -> Void]()
+
+    // MARK: Functions
 
     // MARK: CAAnimationDelegate
 
@@ -22,7 +29,7 @@ private final class CAAnimationDelegateProxy: NSObject, CAAnimationDelegate {
     }
 }
 
-public extension ZDSWraper where T: CAAnimation {
+public extension ZDSWrapper where T: CAAnimation {
     /// Create delegate proxy if it doesn't exist
     ///
     /// The delegate object is retained by the receiver
@@ -42,6 +49,14 @@ public extension ZDSWraper where T: CAAnimation {
     /// - Parameters:
     ///   - action: A closure that call back with you created `animation` instance when animation start.
     /// - Returns: Reer
+    ///
+    /// Example:
+    /// ```swift
+    /// let animation = CABasicAnimation(keyPath: "opacity")
+    /// animation.zd.onStart { _ in
+    ///     print("started")
+    /// }
+    /// ```
     @discardableResult
     func onStart(_ action: @escaping (CAAnimation) -> Void) -> Self {
         delegateProxy.onStartActions.append(action)
@@ -51,8 +66,16 @@ public extension ZDSWraper where T: CAAnimation {
     /// ReerKit: CAAnimation wrapper to avoid circular references.
     ///
     /// - Parameters:
-    ///   - action: A closure that call back with you created `animation` instance and `finished` flag when animation stop.
+    ///   - action: A closure that call back with you created `animation` instance and `finished` flag when animation
+    /// stop.
     /// - Returns: Reer
+    ///
+    /// Example:
+    /// ```swift
+    /// animation.zd.onStop { _, finished in
+    ///     print(finished)
+    /// }
+    /// ```
     @discardableResult
     func onStop(_ action: @escaping (CAAnimation, Bool) -> Void) -> Self {
         delegateProxy.onStopActions.append(action)

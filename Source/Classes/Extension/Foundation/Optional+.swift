@@ -5,22 +5,38 @@
 //  Created by Zero.D.Saber on 2020/11/18.
 //
 
-import Foundation
+// MARK: - Optional + ZDSGenericAny
 
-// MARK: - Optional Extension
+extension Optional: ZDSGenericAny {
+    public typealias T1 = Wrapped
+}
 
-// https://www.objc.io/blog/2019/01/22/non-empty-optionals/
-public extension Optional where Wrapped: Collection {
-    var nonEmpty: Wrapped? {
-        return self?.isEmpty == true ? nil : self
+public extension ZDSGenericWrapper where T == T1? {
+    var isNil: Bool {
+        base == nil
     }
 
-    var isNilOrEmpty: Bool {
-        return self?.isEmpty ?? true
+    var isNotNil: Bool {
+        !isNil
     }
+}
 
+public extension ZDSGenericWrapper where T == T1?, T1: Collection {
     var isEmpty: Bool {
-        isNilOrEmpty
+        guard let collection = base else {
+            return true
+        }
+        return collection.isEmpty
+    }
+
+    var isNotEmpty: Bool {
+        !isEmpty
+    }
+}
+
+public extension Optional where Wrapped: Collection {
+    var isEmpty: Bool {
+        zd.isEmpty
     }
 
     var isNonEmpty: Bool {

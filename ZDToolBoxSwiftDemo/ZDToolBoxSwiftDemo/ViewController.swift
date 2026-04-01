@@ -9,6 +9,8 @@ import UIKit
 import ZDToolBoxSwift
 
 class ViewController: UIViewController {
+    @IBOutlet weak var aV: UIView!
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view.
@@ -29,9 +31,25 @@ class ViewController: UIViewController {
     }
 }
 
+private extension ViewController {
+    @objc
+    @IBAction func fold(_ sender: UIButton) {
+        print(#function)
+        #if false
+        aV.zd.fold(sender.isSelected)
+        #endif
+        sender.isSelected.toggle()
+    }
+}
+
 extension ViewController {
     @ZDGloableActor
     func foo() {
         debugPrint(#function)
     }
+}
+
+@available(iOS 17.0, *)
+#Preview(traits: .defaultLayout) {
+    ViewController()
 }

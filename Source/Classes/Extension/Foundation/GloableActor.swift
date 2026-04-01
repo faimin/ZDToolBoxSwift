@@ -5,14 +5,16 @@
 //  Created by Zero_D_Saber on 2025/1/6.
 //
 
-// MARK: - GloableActor
+import Dispatch
+
+// MARK: - ZDGloableActor
 
 @available(iOS 13.0, *)
 @globalActor
 public actor ZDGloableActor: GlobalActor {
     // MARK: Static Properties
 
-    public static var shared = ZDGloableActor()
+    public static let shared = ZDGloableActor()
 
     private static let excutor = ZDExecutor()
 
@@ -23,7 +25,7 @@ public actor ZDGloableActor: GlobalActor {
     }
 }
 
-// MARK: - LMExecutor
+// MARK: - ZDExecutor
 
 @available(iOS 13.0, *)
 private final class ZDExecutor: SerialExecutor {

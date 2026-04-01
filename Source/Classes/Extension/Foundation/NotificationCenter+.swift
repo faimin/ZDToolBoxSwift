@@ -7,23 +7,45 @@
 
 import Foundation
 
+// MARK: - ZDSNotificationToken
+
 public final class ZDSNotificationToken {
-    private unowned var notificationCenter: NotificationCenter?
+    // MARK: Properties
+
+    private weak var notificationCenter: NotificationCenter?
     private var token: NSObjectProtocol
 
-    deinit {
-        dispose()
-    }
+    // MARK: Lifecycle
 
     public init(notificationCenter: NotificationCenter = .default, token: NSObjectProtocol) {
         self.notificationCenter = notificationCenter
         self.token = token
     }
 
+    deinit {
+        dispose()
+    }
+
+    // MARK: Functions
+
+    /// Removes the observer manually.
+    /// Safe to call multiple times; it is a no-op if `NotificationCenter` has been released.
+    ///
+    /// Example:
+    /// ```swift
+    /// let token = NotificationCenter.default.zd.addObserver(
+    ///     forName: UIApplication.didBecomeActiveNotification,
+    ///     object: nil,
+    ///     queue: .main
+    /// ) { _ in }
+    /// token.dispose()
+    /// ```
     public func dispose() {
         notificationCenter?.removeObserver(token)
     }
 }
+
+// MARK: Hashable
 
 extension ZDSNotificationToken: Hashable {
     public static func == (lhs: ZDSNotificationToken, rhs: ZDSNotificationToken) -> Bool {
@@ -37,19 +59,32 @@ extension ZDSNotificationToken: Hashable {
 
 private nonisolated(unsafe) var NotificationTokenKey: Void?
 
-public extension ZDSWraper where T == NotificationCenter {
+public extension ZDSWrapper where T == NotificationCenter {
     private func tokens(_ observer: Any) -> NSMutableSet {
-        var set = objc_getAssociatedObject(observer, &NotificationTokenKey) as? NSMutableSet
-        guard let value = set else {
-            set = NSMutableSet()
+        guard let value = objc_getAssociatedObject(observer, &NotificationTokenKey) as? NSMutableSet else {
+            let set = NSMutableSet()
             objc_setAssociatedObject(observer, &NotificationTokenKey, set, .OBJC_ASSOCIATION_RETAIN_NONATOMIC)
-            return set!
+            return set
         }
         return value
     }
 
-    /// 打破引用环的通知监听；
-    /// 需要外界持有`token`，否则出当前作用域后通知就会被移除掉，导致收不到通知
+    /// Adds an observer without retaining the owner.
+    /// Keep the returned token alive; otherwise it will be removed when leaving scope.
+    ///
+    /// Example:
+    /// ```swift
+    /// final class VM {
+    ///     var token: ZDSNotificationToken?
+    ///     func start() {
+    ///         token = NotificationCenter.default.zd.addObserver(
+    ///             forName: UIApplication.didBecomeActiveNotification,
+    ///             object: nil,
+    ///             queue: .main
+    ///         ) { _ in }
+    ///     }
+    /// }
+    /// ```
     func addObserver(
         forName name: Notification.Name?,
         object obj: Any?,
@@ -60,7 +95,19 @@ public extension ZDSWraper where T == NotificationCenter {
         return ZDSNotificationToken(notificationCenter: base, token: token)
     }
 
-    /// 自动移除token的通知(Observer析构时)
+    /// Adds an observer token that is automatically removed when `observer` is deallocated.
+    ///
+    /// Example:
+    /// ```swift
+    /// NotificationCenter.default.zd.addObserver(
+    ///     observer: self,
+    ///     forName: UIApplication.didBecomeActiveNotification,
+    ///     object: nil,
+    ///     queue: .main
+    /// ) { [weak self] _ in
+    ///     self?.reload()
+    /// }
+    /// ```
     func addObserver(
         observer: Any,
         forName name: Notification.Name?,

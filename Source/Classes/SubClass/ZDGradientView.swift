@@ -5,6 +5,8 @@
 //  Created by Zero_D_Saber on 2025/2/8.
 //
 
+import UIKit
+
 public class ZDGradientView: UIView {
     // MARK: Overridden Properties
 
@@ -32,9 +34,9 @@ public class ZDGradientView: UIView {
         }
     }
 
-    @objc public var locations: [NSNumber]? {
+    @objc public var locations: [Double]? {
         didSet {
-            gradientLayer.locations = locations
+            gradientLayer.locations = locations?.compactMap({ NSNumber(value: $0) })
         }
     }
 

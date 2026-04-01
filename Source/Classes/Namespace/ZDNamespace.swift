@@ -7,43 +7,146 @@
 
 import Foundation
 
-public struct ZDSWraper<T> {
+// MARK: - ZDSWrapper
+
+public struct ZDSWrapper<T> {
+    // MARK: Properties
+
     /// Base object to extend.
     public internal(set) var base: T
 
+    // MARK: Lifecycle
+
     /// Creates extensions with base object.
     ///
-    /// - parameter base: Base object.
+    /// - Parameter base: Base object.
+    ///
+    /// Example:
+    /// ```swift
+    /// let wrapper = ZDSWrapper(UIView())
+    /// ```
     public init(_ base: T) {
         self.base = base
     }
 }
 
+// MARK: - ZDSAny
+
 public protocol ZDSAny {
     associatedtype ZDSType
 
     /// Type
-    static var zd: ZDSWraper<ZDSType>.Type { get set }
+    static var zd: ZDSWrapper<ZDSType>.Type { get set }
 
     /// Instance
-    var zd: ZDSWraper<ZDSType> { mutating get set }
+    var zd: ZDSWrapper<ZDSType> { mutating get set }
 }
 
 public extension ZDSAny {
-    static var zd: ZDSWraper<Self>.Type {
+    static var zd: ZDSWrapper<Self>.Type {
         get {
-            return ZDSWraper<Self>.self
+            return ZDSWrapper<Self>.self
         }
         set {}
     }
 
-    var zd: ZDSWraper<Self> {
+    var zd: ZDSWrapper<Self> {
         get {
-            ZDSWraper(self)
+            ZDSWrapper(self)
         }
         set {}
     }
 }
 
+// MARK: - NSObject + ZDSAny
+
 /// Extend NSObject with `zd` proxy.
 extension NSObject: ZDSAny {}
+
+// MARK: - ZDSGenericWrapper
+
+public struct ZDSGenericWrapper<T, T1> {
+    // MARK: Properties
+
+    /// Base object to extend.
+    public internal(set) var base: T
+
+    // MARK: Lifecycle
+
+    /// Creates extensions with base object.
+    ///
+    /// - Parameter base: Base object.
+    ///
+    /// Example:
+    /// ```swift
+    /// let wrapper = ZDSGenericWrapper<Int?, Int>(1)
+    /// ```
+    public init(_ base: T) {
+        self.base = base
+    }
+}
+
+// MARK: - ZDSGenericAny
+
+public protocol ZDSGenericAny {
+    associatedtype T1
+}
+
+public extension ZDSGenericAny {
+    /// Gets a namespace holder for compatible types.
+    var zd: ZDSGenericWrapper<Self, T1> {
+        get { return ZDSGenericWrapper(self) }
+        set {}
+    }
+
+    /// Gets a namespace holder for compatible meta types.
+    static var zd: ZDSGenericWrapper<Self, T1>.Type {
+        get { return ZDSGenericWrapper<Self, T1>.self }
+        set {}
+    }
+}
+
+// MARK: - ZDSGeneric2Wrapper
+
+/// Wrapper for ZDSGeneric2Any types with a generic parameter in a reference way.
+public struct ZDSGeneric2Wrapper<T, T1, T2> {
+    // MARK: Properties
+
+    public internal(set) var base: T
+
+    // MARK: Lifecycle
+
+    /// Creates a generic-2 namespace wrapper.
+    ///
+    /// - Parameter base: Base object.
+    ///
+    /// Example:
+    /// ```swift
+    /// let wrapper = ZDSGeneric2Wrapper<Result<Int, Error>, Int, Error>(.success(1))
+    /// ```
+    public init(_ base: T) {
+        self.base = base
+    }
+}
+
+// MARK: - ZDSGeneric2Any
+
+/// Represents a type with a generic parameter.
+public protocol ZDSGeneric2Any {
+    associatedtype T1
+    associatedtype T2
+}
+
+public extension ZDSGeneric2Any {
+    /// Gets a namespace holder for ZDSGeneric2Any types.
+    var zd: ZDSGeneric2Wrapper<Self, T1, T2> {
+        get { return ZDSGeneric2Wrapper(self) }
+        set {}
+    }
+
+    /// Gets a namespace holder for ZDSGeneric2Any meta types.
+    static var zd: ZDSGeneric2Wrapper<Self, T1, T2>.Type {
+        get { return ZDSGeneric2Wrapper<Self, T1, T2>.self }
+        set {}
+    }
+}

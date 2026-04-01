@@ -7,9 +7,21 @@
 
 import Foundation
 
-// MARK: - 操作符
+// MARK: - Operators
 
-// http://ios.jobbole.com/92852/
+/// http://ios.jobbole.com/92852/
+///
+/// Postfix increment operator for `Int`.
+///
+/// - Parameter x: Integer value to increment.
+/// - Returns: Previous value before increment.
+///
+/// Example:
+/// ```swift
+/// var count = 1
+/// let old = count++
+/// // old == 1, count == 2
+/// ```
 @discardableResult
 public postfix func ++ (x: inout Int) -> Int {
     defer {
@@ -18,6 +30,17 @@ public postfix func ++ (x: inout Int) -> Int {
     return x
 }
 
+/// Prefix increment operator for `Int`.
+///
+/// - Parameter x: Integer value to increment.
+/// - Returns: New value after increment.
+///
+/// Example:
+/// ```swift
+/// var count = 1
+/// let new = ++count
+/// // new == 2, count == 2
+/// ```
 @discardableResult
 public prefix func ++ (x: inout Int) -> Int {
     x += 1
