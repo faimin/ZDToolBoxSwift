@@ -39,7 +39,7 @@ public extension ZDSWrapper where T: UIApplication {
             .flatMap { $0.windows }
             .first(where: { $0.isKeyWindow })
     }
-    
+
     @available(iOS 13.0, *)
     var activeWindowScene: UIWindowScene? {
         if let scene = keyWindow?.windowScene {

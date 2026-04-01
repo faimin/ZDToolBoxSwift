@@ -19,12 +19,18 @@ private nonisolated enum AssociateKey {
 
 @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
 private final class AssociateValueBox {
+    // MARK: Properties
+
     private var disposeBag = Set<AnyCancellable>()
     private let lock = NSRecursiveLock()
+
+    // MARK: Lifecycle
 
     deinit {
         cancelAndRemoveAll()
     }
+
+    // MARK: Functions
 
     func insert(_ cancellable: AnyCancellable) {
         lock.lock(); defer { lock.unlock() }
@@ -99,7 +105,7 @@ public extension AnyCancellable {
     }
 }
 
-// MARK: - Publisher + Extension
+// MARK: - PassthroughSubject + ZDSAny
 
 @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
 extension PassthroughSubject: ZDSAny {}
