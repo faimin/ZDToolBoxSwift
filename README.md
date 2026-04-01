@@ -1,8 +1,8 @@
 # ZDToolBoxSwift
 
-Swift 工具类及常用 UI/Foundation 扩展集合。
+A collection of Swift utilities and common UI/Foundation extensions.
 
-## 安装
+## Installation
 
 ### CocoaPods
 
@@ -12,30 +12,30 @@ pod 'ZDToolBoxSwift'
 
 ### Swift Package Manager
 
-`Xcode` -> `File` -> `Add Package Dependencies...`，输入仓库地址：
+In `Xcode`, go to `File` -> `Add Package Dependencies...` and use:
 
 ```text
 https://github.com/faimin/ZDToolBoxSwift.git
 ```
 
-然后在依赖选择中添加产品 `ZDToolBoxSwift`。
+Then add the `ZDToolBoxSwift` product to your target.
 
-## 组件概览
+## Component Overview
 
-- `Source/Classes/Extension`: UIKit/Foundation 扩展
-- `Source/Classes/Tool`: 常用工具（延迟任务、JSON、加解密、线程安全封装等）
-- `Source/Classes/SubClass`: 常用视图子类
-- `Source/Classes/PropertyWrapper`: 属性包装器
+- `Source/Classes/Extension`: UIKit/Foundation extensions
+- `Source/Classes/Tool`: Utility helpers (delayed execution, JSON, encryption/decryption, thread-safe wrappers, etc.)
+- `Source/Classes/SubClass`: Reusable view subclasses
+- `Source/Classes/PropertyWrapper`: Property wrappers
 
-## 测试
+## Testing
 
-Demo 工程测试位于：
+Demo project tests are located at:
 
 - `ZDToolBoxSwiftDemo/ZDToolBoxSwiftDemoTests`
 - `ZDToolBoxSwiftDemo/ZDToolBoxSwiftDemoUITests`
 
-优先使用 `Testing` 框架（Swift Testing）。
+Use the `Testing` framework (Swift Testing) by default.
 
-## 最近更新
+## Recent Changes
 
-详见 [CHANGELOG.md](CHANGELOG.md)。
+See [CHANGELOG.md](CHANGELOG.md).
