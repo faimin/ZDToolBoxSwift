@@ -353,7 +353,9 @@ public enum ZDJSON {
             }
             return ZDJSON(dict)[member]
         default:
+            #if DEBUG
             print("\(#function) => No matching key: \(member)")
+            #endif
         }
         return .null
     }
