@@ -21,11 +21,20 @@ public struct ZDArrayBuilder<T> {
     /// resultBuilder document:
     /// https://doc.swiftgg.team/documentation/the-swift-programming-language/attributes/#resultBuilder
     ///
-    /// 在 Swift ResultBuilder 中，存在一个**类型链**的概念：
-    ///    表达式 → buildExpression → 部分结果 → buildBlock → 最终结果
+    /// In Swift ResultBuilder there is a type flow:
+    /// expression -> buildExpression -> partial result -> buildBlock -> final result
     ///
-    /// `buildExpression` 输出 `[V]`，把所有变量转换成了数组，所以 `buildBlock` 期望的输入是 `[V]`
-    /// 在`if/switch`方法块中属于部分结果，也会执行`buildBlock`
+    /// `buildExpression` returns `[V]`, so all expressions become arrays and
+    /// `buildBlock` receives `[V]` as input.
+    /// Branches such as `if/switch` are partial results and also go through `buildBlock`.
+    ///
+    /// Example:
+    /// ```swift
+    /// NSLayoutConstraint.zd.activate {
+    ///     view.widthAnchor.constraint(equalToConstant: 100)
+    ///     view.heightAnchor.constraint(equalToConstant: 44)
+    /// }
+    /// ```
     public static func buildExpression(_ expression: Expression?) -> Component {
         guard let expression = expression else {
             return []
@@ -33,11 +42,13 @@ public struct ZDArrayBuilder<T> {
         return [expression]
     }
 
+    /// Wraps a non-optional expression into component array.
     public static func buildExpression(_ expression: Expression) -> Component {
         [expression]
     }
 
     /// if
+    /// Handles optional branch result.
     public static func buildOptional(_ component: Component?) -> Component {
         guard let component = component else {
             return []
@@ -46,34 +57,43 @@ public struct ZDArrayBuilder<T> {
     }
 
     /// if-else / switch
+    /// Handles first branch in conditional builder.
     public static func buildEither(first component: Component) -> Component {
         component
     }
 
     /// if-else / switch
+    /// Handles second branch in conditional builder.
     public static func buildEither(second component: Component) -> Component {
         component
     }
 
     /// #if avaliable
+    /// Handles availability-constrained branch.
     public static func buildLimitedAvailability(_ component: Component) -> Component {
         component
     }
 
     /// for-in
+    /// Flattens array of partial components from loops.
     public static func buildArray(_ components: [Component]) -> Component {
         components.flatMap { $0 }
     }
 
-    /// 在if方法块中属于部分结果，也会执行buildBlock
+    /// `if` blocks are partial results and also run through `buildBlock`.
+    ///
+    /// - Parameter components: Partial component arrays.
+    /// - Returns: Flattened component array.
     public static func buildBlock(_ components: Component...) -> Component {
         components.flatMap { $0 }
     }
 
+    /// Handles first partial block in incremental builder flow.
     public static func buildPartialBlock(first: ZDArrayBuilder<T>.Component) -> ZDArrayBuilder<T>.Component {
         first
     }
 
+    /// Appends next partial block in incremental builder flow.
     public static func buildPartialBlock(
         accumulated: ZDArrayBuilder<T>.Component,
         next: ZDArrayBuilder<T>.Component

@@ -6,6 +6,7 @@
 //
 
 import Combine
+import CoreLocation
 import Foundation
 import Testing
 @testable import ZDToolBoxSwift
@@ -163,5 +164,146 @@ struct NSObjectCombineTests {
         object = nil
         
         #expect(cancelled == true)
+    }
+
+    @Test("AES round-trip should decode from Base64 ciphertext")
+    func testAesEncryptDecryptRoundTrip() throws {
+        let plaintext = "hello-zd-toolbox"
+        let key = "1234567890123456"
+
+        let encrypted = try ZDCrypto.aesEncrypt(plaintext: plaintext, key: key)
+        let decrypted = try ZDCrypto.aesDecrypt(encodedText: encrypted, key: key)
+
+        #expect(decrypted == plaintext)
+    }
+}
+
+// MARK: - ZDLocationManager Tests
+
+@available(iOS 15.0, *)
+@MainActor
+private final class FakeLocationProvider: ZDLocationProvider {
+    var authorizationStatus: CLAuthorizationStatus
+    var onAuthorizationChange: ((CLAuthorizationStatus) -> Void)?
+    var onLocationUpdate: (([CLLocation]) -> Void)?
+    var onLocationError: ((Error) -> Void)?
+
+    var didRequestWhenInUseAuthorization = false
+    var didStartUpdatingLocation = false
+    var didStopUpdatingLocation = false
+    var didRequestLocation = false
+
+    var authorizationAfterRequest: CLAuthorizationStatus?
+    var locationsOnRequest: [CLLocation] = []
+    var errorOnRequest: Error?
+
+    init(status: CLAuthorizationStatus) {
+        authorizationStatus = status
+    }
+
+    func requestWhenInUseAuthorization() {
+        didRequestWhenInUseAuthorization = true
+        guard let status = authorizationAfterRequest else { return }
+        authorizationStatus = status
+        onAuthorizationChange?(status)
+    }
+
+    func startUpdatingLocation() {
+        didStartUpdatingLocation = true
+    }
+
+    func stopUpdatingLocation() {
+        didStopUpdatingLocation = true
+    }
+
+    func requestLocation() {
+        didRequestLocation = true
+        if let error = errorOnRequest {
+            onLocationError?(error)
+            return
+        }
+        if !locationsOnRequest.isEmpty {
+            onLocationUpdate?(locationsOnRequest)
+        }
+    }
+}
+
+@available(iOS 15.0, *)
+@MainActor
+struct ZDLocationManagerTests {
+    @Test("requestPermissionIfNeeded async should return updated status")
+    func requestPermissionIfNeededAsync() async {
+        let provider = FakeLocationProvider(status: .notDetermined)
+        provider.authorizationAfterRequest = .authorizedWhenInUse
+        let sut = ZDLocationManager(locationProvider: provider)
+
+        let status = await sut.requestPermissionIfNeeded()
+
+        #expect(provider.didRequestWhenInUseAuthorization == true)
+        #expect(status == .authorizedWhenInUse)
+    }
+
+    @Test("detectLocation should return first emitted location")
+    func detectLocationReturnsFirstLocation() async throws {
+        let provider = FakeLocationProvider(status: .authorizedWhenInUse)
+        let first = CLLocation(latitude: 30.0, longitude: 120.0)
+        let second = CLLocation(latitude: 31.0, longitude: 121.0)
+        provider.locationsOnRequest = [first, second]
+        let sut = ZDLocationManager(locationProvider: provider)
+
+        let location = try await sut.detectLocation()
+
+        #expect(provider.didRequestLocation == true)
+        #expect(location?.coordinate.latitude == first.coordinate.latitude)
+        #expect(location?.coordinate.longitude == first.coordinate.longitude)
+    }
+
+    @Test("detectLocation should throw authorizationDenied when permission is denied")
+    func detectLocationDenied() async {
+        let provider = FakeLocationProvider(status: .denied)
+        let sut = ZDLocationManager(locationProvider: provider)
+
+        do {
+            _ = try await sut.detectLocation()
+            Issue.record("Expected detectLocation() to throw authorizationDenied")
+        } catch let error as ZDLocationManager.LocationError {
+            switch error {
+            case let .authorizationDenied(status):
+                #expect(status == .denied)
+            default:
+                Issue.record("Expected authorizationDenied, got \(error)")
+            }
+        } catch {
+            Issue.record("Unexpected error type: \(error)")
+        }
+    }
+
+    @Test("currentLocationPublisher should start and stop updates")
+    func currentLocationPublisherStartStop() async {
+        let provider = FakeLocationProvider(status: .authorizedWhenInUse)
+        let sut = ZDLocationManager(locationProvider: provider)
+
+        let stream = await sut.currentLocationPublisher()
+        #expect(provider.didStartUpdatingLocation == true)
+
+        let expected = CLLocation(latitude: 22.0, longitude: 113.0)
+        let reader = Task { () -> CLLocation? in
+            do {
+                for try await location in stream {
+                    return location
+                }
+            } catch {
+                return nil
+            }
+            return nil
+        }
+
+        provider.onLocationUpdate?([expected])
+        let location = await reader.value
+        #expect(location?.coordinate.latitude == expected.coordinate.latitude)
+        #expect(location?.coordinate.longitude == expected.coordinate.longitude)
+
+        sut.stopLocationUpdates()
+        #expect(provider.didStopUpdatingLocation == true)
     }
 }

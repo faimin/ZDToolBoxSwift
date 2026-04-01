@@ -16,9 +16,9 @@ public protocol ZDDefaultValue {
 }
 
 #if swift(>=5.1)
-/// 为属性提供默认值
+/// Provides default values for properties via property wrappers.
 ///
-/// [属性包装器介绍](https://swiftgg.gitbook.io/swift/swift-jiao-cheng/10_properties#property-wrappers)
+/// [Property wrappers introduction](https://swiftgg.gitbook.io/swift/swift-jiao-cheng/10_properties#property-wrappers)
 ///
 /// ## example:
 ///
@@ -33,20 +33,33 @@ public protocol ZDDefaultValue {
 public struct ZDDefault<T: ZDDefaultValue> {
     // MARK: Properties
 
+    /// Wrapped value with fallback default support.
+    ///
+    /// Example:
+    /// ```swift
+    /// struct User: Codable {
+    ///     @ZDDefault<String.Empty> var name: String
+    /// }
+    /// ```
     public var wrappedValue: T.DFValue
 
     // MARK: Lifecycle
 
+    /// Creates the wrapper using `T.defaultValue`.
     public init() {
         wrappedValue = T.defaultValue
     }
 
+    /// Creates the wrapper with an explicit wrapped value.
+    ///
+    /// - Parameter wrappedValue: Initial wrapped value.
     public init(wrappedValue: T.DFValue) {
         self.wrappedValue = wrappedValue
     }
 }
 
 extension ZDDefault: Codable {
+    /// Decodes wrapped value and falls back to `T.defaultValue` when value is missing/invalid.
     public init(from decoder: Decoder) throws {
         let container = try decoder.singleValueContainer()
         if container.decodeNil() {
@@ -60,6 +73,19 @@ extension ZDDefault: Codable {
 extension ZDDefault: Equatable where T.DFValue: Equatable {}
 
 public extension KeyedDecodingContainer {
+    /// Decodes a `ZDDefault` property wrapper, returning default value when key is absent.
+    ///
+    /// - Parameters:
+    ///   - type: Wrapper type.
+    ///   - key: Coding key.
+    /// - Returns: Decoded wrapper instance.
+    ///
+    /// Example:
+    /// ```swift
+    /// struct User: Codable {
+    ///     @ZDDefault<String.Empty> var name: String
+    /// }
+    /// ```
     func decode<T>(
         _ type: ZDDefault<T>.Type,
         forKey key: Key
@@ -81,7 +107,7 @@ public extension Bool {
 
 // MARK: - String.Empty
 
-/// 默认为`""`
+/// Default value is `""`.
 public extension String {
     /// Empty "".count = 0
     enum Empty: ZDDefaultValue {
@@ -91,7 +117,7 @@ public extension String {
 
 // MARK: - Int.Empty
 
-/// 默认为`0`
+/// Default value is `0`.
 public extension Int {
     enum Empty: ZDDefaultValue {
         public static let defaultValue = 0
@@ -100,7 +126,7 @@ public extension Int {
 
 // MARK: - Double.Empty
 
-/// 默认为`0.0`
+/// Default value is `0.0`.
 public extension Double {
     enum Empty: ZDDefaultValue {
         public static let defaultValue = 0.0
@@ -109,7 +135,7 @@ public extension Double {
 
 // MARK: - Float.Empty
 
-/// 默认为`0.0`
+/// Default value is `0.0`.
 public extension Float {
     enum Empty: ZDDefaultValue {
         public static let defaultValue = 0.0
@@ -118,7 +144,7 @@ public extension Float {
 
 // MARK: - CGFloat.Empty
 
-/// 默认为`0.0`
+/// Default value is `0.0`.
 public extension CGFloat {
     enum Empty: ZDDefaultValue {
         public static let defaultValue = 0.0
@@ -127,7 +153,7 @@ public extension CGFloat {
 
 // MARK: - Array.Empty
 
-/// 默认为空数组
+/// Default value is an empty array.
 public extension Array {
     enum Empty: ZDDefaultValue where Element: Codable, Element: Equatable {
         public static var defaultValue: [Element] {
@@ -138,7 +164,7 @@ public extension Array {
 
 // MARK: - Dictionary.Empty
 
-/// 默认为空字典
+/// Default value is an empty dictionary.
 public extension Dictionary {
     enum Empty<K, V>: ZDDefaultValue where K: Codable & Hashable, V: Codable & Equatable {
         public static var defaultValue: [K: V] {
@@ -149,7 +175,7 @@ public extension Dictionary {
 
 // MARK: - Empty
 
-/// 空集合，e.g: `String`、`Array` ...
+/// Empty collection default value, e.g. `String`, `Array`, etc.
 public enum Empty<T>: ZDDefaultValue where T: Codable, T: Equatable, T: RangeReplaceableCollection {
     public static var defaultValue: T {
         T()

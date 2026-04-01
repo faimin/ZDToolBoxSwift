@@ -6,6 +6,20 @@
 //
 
 public enum ZDMirror {
+    /// Returns all stored properties for an instance, including superclass properties.
+    ///
+    /// - Parameter value: Value to introspect.
+    /// - Returns: A dictionary keyed by property name.
+    ///
+    /// Example:
+    /// ```swift
+    /// final class User {
+    ///     let id: Int = 1
+    ///     let name: String = "Zero"
+    /// }
+    /// let props = ZDMirror.properties(User())
+    /// print(props["name"] as? String) // Optional("Zero")
+    /// ```
     public static func properties(_ value: Any) -> [String: Any] {
         var propertyKV = [String: Any]()
         let m = Mirror(reflecting: value)

@@ -21,7 +21,7 @@ public enum ZDPopupAnimationType {
 public class ZDCommonPopupView<T: UIView>: UIControl {
     // MARK: Properties
 
-    /// 是否允许点击空白消失，默认为`true`
+    /// Whether tapping outside closes the popup. Default is `true`.
     @objc public var enableCloseOnTouchOutside: Bool = true
 
     private lazy var contentView = T()
@@ -56,6 +56,26 @@ public class ZDCommonPopupView<T: UIView>: UIControl {
 }
 
 public extension ZDCommonPopupView {
+    /// Shows a popup view in the given container.
+    ///
+    /// - Parameters:
+    ///   - container: Host container view.
+    ///   - animationType: Popup animation style.
+    ///   - configure: Content and popup configuration callback.
+    ///   - completion: Callback invoked after show animation completes.
+    /// - Returns: Popup instance, or `nil` when container is `nil`.
+    ///
+    /// Example:
+    /// ```swift
+    /// let popup = ZDCommonPopupView<UIView>.showInContainer(
+    ///     view,
+    ///     animationType: .bottomUp,
+    ///     configure: { content, _ in
+    ///         content.backgroundColor = .white
+    ///     },
+    ///     completion: nil
+    /// )
+    /// ```
     @discardableResult
     static func showInContainer(
         _ container: UIView?,
@@ -81,7 +101,7 @@ public extension ZDCommonPopupView {
         contentView.isHidden = true
         popupView.addSubview(contentView)
 
-        // 添加约束
+        // Add layout constraints.
         switch animationType {
         case .bottomUp:
             NSLayoutConstraint.activate([
@@ -98,13 +118,13 @@ public extension ZDCommonPopupView {
             break
         }
 
-        // 外界更新设置
+        // Apply external configuration.
         configure?(contentView, popupView)
         #if DEBUG
-        assert(!contentView.subviews.isEmpty, "是不是忘记添加子视图了")
+        assert(!contentView.subviews.isEmpty, "Did you forget to add subviews?")
         #endif
 
-        // 强制更新布局，获取到真实的frame
+        // Force layout to get the final frame.
         contentView.layoutIfNeeded()
 
         switch animationType {
@@ -144,6 +164,14 @@ public extension ZDCommonPopupView {
         return popupView
     }
 
+    /// Dismisses the popup view with animation.
+    ///
+    /// - Parameter completion: Callback invoked after dismiss animation completes.
+    ///
+    /// Example:
+    /// ```swift
+    /// popup?.dismiss()
+    /// ```
     func dismiss(_ completion: ((ZDCommonPopupView<T>) -> Void)? = nil) {
         alpha = 1
         UIView.animate(withDuration: 0.25) {
@@ -166,6 +194,16 @@ public extension ZDCommonPopupView {
 
     @available(iOS 13.0, *)
     @MainActor
+    /// Dismisses the popup and returns a publisher that emits when dismissal completes.
+    ///
+    /// - Returns: A publisher emitting dismissed popup instance.
+    ///
+    /// Example:
+    /// ```swift
+    /// popup.dismissPublisher()
+    ///     .sink { _ in print("dismissed") }
+    ///     .store(in: object)
+    /// ```
     func dismissPublisher() -> AnyPublisher<ZDCommonPopupView<T>, Never> {
         return Future<ZDCommonPopupView<T>, Never> { promise in
             self.dismiss { popupView in

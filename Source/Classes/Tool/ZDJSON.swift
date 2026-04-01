@@ -33,7 +33,14 @@ public enum ZDJSON {
 
     // MARK: Computed Properties
 
-    /// 如果是字符串，那么会尝试转为字典
+    /// Returns dictionary representation.
+    /// If the value is a JSON string, it attempts to parse it as a dictionary.
+    ///
+    /// Example:
+    /// ```swift
+    /// let json: ZDJSON = "{\"name\":\"Zero\"}"
+    /// print(json.dictionary["name"] as? String) // Optional("Zero")
+    /// ```
     public var dictionary: [String: Any] {
         switch self {
         case let .dictionary(_, originValue):
@@ -46,7 +53,14 @@ public enum ZDJSON {
         }
     }
 
-    /// 如果是字符串，那么会尝试转为数组
+    /// Returns array representation.
+    /// If the value is a JSON string, it attempts to parse it as an array.
+    ///
+    /// Example:
+    /// ```swift
+    /// let json: ZDJSON = "[1,2,3]"
+    /// print(json.array.count) // 3
+    /// ```
     public var array: [Any] {
         switch self {
         case let .array(_, originValue):
@@ -59,7 +73,14 @@ public enum ZDJSON {
         }
     }
 
-    /// 如果是字典或者数组，那么会尝试转为字符串
+    /// Returns string representation.
+    /// If the value is a dictionary or array, it attempts to serialize it to JSON string.
+    ///
+    /// Example:
+    /// ```swift
+    /// let json: ZDJSON = ["id": 1]
+    /// print(json.string) // {"id":1}
+    /// ```
     public var string: String {
         switch self {
         case let .string(value):
@@ -81,6 +102,13 @@ public enum ZDJSON {
         }
     }
 
+    /// Integer representation.
+    ///
+    /// Example:
+    /// ```swift
+    /// let json: ZDJSON = "123"
+    /// print(json.int) // 123
+    /// ```
     public var int: Int {
         switch self {
         case let .int(value):
@@ -98,6 +126,13 @@ public enum ZDJSON {
         }
     }
 
+    /// Double representation.
+    ///
+    /// Example:
+    /// ```swift
+    /// let json: ZDJSON = "3.14"
+    /// print(json.double) // 3.14
+    /// ```
     public var double: Double {
         switch self {
         case let .double(value):
@@ -115,6 +150,13 @@ public enum ZDJSON {
         }
     }
 
+    /// CGFloat representation.
+    ///
+    /// Example:
+    /// ```swift
+    /// let json: ZDJSON = 12
+    /// print(json.float) // 12.0
+    /// ```
     public var float: CGFloat {
         switch self {
         case let .float(value):
@@ -132,6 +174,13 @@ public enum ZDJSON {
         }
     }
 
+    /// Boolean representation.
+    ///
+    /// Example:
+    /// ```swift
+    /// let json: ZDJSON = "true"
+    /// print(json.bool) // true
+    /// ```
     public var bool: Bool {
         switch self {
         case let .bool(value):
@@ -156,6 +205,12 @@ public enum ZDJSON {
     }
 
     /// will deprecate in the future
+    ///
+    /// Example:
+    /// ```swift
+    /// let json: ZDJSON = ["id": 1]
+    /// print(json.rawValue as Any)
+    /// ```
     public var rawValue: Any? {
         switch self {
         case let .dictionary(_, originValue):
@@ -183,7 +238,14 @@ public enum ZDJSON {
 
     // MARK: - Initialize
 
-    /// 根据不同的类型创建ZDJSON
+    /// Initializes `ZDJSON` from supported input types.
+    ///
+    /// - Parameter object: Source object.
+    ///
+    /// Example:
+    /// ```swift
+    /// let json = ZDJSON(["name": "Zero"])
+    /// ```
     public init(_ object: Any?) {
         guard let object = object else {
             self = .null
@@ -235,18 +297,35 @@ public enum ZDJSON {
         }
     }
 
-    /// 把Data对象转换成JSON对象
+    /// Initializes `ZDJSON` from JSON data.
+    ///
+    /// - Parameters:
+    ///   - data: JSON data.
+    ///   - options: JSON reading options.
+    ///
+    /// Example:
+    /// ```swift
+    /// let data = #"{"ok":true}"#.data(using: .utf8)!
+    /// let json = ZDJSON(data: data)
+    /// ```
     public init(data: Data, options: JSONSerialization.ReadingOptions = .fragmentsAllowed) {
         let object = try? JSONSerialization.jsonObject(with: data, options: options)
         #if DEBUG
         if object == nil {
-            print("\(#function) => ⚠️json不合法")
+            print("\(#function) => ⚠️ Invalid JSON")
         }
         #endif
         self.init(object)
     }
 
-    /// 把String对象转换成JSON对象
+    /// Initializes `ZDJSON` from a JSON string.
+    ///
+    /// - Parameter jsonString: JSON text.
+    ///
+    /// Example:
+    /// ```swift
+    /// let json = ZDJSON(jsonString: #"{"id":1}"#)
+    /// ```
     public init(jsonString: String) {
         let jsonData = jsonString.data(using: .utf8)
         self.init(jsonData)
@@ -256,6 +335,13 @@ public enum ZDJSON {
 
     // MARK: - DynamicMemberLookup
 
+    /// Dynamic member lookup for dictionary values.
+    ///
+    /// Example:
+    /// ```swift
+    /// let json: ZDJSON = ["user": ["name": "Zero"]]
+    /// print(json.user["name"].string)
+    /// ```
     public subscript(dynamicMember member: String) -> Self {
         switch self {
         case let .dictionary(wrapDict, _):
@@ -266,29 +352,43 @@ public enum ZDJSON {
             }
             return ZDJSON(dict)[member]
         default:
-            print("\(#function) => 匹配失败：key = \(member)")
+            print("\(#function) => No matching key: \(member)")
         }
         return .null
     }
 
     // MARK: - Subcript
 
+    /// Dictionary key lookup.
+    ///
+    /// Example:
+    /// ```swift
+    /// let json: ZDJSON = ["name": "Zero"]
+    /// print(json["name"].string) // Zero
+    /// ```
     public subscript(key: String) -> Self {
         switch self {
         case let .dictionary(wrapDict, _):
             return wrapDict[key] ?? .null
         default:
-            print("\(#function) => 匹配失败：key = \(key)")
+            print("\(#function) => No matching key: \(key)")
         }
         return .null
     }
 
+    /// Array index lookup.
+    ///
+    /// Example:
+    /// ```swift
+    /// let json: ZDJSON = [1, 2, 3]
+    /// print(json[1].int) // 2
+    /// ```
     public subscript(index: Int) -> Self {
         switch self {
         case let .array(wrapArray, _):
             return index >= wrapArray.count ? .null : wrapArray[index]
         default:
-            print("\(#function) => 匹配失败：index = \(index)")
+            print("\(#function) => No matching index: \(index)")
         }
         return .null
     }
@@ -487,7 +587,15 @@ extension ZDJSON: ExpressibleByBooleanLiteral {
 // MARK: - Private Func
 
 public extension ZDJSON {
-    /// 字符串转字典或者数组
+    /// Parses a JSON string into dictionary or array.
+    ///
+    /// - Parameter jsonString: JSON text.
+    /// - Returns: Parsed JSON object.
+    ///
+    /// Example:
+    /// ```swift
+    /// let object = ZDJSON.string2Json(#"{"id":1}"#)
+    /// ```
     static func string2Json(_ jsonString: String) -> Any? {
         guard let data = jsonString.data(using: .utf8) else {
             return nil
@@ -495,7 +603,15 @@ public extension ZDJSON {
         return try? JSONSerialization.jsonObject(with: data, options: .fragmentsAllowed)
     }
 
-    /// 字典或者数组转字符串
+    /// Serializes dictionary or array to JSON string.
+    ///
+    /// - Parameter jsonObject: JSON object to serialize.
+    /// - Returns: JSON text if serialization succeeds.
+    ///
+    /// Example:
+    /// ```swift
+    /// let text = ZDJSON.json2String(["id": 1])
+    /// ```
     static func json2String(_ jsonObject: Any) -> String? {
         guard let data = try? JSONSerialization.data(withJSONObject: jsonObject, options: .fragmentsAllowed) else {
             return nil

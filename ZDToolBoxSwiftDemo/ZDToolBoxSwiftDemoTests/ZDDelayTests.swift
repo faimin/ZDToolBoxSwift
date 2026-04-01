@@ -6,32 +6,52 @@
 //
 
 import Testing
+import UIKit
 @testable import ZDToolBoxSwift
 
 struct ZDDelayTests {
     @Test
-    func debouds() {
-        var x = ZDDelay()
-        for i in 0 ... 100_000 {
-            x.debounce(0.05) {
-                print("debounce = ", Thread.current, i)
+    func debounceOnlyExecutesLastCallback() {
+        var delay = ZDDelay()
+        let semaphore = DispatchSemaphore(value: 0)
+        var callbackCount = 0
+
+        for _ in 0..<10 {
+            delay.debounce(key: "debounce-key", 0.02) {
+                callbackCount += 1
+                semaphore.signal()
             }
         }
+
+        #expect(semaphore.wait(timeout: .now() + 1.0) == .success)
+        #expect(callbackCount == 1)
     }
 
     @Test
-    func throttle() {
-        var x = ZDDelay()
-        for i in 0 ... 100_000 {
-            x.throttle(0.05) {
-                print("throttle = ", Thread.current, i)
-            }
+    func throttleCanExecuteAgainAfterPreviousCallbackFinished() {
+        var delay = ZDDelay()
+        let semaphore = DispatchSemaphore(value: 0)
+        var callbackCount = 0
+
+        delay.throttle(key: "throttle-key", 0.02) {
+            callbackCount += 1
+            semaphore.signal()
         }
+        #expect(semaphore.wait(timeout: .now() + 1.0) == .success)
+
+        delay.throttle(key: "throttle-key", 0.02) {
+            callbackCount += 1
+            semaphore.signal()
+        }
+        #expect(semaphore.wait(timeout: .now() + 1.0) == .success)
+
+        #expect(callbackCount == 2)
     }
-    
-    func substr() {
-        //let str = "你好,我是小明: 0123456789"
-        //let res = str.zd.substring(maxLength: 5, addEllipsis: true)
-        //#expect(res == "你好,我是...")
+
+    @Test
+    @MainActor
+    func viewWrapperYReflectsFrameOriginY() {
+        let view = UIView(frame: CGRect(x: 11, y: 22, width: 100, height: 40))
+        #expect(view.zd.y == 22)
     }
 }

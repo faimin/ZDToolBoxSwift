@@ -12,10 +12,10 @@ import Foundation
 
 public struct ZDCrypto {}
 
-/// AES加解密
+/// AES encryption/decryption helpers.
 @available(iOS 13.0, macOS 10.15, watchOS 6.0, tvOS 13.0, *)
 public extension ZDCrypto {
-    /// 加密失败时抛出的错误
+    /// Errors thrown by AES-GCM helpers.
     private enum AESGCMError: Error {
         case invalidKey
         case invalidCiphertext
@@ -23,11 +23,11 @@ public extension ZDCrypto {
         case openFailed
     }
 
-    /// 字符串`key`生成`SymmetricKey`类型
+    /// Builds a `SymmetricKey` from a plain string key.
     ///
     /// - Parameters:
-    ///   - key: 加密key
-    /// - Returns: SymmetricKey对象
+    ///   - key: Raw key string.
+    /// - Returns: A `SymmetricKey` instance.
     private static func aesKey(from key: String) throws -> SymmetricKey {
         guard let keyData = key.data(using: .utf8) else {
             throw AESGCMError.invalidKey
@@ -35,18 +35,26 @@ public extension ZDCrypto {
         return SymmetricKey(data: keyData)
     }
 
-    /// 加密
+    /// Encrypts plaintext with AES-GCM.
     ///
     /// - Parameters:
-    ///   - plaintext: 要做加密处理的普通字符串
-    ///   - key: 加密对应的字符key
-    /// - Returns: 加密后的字符串
+    ///   - plaintext: Plain text to encrypt.
+    ///   - key: Key string used for encryption.
+    /// - Returns: Base64 encoded string of `nonce + ciphertext + tag`.
+    ///
+    /// Example:
+    /// ```swift
+    /// let encrypted = try ZDCrypto.aesEncrypt(
+    ///     plaintext: "hello",
+    ///     key: "1234567890123456"
+    /// )
+    /// ```
     static func aesEncrypt(plaintext: String, key: String, aad: Data? = nil) throws -> String {
         let key = try aesKey(from: key)
         let data = Data(plaintext.utf8)
-        // 随机 12 字节 nonce
+        // Random 12-byte nonce.
         let nonce = AES.GCM.Nonce()
-        // 密封
+        // Seal plaintext.
         let sealedBox: AES.GCM.SealedBox
         do {
             sealedBox = try AES.GCM.seal(data, using: key, nonce: nonce, authenticating: aad ?? Data())
@@ -58,14 +66,22 @@ public extension ZDCrypto {
         return combined.base64EncodedString()
     }
 
-    /// 解密
+    /// Decrypts a Base64 encoded AES-GCM payload string.
     ///
     /// - Parameters:
-    ///   - encodedText: 要做解密处理的加密字符串
-    ///   - key: 解密对应的字符key
-    /// - Returns: 解密后的字符串
+    ///   - encodedText: Base64 payload produced by `aesEncrypt`.
+    ///   - key: Key string used for decryption.
+    /// - Returns: Decrypted plaintext string.
+    ///
+    /// Example:
+    /// ```swift
+    /// let text = try ZDCrypto.aesDecrypt(
+    ///     encodedText: encrypted,
+    ///     key: "1234567890123456"
+    /// )
+    /// ```
     static func aesDecrypt(encodedText: String, key: String, aad: Data? = nil) throws -> String {
-        guard let encodedData = encodedText.data(using: .utf8) else {
+        guard let encodedData = Data(base64Encoded: encodedText) else {
             throw AESGCMError.invalidCiphertext
         }
         let decodedData = try aesDecrypt(data: encodedData, key: key, aad: aad)
@@ -73,19 +89,25 @@ public extension ZDCrypto {
             throw AESGCMError.openFailed
         }
         #if DEBUG
-        debugPrint("解密后的明文 = \(plaintext)")
+        debugPrint("Decrypted plaintext = \(plaintext)")
         #endif
         return plaintext
     }
 
-    /// 解密
+    /// Decrypts raw AES-GCM payload data.
     ///
     /// - Parameters:
-    ///   - data: 未加密的`data`数据
-    ///   - key: 解密需要的key
-    /// - Returns: 解密后的`data`数据
+    ///   - data: Raw payload data (`nonce + ciphertext + tag`).
+    ///   - key: Key string used for decryption.
+    /// - Returns: Decrypted data.
+    ///
+    /// Example:
+    /// ```swift
+    /// let raw = Data(base64Encoded: encrypted)!
+    /// let plainData = try ZDCrypto.aesDecrypt(data: raw, key: "1234567890123456")
+    /// ```
     static func aesDecrypt(data: Data, key: String, aad: Data? = nil) throws -> Data {
-        // 拆分：12-byte nonce, 剩下前 ciphertext，后 16-byte tag
+        // Split into 12-byte nonce, ciphertext and 16-byte tag.
         let nonceData = data.prefix(12)
         let tagData = data.suffix(16)
         let cipherData = data.dropFirst(12).dropLast(16)

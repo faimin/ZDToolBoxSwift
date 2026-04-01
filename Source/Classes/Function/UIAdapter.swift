@@ -11,6 +11,12 @@ import UIKit
 public enum UIAdapter {
     // MARK: Static Properties
 
+    /// Best-effort key window snapshot.
+    ///
+    /// Example:
+    /// ```swift
+    /// let window = UIAdapter.window
+    /// ```
     public static var window: UIWindow = {
         let window = UIApplication.zd.keyWindow ?? UIWindow()
         return window
@@ -38,8 +44,14 @@ public enum UIAdapter {
           */
     }()
 
-    // MARK: - 安全区域
+    // MARK: - Safe Area
 
+    /// Cached safe area insets from `window`.
+    ///
+    /// Example:
+    /// ```swift
+    /// let insets = UIAdapter.safeAreaInsets
+    /// ```
     public static var safeAreaInsets: UIEdgeInsets = {
         guard #available(iOS 11.0, *) else {
             return UIEdgeInsets.zero
@@ -50,17 +62,24 @@ public enum UIAdapter {
 
     // MARK: Static Computed Properties
 
+    /// Safe area top inset.
     public static var safeAreaTopMargin: CGFloat {
         safeAreaInsets.top
     }
 
+    /// Safe area bottom inset.
     public static var safeAreaBottomMargin: CGFloat {
         safeAreaInsets.bottom
     }
 
     // MARK: Static Functions
 
-    /// 如果是刘海屏就返回刘海顶部，否则返回默认值
+    /// Returns safe-area top inset if available, otherwise returns `defaultMargin`.
+    ///
+    /// Example:
+    /// ```swift
+    /// let top = UIAdapter.safeAreaTopMargin(defaultMargin: 20)
+    /// ```
     public static func safeAreaTopMargin(defaultMargin: CGFloat) -> CGFloat {
         guard safeAreaInsets.top > 0 else {
             return defaultMargin
@@ -68,7 +87,12 @@ public enum UIAdapter {
         return safeAreaInsets.top
     }
 
-    /// 如果是刘海屏就返回刘海底部，否则返回默认值
+    /// Returns safe-area bottom inset if available, otherwise returns `defaultMargin`.
+    ///
+    /// Example:
+    /// ```swift
+    /// let bottom = UIAdapter.safeAreaBottomMargin(defaultMargin: 0)
+    /// ```
     public static func safeAreaBottomMargin(defaultMargin: CGFloat) -> CGFloat {
         guard safeAreaBottomMargin > 0 else {
             return defaultMargin
@@ -76,7 +100,12 @@ public enum UIAdapter {
         return safeAreaBottomMargin
     }
 
-    /// 以iPhone6为比例的适配宽度
+    /// Returns width scaled against a 375pt reference screen (iPhone 6).
+    ///
+    /// Example:
+    /// ```swift
+    /// let width = UIAdapter.rem375(120)
+    /// ```
     public static func rem375(_ value: CGFloat) -> CGFloat {
         return (UIScreen.main.bounds.width / 375.0) * value
     }

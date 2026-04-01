@@ -31,6 +31,15 @@ public final class ZDSymbolIMP: NSObject {
 
     // MARK: Public
 
+    /// Finds a symbol implementation address in loaded Mach-O images.
+    ///
+    /// - Parameter symbol: Symbol name.
+    /// - Returns: Raw symbol address if found.
+    ///
+    /// Example:
+    /// ```swift
+    /// let pointer = ZDSymbolIMP.FindSymbolAddress("myFunction")
+    /// ```
     @objc
     public static func FindSymbolAddress(_ symbol: String) -> UnsafeRawPointer? {
         guard !symbol.isEmpty else {
@@ -226,7 +235,7 @@ extension ZDSymbolIMP {
     }
 }
 
-// MARK: - 暂时不用
+// MARK: - Reserved
 
 extension ZDSymbolIMP {
     /// https://github.com/apple-oss-distributions/dyld/blob/419f8cbca6fb3420a248f158714a9d322af2aa5a/common/MachOLoaded.cpp#L282
@@ -320,7 +329,7 @@ extension ZDSymbolIMP {
         return nil
     }
 
-    /// trieWalk ExportedSymbol Trie (深度先序遍历)
+    /// trieWalk ExportedSymbol Trie (depth-first pre-order traversal)
     private static func trieWalk(
         symbol: String,
         start: UnsafeMutablePointer<UInt8>,

@@ -6,7 +6,15 @@
 //
 
 public extension ZDSWrapper where T == [AnyHashable: Any] {
-    /// 字典合并
+    /// Merges key-value pairs from another sequence into the dictionary.
+    ///
+    /// - Parameter other: Sequence of `(key, value)` pairs.
+    ///
+    /// Example:
+    /// ```swift
+    /// var payload: [AnyHashable: Any] = ["id": 1]
+    /// payload.zd.merge(["name": "Zero"])
+    /// ```
     mutating func merge<S>(_ other: S)
         where S: Sequence, S.Iterator.Element == (key: T.Key, value: T.Value) {
         for (key, value) in other {

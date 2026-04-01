@@ -16,6 +16,13 @@ public struct Atomic<Value> {
 
     // MARK: Computed Properties
 
+    /// Thread-safe wrapped value.
+    ///
+    /// Example:
+    /// ```swift
+    /// @Atomic var count = 0
+    /// count += 1
+    /// ```
     public var wrappedValue: Value {
         mutating get {
             os_unfair_lock_lock(&lock)
@@ -31,6 +38,9 @@ public struct Atomic<Value> {
 
     // MARK: Lifecycle
 
+    /// Creates an atomic wrapper.
+    ///
+    /// - Parameter value: Initial wrapped value.
     public init(wrappedValue value: Value) {
         self.value = value
     }

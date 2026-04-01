@@ -53,7 +53,7 @@ public extension ZDSWrapper where T: ZDView {
 
     var y: CGFloat {
         get {
-            base.frame.origin.x
+            base.frame.origin.y
         }
         set {
             base.frame.origin.y = newValue
@@ -155,6 +155,17 @@ public extension ZDSWrapper where T: ZDView {
     }
 
     #if os(iOS) || os(tvOS)
+    /// Rounds specific corners using a shape mask.
+    ///
+    /// - Parameters:
+    ///   - corners: Corners to round.
+    ///   - radius: Corner radius.
+    /// - Returns: Base view.
+    ///
+    /// Example:
+    /// ```swift
+    /// view.zd.roundCorners([.topLeft, .topRight], radius: 12)
+    /// ```
     @discardableResult
     func roundCorners(
         _ corners: UIRectCorner = UIRectCorner.allCorners,
@@ -176,6 +187,17 @@ public extension ZDSWrapper where T: ZDView {
     #endif
 
     @available(macOS 10.13, iOS 11.0, tvOS 11, *)
+    /// Rounds corners using `cornerRadius` + `maskedCorners`.
+    ///
+    /// - Parameters:
+    ///   - corners: Corner mask to round.
+    ///   - radius: Corner radius.
+    /// - Returns: Base view.
+    ///
+    /// Example:
+    /// ```swift
+    /// view.zd.roundCorners([.layerMinXMinYCorner, .layerMaxXMinYCorner], radius: 10)
+    /// ```
     @discardableResult
     func roundCorners(
         _ corners: CACornerMask = [
@@ -217,15 +239,24 @@ public extension ZDSWrapper where T: ZDView {
         return view
     }
 
+    /// Adds subviews in a variadic form.
+    ///
+    /// - Parameter subviews: Subviews to add.
+    /// - Returns: Current wrapper.
+    ///
+    /// Example:
+    /// ```swift
+    /// container.zd.addSubviews(titleLabel, actionButton)
+    /// ```
     @discardableResult
     func addSubviews(_ subviews: T ...) -> Self {
         subviews.forEach { self.base.addSubview($0) }
         return self
     }
 
-    /// ViewBuilder
+    /// Adds supported components with a result builder.
     ///
-    /// - Parameter components: A block for components, e.g UI/NSView、CALayer、UILayoutGuide
+    /// - Parameter components: Builder closure for `UIView`, `CALayer`, or `UILayoutGuide`.
     ///
     ///     ```swift
     ///     view.addComponents {
@@ -236,7 +267,7 @@ public extension ZDSWrapper where T: ZDView {
     ///         gradientLayer
     ///     }
     ///     ```
-    /// - Returns: View
+    /// - Returns: Base view.
     @discardableResult
     func addComponents(@ZDArrayBuilder<any ZDComponentProtocol> _ components: () -> [any ZDComponentProtocol]) -> T {
         for item in components() {
@@ -247,12 +278,20 @@ public extension ZDSWrapper where T: ZDView {
             } else if let layer = item as? CALayer {
                 base.layer.addSublayer(layer)
             } else {
-                assertionFailure("不支持的类型 => \(String(describing: item))")
+                assertionFailure("Unsupported component type => \(String(describing: item))")
             }
         }
         return base
     }
 
+    /// Returns the nearest parent view controller in responder chain.
+    ///
+    /// - Returns: Host view controller if found.
+    ///
+    /// Example:
+    /// ```swift
+    /// let vc = view.zd.viewController()
+    /// ```
     func viewController() -> ZDViewController? {
         var nextResponder: ZDResponder? = base
         while nextResponder != nil {
@@ -269,13 +308,18 @@ public extension ZDSWrapper where T: ZDView {
         return nil
     }
 
-    /// Checkes if the view is (mostly) visible to user or not.
-    /// Internaly it checks following things
+    /// Indicates whether the view is mostly visible to users.
+    /// It checks:
     ///  - Should NOT be hidden
     ///  - Should NOT be completely transparent
-    ///  - Bound should NOT be empty
-    ///  - Should be in some window i.e. in view heirarchy
-    ///  - Center should be directly visible to user i.e. NOT overlapped with other views
+    ///  - Bounds should NOT be empty
+    ///  - Should be in a window hierarchy
+    ///  - Center should be directly visible (not overlapped)
+    ///
+    /// Example:
+    /// ```swift
+    /// if view.zd.isMostlyVisible { print("visible") }
+    /// ```
     var isMostlyVisible: Bool {
         guard !base.isHidden,
               base.alpha > 0,
@@ -289,15 +333,18 @@ public extension ZDSWrapper where T: ZDView {
         return true
     }
 
-    /// Search constraints until we find one for the given view
-    /// and attribute. This will enumerate ancestors since constraints are
-    /// always added to the common ancestor.
+    /// Finds a matching constraint on self or ancestor views.
     ///
     /// - Parameters:
-    ///   - attribute: the attribute to find.
-    ///   - relation: the relation to find.
-    ///   - otherCondition: other judgment conditions
-    /// - Returns: matched constraint.
+    ///   - attribute: Attribute to match.
+    ///   - relation: Relation to match.
+    ///   - otherConditions: Optional additional predicate.
+    /// - Returns: First matched constraint.
+    ///
+    /// Example:
+    /// ```swift
+    /// let leading = view.zd.findConstraint(attribute: .leading, relation: .equal)
+    /// ```
     func findConstraint(
         attribute: NSLayoutConstraint.Attribute,
         relation: NSLayoutConstraint.Relation,
@@ -357,6 +404,12 @@ public extension ZDSWrapper where T: ZDView {
     }
     #endif
 
+    /// Captures a snapshot image for the current view bounds.
+    ///
+    /// Example:
+    /// ```swift
+    /// let image = view.zd.screenshot
+    /// ```
     var screenshot: UIImage? {
         /*
          defer {

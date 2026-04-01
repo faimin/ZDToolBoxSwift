@@ -9,17 +9,38 @@ import UIKit
 
 // MARK: - UIColor
 
+/// Creates a color from 0...255 RGBA components.
+///
+/// - Parameters:
+///   - red: Red component in 0...255.
+///   - green: Green component in 0...255.
+///   - blue: Blue component in 0...255.
+///   - alpha: Alpha component in 0...1.
+/// - Returns: Converted color.
+///
+/// Example:
+/// ```swift
+/// let color = RGBA(52, 152, 219, 1.0)
+/// ```
 public func RGBA(_ red: CGFloat, _ green: CGFloat, _ blue: CGFloat, _ alpha: CGFloat = 1.0) -> UIColor {
     return UIColor(red: red / 255.0, green: green / 255.0, blue: blue / 255.0, alpha: alpha)
 }
 
-/// 16进制数字转换为颜色(0xAARRGGBB, 0xRRGGBB)
+/// Converts a hex integer to `UIColor` (`0xAARRGGBB` or `0xRRGGBB`).
+///
+/// - Parameter value: Hex color value.
+/// - Returns: Converted color.
+///
+/// Example:
+/// ```swift
+/// let color = HEX(0xFF00AA)
+/// ```
 public func HEX(_ value: Int) -> UIColor {
     var r = 0, g = 0, b = 0
     var a = 0xFF
     var rgb = value
 
-    // 带alpha值的8位hex (0xAARRGGBB)
+    // 8-digit hex with alpha (`0xAARRGGBB`).
     if value & 0xFF00_0000 > 0 {
         a = (value & 0xFF00_0000) >> 24
         rgb = value & 0x00FF_FFFF
@@ -37,7 +58,15 @@ public func HEX(_ value: Int) -> UIColor {
     )
 }
 
-/// 16进制字符串转换`UIColor`, 兼容 “0xARGB”、“0xRGB”
+/// Converts a hex string to `UIColor`, supporting `0xARGB` and `0xRGB`.
+///
+/// - Parameter value: Hex string such as `"#FF00AA"` or `"0xF0A"`.
+/// - Returns: Converted color, or `.clear` if parsing fails.
+///
+/// Example:
+/// ```swift
+/// let color = HEX("#3498DB")
+/// ```
 public func HEX(_ value: String) -> UIColor {
     let hexString: String
     let lowercasedStr = value.lowercased()
@@ -59,13 +88,21 @@ public func HEX(_ value: String) -> UIColor {
     return HEX(hexInt)
 }
 
-/// 3-4位hex，如0xARGB、0xRGB
+/// Converts short hex values (`0xARGB` / `0xRGB`) to `UIColor`.
+///
+/// - Parameter value: Short hex value.
+/// - Returns: Converted color.
+///
+/// Example:
+/// ```swift
+/// let color = HEXShort(0xF0A) // rgb short
+/// ```
 public func HEXShort(_ value: Int) -> UIColor {
     var r = 0, g = 0, b = 0
     var a = 0xFF
     var rgb = value
 
-    // 带alpha值的hex(ARGB)
+    // Hex value with alpha component (`ARGB`).
     if value & 0xF000 > 0 {
         a = (value & 0xF000) >> 12
         rgb = value & 0x0FFF
@@ -75,8 +112,7 @@ public func HEXShort(_ value: Int) -> UIColor {
     }
 
     r = (rgb & 0x0F00) >> 8
-    // 把R、G、B 凑成2位
-    // 左移一位然后把r放后面，最终成为rr
+    // Expand single nibble into full byte, e.g. `r` -> `rr`.
     r |= (r << 4)
 
     g = (rgb & 0x00F0) >> 4
@@ -96,6 +132,12 @@ public func HEXShort(_ value: Int) -> UIColor {
 }
 
 public extension ZDSWrapper where T: UIColor {
+    /// Indicates whether the color uses a pattern color space.
+    ///
+    /// Example:
+    /// ```swift
+    /// let isPattern = UIColor.red.zd.isPatternColor
+    /// ```
     var isPatternColor: Bool {
         return base.cgColor.colorSpace?.model == .pattern
     }

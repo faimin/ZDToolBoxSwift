@@ -8,7 +8,7 @@
 //  https://github.com/Kyle-Ye/ScreenShieldKit
 //  https://github.com/JayantBadlani/ScreenShield
 //
-//  防截屏
+//  Screen-capture protection
 
 @available(iOS 13, *)
 public final class ZDScreenShieldView: UIView {

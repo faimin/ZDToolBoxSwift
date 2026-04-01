@@ -19,7 +19,12 @@ public struct ZDSWrapper<T> {
 
     /// Creates extensions with base object.
     ///
-    /// - parameter base: Base object.
+    /// - Parameter base: Base object.
+    ///
+    /// Example:
+    /// ```swift
+    /// let wrapper = ZDSWrapper(UIView())
+    /// ```
     public init(_ base: T) {
         self.base = base
     }
@@ -70,7 +75,12 @@ public struct ZDSGenericWrapper<T, T1> {
 
     /// Creates extensions with base object.
     ///
-    /// - parameter base: Base object.
+    /// - Parameter base: Base object.
+    ///
+    /// Example:
+    /// ```swift
+    /// let wrapper = ZDSGenericWrapper<Int?, Int>(1)
+    /// ```
     public init(_ base: T) {
         self.base = base
     }
@@ -106,6 +116,14 @@ public struct ZDSGeneric2Wrapper<T, T1, T2> {
 
     // MARK: Lifecycle
 
+    /// Creates a generic-2 namespace wrapper.
+    ///
+    /// - Parameter base: Base object.
+    ///
+    /// Example:
+    /// ```swift
+    /// let wrapper = ZDSGeneric2Wrapper<Result<Int, Error>, Int, Error>(.success(1))
+    /// ```
     public init(_ base: T) {
         self.base = base
     }

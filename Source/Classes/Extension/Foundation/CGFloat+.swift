@@ -6,8 +6,19 @@
 //
 
 public extension ZDSWrapper where T: BinaryFloatingPoint {
-    /// 小数截取
-    /// 比如 2.0 / 3.0截取1位,结果为0.6; 如果要支持四舍五入请修改rule
+    /// Truncates/rounds to a fixed number of fractional digits.
+    /// For example, `(2.0 / 3.0).zd.toFixed(1)` returns `0.6` with `.down`.
+    ///
+    /// - Parameters:
+    ///   - digits: Number of fractional digits to keep.
+    ///   - rule: Rounding rule.
+    /// - Returns: Rounded value.
+    ///
+    /// Example:
+    /// ```swift
+    /// let value = (2.0 / 3.0).zd.toFixed(2, .towardZero)
+    /// print(value) // 0.66
+    /// ```
     func toFixed(_ digits: Int, _ rule: FloatingPointRoundingRule = .down) -> T {
         let dignitsNum = T(pow(10, Double(digits)))
         let finalResult = (base * dignitsNum).rounded(rule) / dignitsNum

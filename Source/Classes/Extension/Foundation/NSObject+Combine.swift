@@ -72,17 +72,37 @@ public extension ZDSWrapper where T: NSObject {
 
     /// A set of cancellables associated with the object.
     /// Any subscriptions added to this set will be cancelled when this object is deallocated.
+    ///
+    /// Example:
+    /// ```swift
+    /// let object = NSObject()
+    /// print(object.zd.disposeBag.isEmpty)
+    /// ```
     var disposeBag: Set<AnyCancellable> {
         get { box.get() }
         set { box.set(newValue) }
     }
 
     /// Stores a cancellable in the object's dispose bag.
+    ///
+    /// - Parameter cancellable: Subscription to retain.
+    ///
+    /// Example:
+    /// ```swift
+    /// let object = NSObject()
+    /// let cancellable = Just(1).sink { _ in }
+    /// object.zd.store(cancellable)
+    /// ```
     func store(_ cancellable: AnyCancellable) {
         box.insert(cancellable)
     }
 
     /// Cancels all stored subscriptions and removes them from the bag.
+    ///
+    /// Example:
+    /// ```swift
+    /// object.zd.cancelAllCancellables()
+    /// ```
     func cancelAllCancellables() {
         box.cancelAndRemoveAll()
     }
@@ -100,6 +120,12 @@ public extension AnyCancellable {
     /// Stores this cancellable instance in the specified NSObject's dispose bag.
     ///
     /// - Parameter object: The NSObject instance in whose dispose bag to store this cancellable.
+    ///
+    /// Example:
+    /// ```swift
+    /// let object = NSObject()
+    /// Just(1).sink { _ in }.store(in: object)
+    /// ```
     func store(in object: NSObject) {
         object.zd.store(self)
     }
@@ -119,6 +145,15 @@ public extension ZDSWrapper where T: Publisher {
     ///   - receiveCompletion: The closure to execute on completion.
     ///   - receiveValue: The closure to execute on receipt of a value.
     /// - Returns: An `AnyCancellable` instance.
+    ///
+    /// Example:
+    /// ```swift
+    /// let object = NSObject()
+    /// let subject = PassthroughSubject<Int, Never>()
+    /// subject.zd.store(in: object) { value in
+    ///     print(value)
+    /// }
+    /// ```
     @discardableResult
     func store(
         in object: NSObject,
@@ -139,6 +174,14 @@ public extension ZDSWrapper where T: Publisher, T.Failure == Never {
     ///   - object: The object that determines the lifetime of the subscription.
     ///   - receiveValue: The closure to execute on receipt of a value.
     /// - Returns: An `AnyCancellable` instance.
+    ///
+    /// Example:
+    /// ```swift
+    /// let object = NSObject()
+    /// Just("ok").zd.store(in: object) { value in
+    ///     print(value)
+    /// }
+    /// ```
     @discardableResult
     func store(
         in object: NSObject,
@@ -161,6 +204,15 @@ public extension Publisher {
     ///   - receiveCompletion: The closure to execute on completion.
     ///   - receiveValue: The closure to execute on receipt of a value.
     /// - Returns: An `AnyCancellable` instance.
+    ///
+    /// Example:
+    /// ```swift
+    /// let object = NSObject()
+    /// let subject = PassthroughSubject<Int, Never>()
+    /// subject.sink(in: object) { _ in } receiveValue: { value in
+    ///     print(value)
+    /// }
+    /// ```
     @discardableResult
     func sink(
         in object: NSObject,
@@ -181,6 +233,14 @@ public extension Publisher where Failure == Never {
     ///   - object: The NSObject that determines the lifetime of the subscription.
     ///   - receiveValue: The closure to execute on receipt of a value.
     /// - Returns: An `AnyCancellable` instance.
+    ///
+    /// Example:
+    /// ```swift
+    /// let object = NSObject()
+    /// Just(1).sink(in: object) { value in
+    ///     print(value)
+    /// }
+    /// ```
     @discardableResult
     func sink(
         in object: NSObject,

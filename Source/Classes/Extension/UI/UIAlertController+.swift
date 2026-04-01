@@ -21,6 +21,17 @@ public struct ZDActionModel {
 
     // MARK: Lifecycle
 
+    /// Creates an action model for `showAlert`.
+    ///
+    /// - Parameters:
+    ///   - title: Action title.
+    ///   - style: Action style.
+    ///   - tag: Custom identifier for click handling.
+    ///
+    /// Example:
+    /// ```swift
+    /// let ok = ZDActionModel(title: "OK", style: .default, tag: 1)
+    /// ```
     public init(
         title: String,
         style: UIAlertAction.Style,
@@ -34,16 +45,31 @@ public struct ZDActionModel {
 
 @MainActor
 public extension ZDSWrapper where T: UIAlertController {
-    /// 便捷创建Alert弹窗
+    /// Creates and presents an alert controller.
     ///
     /// - Parameters:
-    ///     - containerController: 在哪个控制器页面弹出
-    ///     - actionModels: 按钮model，可以传递多个
-    ///     - extraConfig: 设置额外参数的回调，比如可以在此添加输入框
-    ///     - completion: 弹出后的回调
-    ///     - clickHandler: 点击按钮时的回调，通过tag来判断点击的是哪个按钮
+    ///     - containerController: Controller used to present the alert.
+    ///     - actionModels: One or more action models.
+    ///     - extraConfig: Optional configuration callback, e.g. adding text fields.
+    ///     - completion: Completion callback after presenting.
+    ///     - clickHandler: Action tap callback; use `tag` to identify which action was tapped.
     ///
     /// - Returns: UIAlertController
+    ///
+    /// Example:
+    /// ```swift
+    /// UIAlertController.zd.showAlert(
+    ///     self,
+    ///     preferredStyle: .alert,
+    ///     title: "Tips",
+    ///     message: "Saved",
+    ///     actionModels: ZDActionModel(title: "OK", style: .default, tag: 1),
+    ///     extraConfig: nil,
+    ///     completion: nil
+    /// ) { _, tag in
+    ///     print(tag)
+    /// }
+    /// ```
     @discardableResult
     static func showAlert(
         _ containerController: UIViewController,
