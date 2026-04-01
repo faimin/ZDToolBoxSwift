@@ -50,6 +50,7 @@ Pod::Spec.new do |spec|
   spec.requires_arc = true
   spec.prefix_header_file = false
   spec.module_name = "#{spec.name}"
+  spec.header_dir = "./"
   spec.swift_versions = ['6']
 
   # spec.xcconfig = { "HEADER_SEARCH_PATHS" => "$(SDKROOT)/usr/include/libxml2" }
