@@ -29,7 +29,7 @@ public extension ZDSGenericWrapper where T == T1?, T1: Collection {
         return collection.isEmpty
     }
 
-    var isNotEmptry: Bool {
+    var isNotEmpty: Bool {
         !isEmpty
     }
 }
