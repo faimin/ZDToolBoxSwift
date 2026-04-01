@@ -10,6 +10,16 @@ Swift 工具类及常用 UI/Foundation 扩展集合。
 pod 'ZDToolBoxSwift'
 ```
 
+### Swift Package Manager
+
+`Xcode` -> `File` -> `Add Package Dependencies...`，输入仓库地址：
+
+```text
+https://github.com/faimin/ZDToolBoxSwift.git
+```
+
+然后在依赖选择中添加产品 `ZDToolBoxSwift`。
+
 ## 组件概览
 
 - `Source/Classes/Extension`: UIKit/Foundation 扩展

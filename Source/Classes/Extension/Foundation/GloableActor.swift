@@ -5,6 +5,8 @@
 //  Created by Zero_D_Saber on 2025/1/6.
 //
 
+import Dispatch
+
 // MARK: - ZDGloableActor
 
 @available(iOS 13.0, *)

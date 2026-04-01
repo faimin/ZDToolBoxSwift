@@ -10,6 +10,8 @@
 //
 //  Screen-capture protection
 
+import UIKit
+
 @available(iOS 13, *)
 public final class ZDScreenShieldView: UIView {
     // MARK: Properties

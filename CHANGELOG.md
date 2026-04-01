@@ -2,6 +2,11 @@
 
 ## 2026-04-01
 
+### Added
+
+- 新增 `Swift Package Manager` 支持，添加 `Package.swift`，可通过 SPM 直接集成 `ZDToolBoxSwift`。
+- SPM 目标排除了依赖私有头文件的 `ZDLayoutGuide` 调试实现，避免包管理场景下的私有 API 编译耦合。
+
 ### Fixed
 
 - 修复 `ZDSWrapper where T: ZDView` 的 `y` 读取错误（误读 `origin.x`，现为 `origin.y`）。

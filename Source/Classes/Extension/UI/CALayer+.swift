@@ -5,6 +5,8 @@
 //  Created by Zero_D_Saber on 2024/11/20.
 //
 
+import UIKit
+
 public extension ZDSWrapper where T: CALayer {
     /// Renders the layer into an image.
     ///

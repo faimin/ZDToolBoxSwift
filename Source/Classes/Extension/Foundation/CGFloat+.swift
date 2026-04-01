@@ -5,6 +5,8 @@
 //  Created by Zero_D_Saber on 2025/3/10.
 //
 
+import Foundation
+
 public extension ZDSWrapper where T: BinaryFloatingPoint {
     /// Truncates/rounds to a fixed number of fractional digits.
     /// For example, `(2.0 / 3.0).zd.toFixed(1)` returns `0.6` with `.down`.

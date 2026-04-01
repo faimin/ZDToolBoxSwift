@@ -5,6 +5,8 @@
 //  Created by Zero_D_Saber on 2025/2/8.
 //
 
+import UIKit
+
 public class ZDGradientView: UIView {
     // MARK: Overridden Properties
 
