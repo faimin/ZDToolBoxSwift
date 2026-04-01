@@ -9,7 +9,7 @@
 import CoreLocation
 import Combine
 
-// MARK: - Location Provider
+// MARK: - ZDLocationProvider
 
 @available(iOS 13.0, *)
 @MainActor
@@ -25,16 +25,20 @@ protocol ZDLocationProvider: AnyObject {
     func requestLocation()
 }
 
+// MARK: - ZDCoreLocationProvider
+
 @available(iOS 13.0, *)
 @MainActor
 private final class ZDCoreLocationProvider: NSObject, ZDLocationProvider {
     // MARK: Properties
 
-    private let manager = CLLocationManager()
-
     var onAuthorizationChange: ((CLAuthorizationStatus) -> Void)?
     var onLocationUpdate: (([CLLocation]) -> Void)?
     var onLocationError: ((Error) -> Void)?
+
+    private let manager = CLLocationManager()
+
+    // MARK: Computed Properties
 
     var authorizationStatus: CLAuthorizationStatus {
         if #available(iOS 14.0, *) {
@@ -68,6 +72,8 @@ private final class ZDCoreLocationProvider: NSObject, ZDLocationProvider {
         manager.requestLocation()
     }
 }
+
+// MARK: @MainActor CLLocationManagerDelegate
 
 @available(iOS 13.0, *)
 @MainActor
